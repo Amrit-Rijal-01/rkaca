@@ -13,6 +13,9 @@
         href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <link rel='icon'
+        href='{{ $homeSetting && $homeSetting->home_logo ? asset('storage/' . $homeSetting->home_logo) : asset('favicon.ico') }}'
+        type='image/x-icon' />
     @yield('styles')
     @stack('styles')
 </head>
