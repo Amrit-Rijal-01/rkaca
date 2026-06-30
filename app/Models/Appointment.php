@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
@@ -15,7 +15,7 @@ class Appointment extends Model
         'phone',
         'appointment_date',
         'message',
-        'status'
+        'status',
     ];
 
     protected $casts = [
@@ -24,8 +24,11 @@ class Appointment extends Model
 
     // Status constants
     const STATUS_PENDING = 'pending';
+
     const STATUS_CONFIRMED = 'confirmed';
+
     const STATUS_COMPLETED = 'completed';
+
     const STATUS_CANCELLED = 'cancelled';
 
     public static function getStatuses()

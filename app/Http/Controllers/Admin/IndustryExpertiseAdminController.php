@@ -12,6 +12,7 @@ class IndustryExpertiseAdminController extends Controller
     public function index()
     {
         $expertises = IndustryExpertise::ordered()->get();
+
         return view('admin.industry-expertise.index', compact('expertises'));
     }
 
@@ -81,6 +82,7 @@ class IndustryExpertiseAdminController extends Controller
     {
         $industryExpertise->delete();
         $this->render();
+
         return redirect()->route('admin.industry-expertise.index')
             ->with('success', 'Industry expertise deleted successfully.');
     }

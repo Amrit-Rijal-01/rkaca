@@ -10,7 +10,7 @@ class JumbotronHelper
     /**
      * Get jumbotron data for a specific page
      *
-     * @param string $pageSlug
+     * @param  string  $pageSlug
      * @return object|null
      */
     public static function getJumbotron($pageSlug)
@@ -23,7 +23,7 @@ class JumbotronHelper
     /**
      * Get slides for a specific page (for multi-slide pages)
      *
-     * @param string $pageSlug
+     * @param  string  $pageSlug
      * @return \Illuminate\Support\Collection
      */
     public static function getSlides($pageSlug)
@@ -36,7 +36,7 @@ class JumbotronHelper
     /**
      * Check if a page supports multi-slide functionality
      *
-     * @param string $pageSlug
+     * @param  string  $pageSlug
      * @return bool
      */
     public static function isMultiSlidePage($pageSlug)
@@ -47,8 +47,8 @@ class JumbotronHelper
     /**
      * Get jumbotron data with fallback defaults
      *
-     * @param string $pageSlug
-     * @param array $fallback
+     * @param  string  $pageSlug
+     * @param  array  $fallback
      * @return object
      */
     public static function getJumbotronWithFallback($pageSlug, $fallback = [])
@@ -61,12 +61,12 @@ class JumbotronHelper
             $jumbotron = self::getJumbotron($pageSlug);
         }
 
-        if (!$jumbotron) {
+        if (! $jumbotron) {
             // Create default jumbotron object if none exists
             $defaults = array_merge([
                 'title' => 'Welcome to Chartered Insights',
                 'subtitle' => 'Your trusted partner for comprehensive business solutions.',
-                'background_image_url' => 'https://images.unsplash.com/photo-1464983953574-0892a716854b?q=80&w=1600&auto=format&fit=crop'
+                'background_image_url' => 'https://images.unsplash.com/photo-1464983953574-0892a716854b?q=80&w=1600&auto=format&fit=crop',
             ], $fallback);
 
             return (object) $defaults;
@@ -78,7 +78,7 @@ class JumbotronHelper
     /**
      * Clear cache for a specific jumbotron
      *
-     * @param string $pageSlug
+     * @param  string  $pageSlug
      * @return void
      */
     public static function clearCache($pageSlug)
@@ -105,8 +105,8 @@ class JumbotronHelper
     /**
      * Get jumbotron component HTML
      *
-     * @param string $pageSlug
-     * @param array $options
+     * @param  string  $pageSlug
+     * @param  array  $options
      * @return string
      */
     public static function renderJumbotron($pageSlug, $options = [])

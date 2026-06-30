@@ -11,7 +11,7 @@ class NavigationSetting extends Model
 
     protected $fillable = [
         'page_slug',
-        'page_title', 
+        'page_title',
         'route_name',
         'icon_class',
         'description',
@@ -63,7 +63,7 @@ class NavigationSetting extends Model
         if (empty($this->tags)) {
             return [];
         }
-        
+
         return array_map('trim', explode(',', $this->tags));
     }
 
@@ -83,7 +83,7 @@ class NavigationSetting extends Model
         }
 
         // If it's a local file path, return asset URL
-        return asset('storage/' . $this->preview_image);
+        return asset('storage/'.$this->preview_image);
     }
 
     /**
@@ -94,7 +94,7 @@ class NavigationSetting extends Model
         $defaultServices = [
             ['title' => 'Professional Services', 'icon' => 'fas fa-briefcase'],
             ['title' => 'Expert Consultation', 'icon' => 'fas fa-handshake'],
-            ['title' => 'Strategic Planning', 'icon' => 'fas fa-chart-line']
+            ['title' => 'Strategic Planning', 'icon' => 'fas fa-chart-line'],
         ];
 
         if (isset($this->metadata['services']) && is_array($this->metadata['services'])) {
@@ -103,5 +103,4 @@ class NavigationSetting extends Model
 
         return json_encode($defaultServices);
     }
-    
 }

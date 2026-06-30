@@ -17,9 +17,9 @@ class JumbotronController extends Controller
     {
         // Group jumbotrons by page slug for better organization
         $jumbotrons = Jumbotron::orderBy('page_slug')
-                              ->orderBy('slide_order')
-                              ->get()
-                              ->groupBy('page_slug');
+            ->orderBy('slide_order')
+            ->get()
+            ->groupBy('page_slug');
 
         $availablePages = Jumbotron::getAvailablePageSlugs();
 
@@ -64,11 +64,11 @@ class JumbotronController extends Controller
             'is_active' => 'boolean',
             'button_text' => 'nullable|string|max:255',
             'button_link' => 'nullable|url',
-            'slide_order' => 'integer|min:1'
+            'slide_order' => 'integer|min:1',
         ];
 
         // For single-slide pages, ensure page_slug is unique
-        if (!$isMultiSlide) {
+        if (! $isMultiSlide) {
             $rules['page_slug'] .= '|unique:jumbotrons,page_slug';
         }
 
@@ -79,14 +79,14 @@ class JumbotronController extends Controller
         $data['is_multi_slide'] = $isMultiSlide;
 
         // Set slide order
-        if (!$data['slide_order']) {
+        if (! $data['slide_order']) {
             $data['slide_order'] = Jumbotron::getNextSlideOrder($data['page_slug']);
         }
 
         // Handle image upload
         if ($request->hasFile('background_image')) {
             $image = $request->file('background_image');
-            $filename = time() . '_' . Str::slug($data['page_slug']) . '_' . $data['slide_order'] . '.' . $image->getClientOriginalExtension();
+            $filename = time().'_'.Str::slug($data['page_slug']).'_'.$data['slide_order'].'.'.$image->getClientOriginalExtension();
             $path = $image->storeAs('jumbotrons', $filename, 'public');
             $data['background_image_url'] = Storage::url($path);
         }
@@ -99,7 +99,7 @@ class JumbotronController extends Controller
         $message = $isMultiSlide ? 'Slide created successfully.' : 'Jumbotron created successfully.';
 
         return redirect()->route('admin.jumbotrons.index')
-                        ->with('success', $message);
+            ->with('success', $message);
     }
 
     /**
@@ -135,12 +135,12 @@ class JumbotronController extends Controller
             'is_active' => 'boolean',
             'button_text' => 'nullable|string|max:255',
             'button_link' => 'nullable|url',
-            'slide_order' => 'integer|min:1'
+            'slide_order' => 'integer|min:1',
         ];
 
         // For single-slide pages, allow page_slug change if unique
-        if (!$isMultiSlide) {
-            $rules['page_slug'] = 'required|string|unique:jumbotrons,page_slug,' . $jumbotron->id;
+        if (! $isMultiSlide) {
+            $rules['page_slug'] = 'required|string|unique:jumbotrons,page_slug,'.$jumbotron->id;
         }
 
         $request->validate($rules);
@@ -149,7 +149,7 @@ class JumbotronController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         // Only allow page_slug change for single-slide pages
-        if (!$isMultiSlide && $request->has('page_slug')) {
+        if (! $isMultiSlide && $request->has('page_slug')) {
             $data['page_slug'] = $request->page_slug;
         }
 
@@ -162,7 +162,7 @@ class JumbotronController extends Controller
             }
 
             $image = $request->file('background_image');
-            $filename = time() . '_' . Str::slug($jumbotron->page_slug) . '_' . $data['slide_order'] . '.' . $image->getClientOriginalExtension();
+            $filename = time().'_'.Str::slug($jumbotron->page_slug).'_'.$data['slide_order'].'.'.$image->getClientOriginalExtension();
             $path = $image->storeAs('jumbotrons', $filename, 'public');
             $data['background_image_url'] = Storage::url($path);
         }
@@ -175,7 +175,7 @@ class JumbotronController extends Controller
         $message = $isMultiSlide ? 'Slide updated successfully.' : 'Jumbotron updated successfully.';
 
         return redirect()->route('admin.jumbotrons.index')
-                        ->with('success', $message);
+            ->with('success', $message);
     }
 
     /**
@@ -199,7 +199,7 @@ class JumbotronController extends Controller
         $message = $jumbotron->is_multi_slide ? 'Slide deleted successfully.' : 'Jumbotron deleted successfully.';
 
         return redirect()->route('admin.jumbotrons.index')
-                        ->with('success', $message);
+            ->with('success', $message);
     }
 
     /**
@@ -207,13 +207,13 @@ class JumbotronController extends Controller
      */
     public function toggleStatus(Jumbotron $jumbotron)
     {
-        $jumbotron->update(['is_active' => !$jumbotron->is_active]);
+        $jumbotron->update(['is_active' => ! $jumbotron->is_active]);
 
         // Clear cache for this jumbotron
         \App\Helpers\JumbotronHelper::clearCache($jumbotron->page_slug);
 
         return redirect()->route('admin.jumbotrons.index')
-                        ->with('success', 'Status updated successfully.');
+            ->with('success', 'Status updated successfully.');
     }
 
     /**
@@ -224,7 +224,7 @@ class JumbotronController extends Controller
         $request->validate([
             'page_slug' => 'required|string',
             'slide_ids' => 'required|array',
-            'slide_ids.*' => 'integer|exists:jumbotrons,id'
+            'slide_ids.*' => 'integer|exists:jumbotrons,id',
         ]);
 
         $pageSlug = $request->page_slug;
@@ -233,8 +233,8 @@ class JumbotronController extends Controller
         // Update the slide order
         foreach ($slideIds as $index => $slideId) {
             Jumbotron::where('id', $slideId)
-                     ->where('page_slug', $pageSlug)
-                     ->update(['slide_order' => $index + 1]);
+                ->where('page_slug', $pageSlug)
+                ->update(['slide_order' => $index + 1]);
         }
 
         // Clear cache

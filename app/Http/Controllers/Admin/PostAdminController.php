@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,8 +31,8 @@ class PostAdminController extends Controller
         // Search
         if ($request->has('search') && $request->search !== '') {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('content', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('content', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -98,6 +98,7 @@ class PostAdminController extends Controller
     public function show(Post $post)
     {
         $post->load(['author', 'category', 'tags']);
+
         return view('admin.posts.show', compact('post'));
     }
 
@@ -114,7 +115,7 @@ class PostAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
             'status' => 'required|in:draft,published',
@@ -170,6 +171,7 @@ class PostAdminController extends Controller
         // Delete post
         $post->delete();
         $this->render();
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post deleted successfully!');
     }
@@ -189,6 +191,6 @@ class PostAdminController extends Controller
             ->limit(5)
             ->get();
         Helper::putCache('blog.featured', view('admin.template.blog.featured', compact('featuredPost')));
-        Helper::putCache('blog.recent', view('admin.template.blog.recent', compact('recentPosts','posts')));
+        Helper::putCache('blog.recent', view('admin.template.blog.recent', compact('recentPosts', 'posts')));
     }
 }

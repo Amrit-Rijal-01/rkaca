@@ -54,8 +54,9 @@ class Office extends Model
     public function getImageUrlAttribute()
     {
         if ($this->image) {
-            return asset('storage/' . $this->image);
+            return asset('storage/'.$this->image);
         }
+
         return asset('images/default-office.jpg');
     }
 

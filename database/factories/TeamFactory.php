@@ -28,7 +28,7 @@ class TeamFactory extends Factory
             'Financial Advisor',
             'Compliance Officer',
             'Legal Advisor',
-            'Operations Manager'
+            'Operations Manager',
         ];
 
         return [

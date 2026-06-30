@@ -6,14 +6,15 @@ use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EventAdminController extends Controller
 {
     public function index()
     {
         $events = Event::latest()->paginate(15);
+
         return view('admin.events.index', compact('events'));
     }
 
@@ -60,6 +61,7 @@ class EventAdminController extends Controller
 
         Event::create($data);
         $this->render();
+
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully.');
     }
@@ -78,7 +80,7 @@ class EventAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:events,slug,' . $event->id,
+            'slug' => 'nullable|string|max:255|unique:events,slug,'.$event->id,
             'type' => 'required|in:webinar,workshop,conference,training',
             'description' => 'required|string',
             'short_description' => 'nullable|string|max:500',
@@ -130,10 +132,10 @@ class EventAdminController extends Controller
 
         $event->delete();
         $this->render();
+
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully.');
     }
-
 
     public function render()
     {

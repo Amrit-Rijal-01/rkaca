@@ -17,12 +17,13 @@ class CareerFactory extends Factory
     public function definition(): array
     {
         $title = fake()->jobTitle();
+
         return [
             'title' => $title,
             'slug' => fake()->slug(),
             'description' => fake()->text(300),
             'department' => fake()->randomElement(['Engineering', 'Marketing', 'Sales', 'HR', 'Finance']),
-            'location' => fake()->city() . ', ' . fake()->state(),
+            'location' => fake()->city().', '.fake()->state(),
             'employment_type' => fake()->randomElement(['full-time', 'part-time', 'contract', 'internship']),
             'salary_min' => fake()->numberBetween(30000, 80000),
             'salary_max' => fake()->numberBetween(80000, 150000),

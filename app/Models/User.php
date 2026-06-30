@@ -63,4 +63,3 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Post::class, 'author_id');
     }
 }
-

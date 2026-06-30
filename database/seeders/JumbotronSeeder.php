@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Jumbotron;
+use Illuminate\Database\Seeder;
 
 class JumbotronSeeder extends Seeder
 {
@@ -27,7 +26,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '/contact',
                 'is_active' => true,
                 'is_multi_slide' => true,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'home',
@@ -38,7 +37,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '/services',
                 'is_active' => true,
                 'is_multi_slide' => true,
-                'slide_order' => 2
+                'slide_order' => 2,
             ],
             [
                 'page_slug' => 'home',
@@ -49,7 +48,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '/industries',
                 'is_active' => true,
                 'is_multi_slide' => true,
-                'slide_order' => 3
+                'slide_order' => 3,
             ],
             [
                 'page_slug' => 'home',
@@ -60,8 +59,8 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '/about',
                 'is_active' => true,
                 'is_multi_slide' => true,
-                'slide_order' => 4
-            ]
+                'slide_order' => 4,
+            ],
         ];
 
         // Create single jumbotrons for other pages
@@ -75,7 +74,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#our-story',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'services',
@@ -86,7 +85,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#services-overview',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'industries',
@@ -97,7 +96,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#industries-list',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'insights',
@@ -108,7 +107,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#latest-insights',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'careers',
@@ -119,7 +118,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#job-openings',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'contact',
@@ -130,7 +129,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#contact-form',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'offices',
@@ -141,7 +140,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#office-locations',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'events',
@@ -152,7 +151,7 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#upcoming-events',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
+                'slide_order' => 1,
             ],
             [
                 'page_slug' => 'blogs',
@@ -163,8 +162,8 @@ class JumbotronSeeder extends Seeder
                 'button_link' => '#blog-posts',
                 'is_active' => true,
                 'is_multi_slide' => false,
-                'slide_order' => 1
-            ]
+                'slide_order' => 1,
+            ],
         ];
 
         // Insert home page slides
@@ -177,6 +176,6 @@ class JumbotronSeeder extends Seeder
             Jumbotron::create($jumbotron);
         }
 
-        $this->command->info('Created ' . count($homeSlides) . ' slides for home page and ' . count($singleJumbotrons) . ' single jumbotrons for other pages.');
+        $this->command->info('Created '.count($homeSlides).' slides for home page and '.count($singleJumbotrons).' single jumbotrons for other pages.');
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
-
 class ContactInformation extends Model
 {
     use HasFactory;
@@ -48,7 +47,7 @@ class ContactInformation extends Model
      */
     public function getFormattedBusinessHours()
     {
-        if (!$this->business_hours) {
+        if (! $this->business_hours) {
             return [];
         }
 
@@ -62,6 +61,7 @@ class ContactInformation extends Model
     {
         return collect($this->social_media_links ?? []);
     }
+
     protected static function booted()
     {
         static::saved(function () {
@@ -75,5 +75,4 @@ class ContactInformation extends Model
             Cache::forget('contact_info');
         });
     }
-
 }

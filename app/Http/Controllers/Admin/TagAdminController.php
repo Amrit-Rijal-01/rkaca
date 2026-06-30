@@ -16,7 +16,7 @@ class TagAdminController extends Controller
 
         // Search
         if ($request->has('search') && $request->search !== '') {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $tags = $query->orderBy('name')->paginate(20);
@@ -67,8 +67,8 @@ class TagAdminController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:tags,name,' . $tag->id,
-            'slug' => 'nullable|string|max:255|unique:tags,slug,' . $tag->id,
+            'name' => 'required|string|max:255|unique:tags,name,'.$tag->id,
+            'slug' => 'nullable|string|max:255|unique:tags,slug,'.$tag->id,
             'description' => 'nullable|string|max:500',
         ]);
 
@@ -125,8 +125,9 @@ class TagAdminController extends Controller
         if ($skippedCount > 0) {
             $message .= " and skipped {$skippedCount} tag(s) that have posts";
         }
-        $message .= ".";
+        $message .= '.';
         $this->render();
+
         return redirect()->route('admin.tags.index')->with('success', $message);
     }
 

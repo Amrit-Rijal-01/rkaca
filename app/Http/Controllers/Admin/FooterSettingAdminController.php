@@ -11,12 +11,14 @@ class FooterSettingAdminController extends Controller
     public function index()
     {
         $footerSetting = FooterSetting::getInstance();
+
         return view('admin.footer-settings.index', compact('footerSetting'));
     }
 
     public function edit()
     {
         $footerSetting = FooterSetting::getInstance();
+
         return view('admin.footer-settings.edit', compact('footerSetting'));
     }
 
@@ -42,7 +44,7 @@ class FooterSettingAdminController extends Controller
         $socialLinks = [];
         if ($request->has('social_links')) {
             foreach ($request->social_links as $platform => $url) {
-                if (!empty($url)) {
+                if (! empty($url)) {
                     $socialLinks[$platform] = $url;
                 }
             }
@@ -52,7 +54,7 @@ class FooterSettingAdminController extends Controller
         $quickLinks = [];
         if ($request->has('quick_links')) {
             foreach ($request->quick_links as $link) {
-                if (!empty($link['label']) && !empty($link['url'])) {
+                if (! empty($link['label']) && ! empty($link['url'])) {
                     $quickLinks[] = [
                         'label' => $link['label'],
                         'url' => $link['url'],

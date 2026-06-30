@@ -43,7 +43,7 @@ return new class extends Migration
                 'meta_title',
                 'meta_description',
                 'price',
-                'duration'
+                'duration',
             ]);
         });
     }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Mail\AppointmentBooked;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Appointment;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
@@ -25,7 +25,7 @@ class AppointmentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -36,7 +36,7 @@ class AppointmentController extends Controller
                 'phone' => $request->phone,
                 'appointment_date' => Carbon::parse($request->appointment_date),
                 'message' => $request->message,
-                'status' => Appointment::STATUS_PENDING
+                'status' => Appointment::STATUS_PENDING,
             ]);
 
             // Send email notification
@@ -48,14 +48,14 @@ class AppointmentController extends Controller
                 'data' => [
                     'id' => $appointment->id,
                     'appointment_date' => $appointment->appointment_date->format('M d, Y \a\t g:i A'),
-                ]
+                ],
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to schedule appointment. Please try again.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -64,6 +64,7 @@ class AppointmentController extends Controller
     {
         // For displaying appointments in admin panel
         $appointments = Appointment::latest()->paginate(15);
+
         return view('admin.appointments.index', compact('appointments'));
     }
 
@@ -75,7 +76,7 @@ class AppointmentController extends Controller
     public function updateStatus(Request $request, Appointment $appointment)
     {
         $request->validate([
-            'status' => 'required|in:pending,confirmed,completed,cancelled'
+            'status' => 'required|in:pending,confirmed,completed,cancelled',
         ]);
 
         $appointment->update(['status' => $request->status]);

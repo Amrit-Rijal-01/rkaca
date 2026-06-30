@@ -2,8 +2,8 @@
 
 namespace App\View\Composers;
 
-use Illuminate\View\View;
 use App\Models\FooterSetting;
+use Illuminate\View\View;
 
 class FooterComposer
 {

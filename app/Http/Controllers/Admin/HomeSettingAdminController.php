@@ -12,12 +12,14 @@ class HomeSettingAdminController extends Controller
     public function index()
     {
         $homeSetting = HomeSetting::getInstance();
+
         return view('admin.home-settings.index', compact('homeSetting'));
     }
 
     public function edit()
     {
         $homeSetting = HomeSetting::getInstance();
+
         return view('admin.home-settings.edit', compact('homeSetting'));
     }
 
@@ -84,7 +86,7 @@ class HomeSettingAdminController extends Controller
         $statistics = [];
         if ($request->has('statistics')) {
             foreach ($request->statistics as $stat) {
-                if (!empty($stat['label']) && !empty($stat['number'])) {
+                if (! empty($stat['label']) && ! empty($stat['number'])) {
                     $statistics[] = [
                         'label' => $stat['label'],
                         'number' => $stat['number'],
@@ -97,7 +99,7 @@ class HomeSettingAdminController extends Controller
         $features = [];
         if ($request->has('features')) {
             foreach ($request->features as $feature) {
-                if (!empty($feature['title']) && !empty($feature['description'])) {
+                if (! empty($feature['title']) && ! empty($feature['description'])) {
                     $features[] = [
                         'title' => $feature['title'],
                         'description' => $feature['description'],

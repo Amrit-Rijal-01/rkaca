@@ -481,6 +481,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        let activeTimeline = null;
+
+        function closePreviewPanel() {
+            const previewPanel = document.getElementById('page-preview');
+            const overlay = document.getElementById('overlay');
+            const isMobile = window.innerWidth <= 1024;
+
+            if (isMobile) return;
+
+            if (previewPanel && overlay && (previewPanel.classList.contains('active') || overlay.classList.contains('active'))) {
+                if (activeTimeline) {
+                    activeTimeline.kill();
+                }
+
+                activeTimeline = gsap.timeline({
+                    onComplete: () => {
+                        previewPanel.classList.remove('active');
+                        overlay.classList.remove('active');
+                        gsap.set([previewPanel, overlay], { clearProps: 'all' });
+                    }
+                });
+
+                activeTimeline
+                    .to(previewPanel, {
+                        opacity: 0,
+                        x: '5%',
+                        duration: 0.3,
+                        ease: 'power3.inOut'
+                    })
+                    .to(overlay, {
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: 'power3.inOut'
+                    }, 0);
+            }
+        }
+
         function toggleSearch() {
             const mobileSearch = document.getElementById('mobile-search');
             mobileSearch.style.display = mobileSearch.style.display === 'block' ? 'none' : 'block';
@@ -959,7 +996,6 @@
             const overlay = document.getElementById('overlay');
             const currentPath = window.location.pathname;
             const isMobile = window.innerWidth <= 1024;
-            let activeTimeline = null;
 
 
             sidebarLinks.forEach(link => {
@@ -1032,11 +1068,6 @@
                             duration: 0.15,
                             ease: 'power3.inOut'
                         }, 0);
-                });
-
-                link.addEventListener('mouseleave', () => {
-                    if (isMobile) return;
-
                 });
             });
         }
@@ -1140,22 +1171,7 @@
                 }
             } else if (!isMobile && (previewPanel.classList.contains('active') || overlay.classList.contains('active'))) {
                 if (!sidebar.contains(event.target) && !previewPanel.contains(event.target)) {
-                    gsap.to(previewPanel, {
-                        opacity: 0,
-                        x: '-5%',
-                        scaleX: 0.95,
-                        visibility: 'hidden',
-                        duration: 0.15,
-                        ease: 'power3.inOut',
-                        onComplete: () => previewPanel.classList.remove('active')
-                    });
-                    gsap.to(overlay, {
-                        opacity: 0,
-                        visibility: 'hidden',
-                        duration: 0.15,
-                        ease: 'power3.inOut',
-                        onComplete: () => overlay.classList.remove('active')
-                    });
+                    closePreviewPanel();
                 }
             }
         }
@@ -1172,6 +1188,14 @@
                 ease: 'power3.out'
             });
             document.addEventListener('click', handleOutsideClick);
+
+            // Close preview panel when mouse leaves the sidebar
+            const sidebarElement = document.getElementById('sidebar');
+            if (sidebarElement) {
+                sidebarElement.addEventListener('mouseleave', () => {
+                    closePreviewPanel();
+                });
+            }
 
             // Add search shortcut (Ctrl+K or Cmd+K)
             document.addEventListener('keydown', function(e) {

@@ -6,14 +6,15 @@ use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Industry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class IndustryAdminController extends Controller
 {
     public function index()
     {
         $industries = Industry::latest()->paginate(15);
+
         return view('admin.industries.index', compact('industries'));
     }
 
@@ -79,7 +80,7 @@ class IndustryAdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'title' => 'nullable|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:industries,slug,' . $industry->id,
+            'slug' => 'nullable|string|max:255|unique:industries,slug,'.$industry->id,
             'description' => 'required|string',
             'content' => 'nullable|string',
             'features' => 'nullable|array',
@@ -131,12 +132,14 @@ class IndustryAdminController extends Controller
 
         $industry->delete();
         $this->render();
+
         return redirect()->route('admin.industries.index')
             ->with('success', 'Industry deleted successfully.');
     }
 
-     public function render(){
-       $industries = Industry::active()->ordered()->get();
+    public function render()
+    {
+        $industries = Industry::active()->ordered()->get();
         Helper::putCache('industries.index', view('admin.template.industries.index', compact('industries'))->render());
         Helper::putCache('services.industries', view('admin.template.services.industries', compact('industries'))->render());
         Helper::putCache('home.industries', view('admin.template.home.industries', compact('industries'))->render());

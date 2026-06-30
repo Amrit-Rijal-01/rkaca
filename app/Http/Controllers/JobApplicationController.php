@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class JobApplicationController extends Controller
 {
@@ -40,7 +39,7 @@ class JobApplicationController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Your application has been submitted successfully! We will review it and get back to you soon.',
-            'application_id' => $application->id
+            'application_id' => $application->id,
         ]);
     }
 

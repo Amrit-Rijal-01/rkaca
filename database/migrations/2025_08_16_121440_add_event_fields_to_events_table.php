@@ -37,7 +37,7 @@ return new class extends Migration
             $table->dropColumn([
                 'type', 'start_time', 'end_time', 'price', 'early_bird_price',
                 'registration_link', 'is_featured', 'is_free', 'recording_link',
-                'resources_link', 'short_description', 'venue_type', 'max_participants'
+                'resources_link', 'short_description', 'venue_type', 'max_participants',
             ]);
         });
     }

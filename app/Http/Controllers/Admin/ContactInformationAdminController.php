@@ -59,15 +59,15 @@ class ContactInformationAdminController extends Controller
 
         // Filter out empty social media links
         if (isset($validated['social_media_links'])) {
-            $validated['social_media_links'] = array_filter($validated['social_media_links'], function($value) {
-                return !empty($value);
+            $validated['social_media_links'] = array_filter($validated['social_media_links'], function ($value) {
+                return ! empty($value);
             });
         }
 
         // Filter out empty business hours
         if (isset($validated['business_hours'])) {
-            $validated['business_hours'] = array_filter($validated['business_hours'], function($value) {
-                return !empty($value);
+            $validated['business_hours'] = array_filter($validated['business_hours'], function ($value) {
+                return ! empty($value);
             });
         }
 

@@ -46,8 +46,8 @@
                         <div class="row g-4">
                             @foreach ($stats as $index => $stat)
                                 <div class="col-6 col-md-3">
-                                    <div class="stat-item gsap-animate"data-delay="{{ $index * 0.2 }}">
-                                        <div class="stat-number" data-target="{{ $stat['number'] ?? 0 }}">0</div>
+                                    <div class="stat-item gsap-animate" data-delay="{{ $index * 0.2 }}">
+                                        <div class="stat-number" data-target="{{ $stat['number'] ?? 0 }}">{{ $stat['number'] ?? 0 }}+</div>
                                         <div class="stat-label">{{ $stat['label'] }}</div>
                                     </div>
                                 </div>
@@ -169,6 +169,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Refresh ScrollTrigger when Slick is initialized
+            $('.hero-slider').on('init', function() {
+                setTimeout(() => {
+                    if (typeof ScrollTrigger !== 'undefined') {
+                        ScrollTrigger.refresh();
+                    }
+                }, 100);
+            });
+
             $('.hero-slider').slick({
                 dots: false,
                 infinite: true,
@@ -209,37 +218,46 @@
                     ease: 'power3.out'
                 });
             });
+
+            // Backup refresh for ScrollTrigger after slider settles
+            setTimeout(() => {
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+            }, 600);
         });
 
-        window.addEventListener('load', function() {
+        // Initialize GSAP Animations as early as possible
+        function initAnimations() {
             gsap.registerPlugin(ScrollTrigger);
 
             const nf = new Intl.NumberFormat();
-            document.querySelectorAll('.stat-number').forEach((num) => {
+
+            function animateNumber(num) {
                 const target = parseInt(num.getAttribute('data-target'), 10);
                 if (!Number.isFinite(target)) return;
 
-                const obj = {
-                    val: 0
-                };
+                const obj = { val: 0 };
                 gsap.to(obj, {
                     val: target,
                     duration: 2,
                     ease: 'power2.out',
                     onUpdate: () => {
                         num.textContent = nf.format(Math.round(obj.val)) + '+';
-                    },
-                    scrollTrigger: {
-                        trigger: num.closest('.stat-item') || num,
-                        start: 'top 85%',
-                        once: true,
-                        invalidateOnRefresh: true
                     }
                 });
-            });
+            }
 
+            // Animate GSAP elements
             gsap.utils.toArray('.gsap-animate').forEach((el) => {
                 const delay = parseFloat(el.getAttribute('data-delay')) || 0;
+                
+                // If this is a stat-item, find its stat-number and set it to 0+ initially so it can count up
+                const statNum = el.querySelector('.stat-number');
+                if (statNum) {
+                    statNum.textContent = '0+';
+                }
+
                 gsap.fromTo(el, {
                     opacity: 0,
                     y: 40
@@ -254,10 +272,26 @@
                         start: 'top 85%',
                         once: true,
                         invalidateOnRefresh: true
+                    },
+                    onStart: () => {
+                        if (statNum) {
+                            animateNumber(statNum);
+                        }
                     }
                 });
             });
 
+            ScrollTrigger.refresh();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAnimations);
+        } else {
+            initAnimations();
+        }
+
+        // Final refresh when all assets are loaded
+        window.addEventListener('load', function() {
             ScrollTrigger.refresh();
         });
     </script>

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Industry;
-use App\Models\IndustryExpertise;
-use Illuminate\Http\Request;
 
 class IndustryController extends Controller
 {
@@ -16,6 +14,7 @@ class IndustryController extends Controller
     public function show($slug)
     {
         $industry = Industry::where('slug', $slug)->active()->firstOrFail();
+
         return view('industry-detail', compact('industry'));
     }
 }

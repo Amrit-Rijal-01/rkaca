@@ -12,6 +12,7 @@ class ContactController extends Controller
     {
         $contactInfo = ContactInformation::getActive();
         $footer_setting = \App\Models\FooterSetting::getInstance();
+
         return view('contact', compact('contactInfo', 'footer_setting'));
     }
 
@@ -27,9 +28,9 @@ class ContactController extends Controller
                     'string',
                     'max:20',
                     'regex:/^(\+?977[-\s]?)?(\d{2}[-\s]?\d{7,8}|\d{9,10}|01[-\s]?\d{6,7})$/',
-                    'required'
+                    'required',
                 ],
-                'company' => 'nullable|string|max:255', 
+                'company' => 'nullable|string|max:255',
                 'service' => 'nullable|string|max:255',
                 'message' => 'required|string|min:10|max:2000',
                 'privacy_consent' => 'required|accepted',
@@ -49,7 +50,7 @@ class ContactController extends Controller
             ]);
 
             // Combine first and last name
-            $name = $request->first_name . ' ' . $request->last_name;
+            $name = $request->first_name.' '.$request->last_name;
 
             Contact::create([
                 'name' => $name,
@@ -61,7 +62,7 @@ class ContactController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Thank you for your message. We will get back to you soon!');
-            
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)

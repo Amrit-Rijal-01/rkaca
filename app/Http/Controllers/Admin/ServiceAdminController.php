@@ -6,14 +6,15 @@ use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ServiceAdminController extends Controller
 {
     public function index()
     {
         $services = Service::latest()->paginate(15);
+
         return view('admin.services.index', compact('services'));
     }
 
@@ -71,7 +72,7 @@ class ServiceAdminController extends Controller
             $items = $request->sub_service_items ?? [];
 
             foreach ($titles as $index => $title) {
-                if (!empty($title) && isset($items[$index]) && is_array($items[$index])) {
+                if (! empty($title) && isset($items[$index]) && is_array($items[$index])) {
                     $subServices[$title] = array_filter($items[$index]);
                 }
             }
@@ -85,6 +86,7 @@ class ServiceAdminController extends Controller
 
         Service::create($data);
         $this->render();
+
         return redirect()->route('admin.services.index')
             ->with('success', 'Service created successfully.');
     }
@@ -103,7 +105,7 @@ class ServiceAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:services,slug,' . $service->id,
+            'slug' => 'nullable|string|max:255|unique:services,slug,'.$service->id,
             'description' => 'required|string',
             'detailed_description' => 'nullable|string',
             'content' => 'nullable|string',
@@ -146,7 +148,7 @@ class ServiceAdminController extends Controller
             $items = $request->sub_service_items ?? [];
 
             foreach ($titles as $index => $title) {
-                if (!empty($title) && isset($items[$index]) && is_array($items[$index])) {
+                if (! empty($title) && isset($items[$index]) && is_array($items[$index])) {
                     $subServices[$title] = array_filter($items[$index]);
                 }
             }
@@ -164,6 +166,7 @@ class ServiceAdminController extends Controller
 
         $service->update($data);
         $this->render();
+
         return redirect()->route('admin.services.index')
             ->with('success', 'Service updated successfully.');
     }
@@ -177,11 +180,13 @@ class ServiceAdminController extends Controller
 
         $service->delete();
         $this->render();
+
         return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
     }
 
-    public function render(){
+    public function render()
+    {
         $services = Service::active()->ordered()->get();
         Helper::putCache('services.index', view('admin.template.services.index', compact('services'))->render());
         Helper::putCache('offices.services', view('admin.template.offices.services', compact('services'))->render());

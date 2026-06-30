@@ -12,6 +12,7 @@ class ServiceProcessController extends Controller
     public function index()
     {
         $processes = ServiceProcess::ordered()->paginate(15);
+
         return view('admin.service-processes.index', compact('processes'));
     }
 
@@ -38,10 +39,10 @@ class ServiceProcessController extends Controller
 
         ServiceProcess::create($data);
         $this->render();
+
         return redirect()->route('admin.service-processes.index')
             ->with('success', 'Service process step created successfully.');
     }
-
 
     public function edit(ServiceProcess $serviceProcess)
     {
@@ -65,6 +66,7 @@ class ServiceProcessController extends Controller
 
         $serviceProcess->update($data);
         $this->render();
+
         return redirect()->route('admin.service-processes.index')
             ->with('success', 'Service process step updated successfully.');
     }
@@ -73,6 +75,7 @@ class ServiceProcessController extends Controller
     {
         $serviceProcess->delete();
         $this->render();
+
         return redirect()->route('admin.service-processes.index')
             ->with('success', 'Service process step deleted successfully.');
     }

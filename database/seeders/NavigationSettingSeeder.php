@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\NavigationSetting;
+use Illuminate\Database\Seeder;
 
 class NavigationSettingSeeder extends Seeder
 {
@@ -25,8 +25,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Financial Planning', 'icon' => 'fas fa-chart-line'],
                         ['title' => 'Investment Advice', 'icon' => 'fas fa-piggy-bank'],
-                        ['title' => 'Risk Management', 'icon' => 'fas fa-shield-alt']
-                    ]
+                        ['title' => 'Risk Management', 'icon' => 'fas fa-shield-alt'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 1,
@@ -43,8 +43,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Audit Services', 'icon' => 'fas fa-book'],
                         ['title' => 'Tax Consulting', 'icon' => 'fas fa-calculator'],
-                        ['title' => 'Business Advisory', 'icon' => 'fas fa-briefcase']
-                    ]
+                        ['title' => 'Business Advisory', 'icon' => 'fas fa-briefcase'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 2,
@@ -61,8 +61,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Healthcare', 'icon' => 'fas fa-heartbeat'],
                         ['title' => 'Technology', 'icon' => 'fas fa-laptop-code'],
-                        ['title' => 'Manufacturing', 'icon' => 'fas fa-industry']
-                    ]
+                        ['title' => 'Manufacturing', 'icon' => 'fas fa-industry'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 3,
@@ -79,8 +79,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Workshops', 'icon' => 'fas fa-chalkboard-teacher'],
                         ['title' => 'Webinars', 'icon' => 'fas fa-video'],
-                        ['title' => 'Networking', 'icon' => 'fas fa-users']
-                    ]
+                        ['title' => 'Networking', 'icon' => 'fas fa-users'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 4,
@@ -97,8 +97,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Regional Support', 'icon' => 'fas fa-map-marker-alt'],
                         ['title' => 'Consulting Hubs', 'icon' => 'fas fa-building'],
-                        ['title' => 'Client Services', 'icon' => 'fas fa-headset']
-                    ]
+                        ['title' => 'Client Services', 'icon' => 'fas fa-headset'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 5,
@@ -115,8 +115,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Finance Tips', 'icon' => 'fas fa-money-bill'],
                         ['title' => 'Tax Updates', 'icon' => 'fas fa-file-alt'],
-                        ['title' => 'Industry Trends', 'icon' => 'fas fa-chart-bar']
-                    ]
+                        ['title' => 'Industry Trends', 'icon' => 'fas fa-chart-bar'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 6,
@@ -133,8 +133,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Market Analysis', 'icon' => 'fas fa-chart-pie'],
                         ['title' => 'Regulatory Updates', 'icon' => 'fas fa-gavel'],
-                        ['title' => 'Strategic Insights', 'icon' => 'fas fa-lightbulb']
-                    ]
+                        ['title' => 'Strategic Insights', 'icon' => 'fas fa-lightbulb'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 7,
@@ -151,8 +151,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Our Mission', 'icon' => 'fas fa-bullseye'],
                         ['title' => 'Our Values', 'icon' => 'fas fa-handshake'],
-                        ['title' => 'Our Team', 'icon' => 'fas fa-users']
-                    ]
+                        ['title' => 'Our Team', 'icon' => 'fas fa-users'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 8,
@@ -169,8 +169,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Audit Experts', 'icon' => 'fas fa-book-open'],
                         ['title' => 'Tax Specialists', 'icon' => 'fas fa-calculator'],
-                        ['title' => 'Consulting Team', 'icon' => 'fas fa-users-cog']
-                    ]
+                        ['title' => 'Consulting Team', 'icon' => 'fas fa-users-cog'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 9,
@@ -187,8 +187,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Job Openings', 'icon' => 'fas fa-briefcase'],
                         ['title' => 'Internships', 'icon' => 'fas fa-graduation-cap'],
-                        ['title' => 'Professional Growth', 'icon' => 'fas fa-chart-line']
-                    ]
+                        ['title' => 'Professional Growth', 'icon' => 'fas fa-chart-line'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 10,
@@ -205,8 +205,8 @@ class NavigationSettingSeeder extends Seeder
                     'services' => [
                         ['title' => 'Support Desk', 'icon' => 'fas fa-headset'],
                         ['title' => 'Consulting Inquiries', 'icon' => 'fas fa-envelope'],
-                        ['title' => 'Feedback', 'icon' => 'fas fa-comment']
-                    ]
+                        ['title' => 'Feedback', 'icon' => 'fas fa-comment'],
+                    ],
                 ],
                 'is_active' => true,
                 'sort_order' => 11,

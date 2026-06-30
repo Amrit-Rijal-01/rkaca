@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Jumbotron extends Model
@@ -20,7 +20,7 @@ class Jumbotron extends Model
         'is_active',
         'is_multi_slide',
         'sort_order',
-        'slide_order'
+        'slide_order',
     ];
 
     protected $casts = [
@@ -53,10 +53,10 @@ class Jumbotron extends Model
     public static function getByPageSlug($slug)
     {
         return static::where('page_slug', $slug)
-                    ->where('is_active', true)
-                    ->where('is_multi_slide', false)
-                    ->orderBy('sort_order')
-                    ->first();
+            ->where('is_active', true)
+            ->where('is_multi_slide', false)
+            ->orderBy('sort_order')
+            ->first();
     }
 
     /**
@@ -65,10 +65,10 @@ class Jumbotron extends Model
     public static function getSlidesByPageSlug($slug)
     {
         return static::where('page_slug', $slug)
-                    ->where('is_active', true)
-                    ->where('is_multi_slide', true)
-                    ->orderBy('slide_order')
-                    ->get();
+            ->where('is_active', true)
+            ->where('is_multi_slide', true)
+            ->orderBy('slide_order')
+            ->get();
     }
 
     /**
@@ -77,8 +77,8 @@ class Jumbotron extends Model
     public static function isMultiSlidePage($slug)
     {
         return static::where('page_slug', $slug)
-                    ->where('is_multi_slide', true)
-                    ->exists();
+            ->where('is_multi_slide', true)
+            ->exists();
     }
 
     /**
@@ -87,8 +87,8 @@ class Jumbotron extends Model
     public static function getNextSlideOrder($pageSlug)
     {
         $lastOrder = static::where('page_slug', $pageSlug)
-                          ->where('is_multi_slide', true)
-                          ->max('slide_order');
+            ->where('is_multi_slide', true)
+            ->max('slide_order');
 
         return ($lastOrder ?? 0) + 1;
     }
@@ -108,7 +108,7 @@ class Jumbotron extends Model
             'contact' => 'Contact Us',
             'offices' => 'Our Offices',
             'events' => 'Events',
-            'blogs' => 'Blog Articles'
+            'blogs' => 'Blog Articles',
         ];
     }
 
@@ -118,7 +118,7 @@ class Jumbotron extends Model
     public static function getMultiSlidePages()
     {
         return [
-            'home' => 'Home Page'
+            'home' => 'Home Page',
         ];
     }
 

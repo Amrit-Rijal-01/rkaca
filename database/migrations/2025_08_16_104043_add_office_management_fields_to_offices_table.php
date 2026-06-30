@@ -40,7 +40,7 @@ return new class extends Migration
                 'directions',
                 'parking_info',
                 'appointment_link',
-                'is_headquarters'
+                'is_headquarters',
             ]);
         });
     }

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Office;
+use Illuminate\Database\Seeder;
 
 class OfficeSeeder extends Seeder
 {
@@ -34,7 +33,7 @@ class OfficeSeeder extends Seeder
                 'parking_info' => "Free parking available:\n• 20 car parking slots\n• Covered parking\n• Security guard on duty\n• Visitor parking available",
                 'appointment_link' => 'https://calendly.com/charteredinsights-ktm',
                 'is_headquarters' => true,
-                'status' => 'active'
+                'status' => 'active',
             ],
             [
                 'name' => 'Pokhara Office',
@@ -56,7 +55,7 @@ class OfficeSeeder extends Seeder
                 'parking_info' => "Parking facilities:\n• 10 motorcycle parking\n• 5 car parking slots\n• Street parking available\n• No parking fees",
                 'appointment_link' => 'https://calendly.com/charteredinsights-pkr',
                 'is_headquarters' => false,
-                'status' => 'active'
+                'status' => 'active',
             ],
             [
                 'name' => 'Chitwan Office',
@@ -78,8 +77,8 @@ class OfficeSeeder extends Seeder
                 'parking_info' => "Parking options:\n• 8 car parking spaces\n• Motorcycle parking available\n• Street parking during office hours\n• Free parking for clients",
                 'appointment_link' => 'https://calendly.com/charteredinsights-ctw',
                 'is_headquarters' => false,
-                'status' => 'active'
-            ]
+                'status' => 'active',
+            ],
         ];
 
         foreach ($offices as $office) {

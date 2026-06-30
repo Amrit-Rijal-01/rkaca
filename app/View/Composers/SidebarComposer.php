@@ -2,10 +2,10 @@
 
 namespace App\View\Composers;
 
-use Illuminate\View\View;
-use App\Models\HomeSetting;
 use App\Models\FooterSetting;
+use App\Models\HomeSetting;
 use App\Models\NavigationSetting;
+use Illuminate\View\View;
 
 class SidebarComposer
 {

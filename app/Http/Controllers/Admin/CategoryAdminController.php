@@ -16,7 +16,7 @@ class CategoryAdminController extends Controller
 
         // Search
         if ($request->has('search') && $request->search !== '') {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $categories = $query->orderBy('name')->paginate(15);
@@ -68,8 +68,8 @@ class CategoryAdminController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+            'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
+            'slug' => 'nullable|string|max:255|unique:categories,slug,'.$category->id,
             'description' => 'nullable|string|max:500',
             'icon' => 'nullable|string|max:255',
         ]);
@@ -98,6 +98,7 @@ class CategoryAdminController extends Controller
 
         $category->delete();
         $this->render();
+
         return redirect()->route('admin.categories.index')
             ->with('success', 'Category deleted successfully!');
     }

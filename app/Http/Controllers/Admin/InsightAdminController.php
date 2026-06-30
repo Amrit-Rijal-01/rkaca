@@ -7,17 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Insight;
 use App\Models\InsightCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class InsightAdminController extends Controller
 {
     public function index()
     {
         $insights = Insight::with('insightCategory')
-                          ->orderBy('sort_order')
-                          ->orderBy('created_at', 'desc')
-                          ->paginate(20);
+            ->orderBy('sort_order')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
 
         $categories = InsightCategory::active()->orderBy('sort_order')->get();
 
@@ -27,6 +27,7 @@ class InsightAdminController extends Controller
     public function create()
     {
         $categories = InsightCategory::active()->orderBy('sort_order')->get();
+
         return view('admin.insights.create', compact('categories'));
     }
 
@@ -57,10 +58,10 @@ class InsightAdminController extends Controller
         $data['is_active'] = $request->has('is_active') ? true : false;
 
         // Set default values
-        if (!isset($data['is_active'])) {
+        if (! isset($data['is_active'])) {
             $data['is_active'] = true;
         }
-        if (!isset($data['sort_order'])) {
+        if (! isset($data['sort_order'])) {
             $data['sort_order'] = Insight::max('sort_order') + 1;
         }
 
@@ -91,6 +92,7 @@ class InsightAdminController extends Controller
     public function edit(Insight $insight)
     {
         $categories = InsightCategory::active()->orderBy('sort_order')->get();
+
         return view('admin.insights.edit', compact('insight', 'categories'));
     }
 
@@ -98,7 +100,7 @@ class InsightAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:insights,slug,' . $insight->id,
+            'slug' => 'nullable|string|max:255|unique:insights,slug,'.$insight->id,
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'category_slug' => 'nullable|string|exists:insight_categories,slug',
@@ -160,6 +162,7 @@ class InsightAdminController extends Controller
     public function categories()
     {
         $categories = InsightCategory::orderBy('sort_order')->get();
+
         return view('admin.insights.categories', compact('categories'));
     }
 
@@ -178,7 +181,7 @@ class InsightAdminController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         InsightCategory::create($data);
-$this->renderCategories();
+        $this->renderCategories();
 
         return redirect()->route('admin.insights.categories')
             ->with('success', 'Category created successfully.');
@@ -188,7 +191,7 @@ $this->renderCategories();
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:insight_categories,slug,' . $category->id,
+            'slug' => 'nullable|string|max:255|unique:insight_categories,slug,'.$category->id,
             'description' => 'nullable|string',
             'icon' => 'nullable|string',
             'sort_order' => 'nullable|integer|min:0',
@@ -199,7 +202,7 @@ $this->renderCategories();
         $data['is_active'] = $request->has('is_active');
 
         $category->update($data);
-$this->renderCategories();
+        $this->renderCategories();
 
         return redirect()->route('admin.insights.categories')
             ->with('success', 'Category updated successfully.');
@@ -214,7 +217,7 @@ $this->renderCategories();
         }
 
         $category->delete();
-$this->renderCategories();
+        $this->renderCategories();
 
         return redirect()->route('admin.insights.categories')
             ->with('success', 'Category deleted successfully.');
@@ -222,7 +225,7 @@ $this->renderCategories();
 
     public function toggleCategoryStatus(InsightCategory $category)
     {
-        $category->update(['is_active' => !$category->is_active]);
+        $category->update(['is_active' => ! $category->is_active]);
 
         return redirect()->route('admin.insights.categories')
             ->with('success', 'Category status updated successfully.');
@@ -230,7 +233,7 @@ $this->renderCategories();
 
     public function toggleStatus(Insight $insight)
     {
-        $insight->update(['is_active' => !$insight->is_active]);
+        $insight->update(['is_active' => ! $insight->is_active]);
 
         return redirect()->route('admin.insights.index')
             ->with('success', 'Insight status updated successfully.');
@@ -238,12 +241,13 @@ $this->renderCategories();
 
     public function toggleFeatured(Insight $insight)
     {
-        $insight->update(['is_featured' => !$insight->is_featured]);
+        $insight->update(['is_featured' => ! $insight->is_featured]);
 
         return redirect()->route('admin.insights.index')
             ->with('success', 'Insight featured status updated successfully.');
     }
-        public function renderInsights()
+
+    public function renderInsights()
     {
         $featuredInsights = Insight::where('is_featured', true)
             ->where('status', 'published')
@@ -259,7 +263,6 @@ $this->renderCategories();
         Helper::putCache('home.insights', view('admin.template.home.insights', compact('recentInsights'))->render());
     }
 
-
     public function renderCategories()
     {
         $categories = InsightCategory::active()
@@ -269,6 +272,7 @@ $this->renderCategories();
                 $category->insights_count = Insight::published()
                     ->byCategory($category->slug)
                     ->count();
+
                 return $category;
             });
         Helper::putCache('insights.categories', view('admin.template.insights.categories', compact('categories'))->render());

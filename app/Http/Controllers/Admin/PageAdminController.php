@@ -12,6 +12,7 @@ class PageAdminController extends Controller
     public function index()
     {
         $pages = Page::latest()->paginate(15);
+
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -54,7 +55,7 @@ class PageAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
+            'slug' => 'nullable|string|max:255|unique:pages,slug,'.$page->id,
             'content' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',

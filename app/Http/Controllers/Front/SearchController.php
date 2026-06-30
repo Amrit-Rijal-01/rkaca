@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Service;
+use App\Models\Blog;
+use App\Models\Career;
+use App\Models\Event;
 use App\Models\Industry;
 use App\Models\Insight;
-use App\Models\Blog;
-use App\Models\Event;
-use App\Models\Career;
-use App\Models\Office;
+use App\Models\Service;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -18,12 +17,12 @@ class SearchController extends Controller
     {
         try {
             $query = $request->get('q', '');
-            
+
             if (empty($query) || strlen($query) < 1) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Please enter at least 1 character to search',
-                    'results' => []
+                    'results' => [],
                 ]);
             }
 
@@ -32,9 +31,9 @@ class SearchController extends Controller
             // Search Services
             try {
                 $services = Service::where('status', 'active')
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('description', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('description', 'like', '%'.$query.'%');
                     })
                     ->limit(5)
                     ->get();
@@ -43,22 +42,22 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'service',
                         'title' => $service->title,
-                        'description' => substr(strip_tags($service->description ?? ''), 0, 100) . '...',
+                        'description' => substr(strip_tags($service->description ?? ''), 0, 100).'...',
                         'url' => route('serviceDetails', $service->id),
                         'icon' => 'fas fa-file-invoice-dollar',
-                        'category' => 'Services'
+                        'category' => 'Services',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Services Error: ' . $e->getMessage());
+                \Log::error('Search Services Error: '.$e->getMessage());
             }
 
             // Search Industries
             try {
                 $industries = Industry::where('status', 'active')
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('description', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('description', 'like', '%'.$query.'%');
                     })
                     ->limit(5)
                     ->get();
@@ -67,22 +66,22 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'industry',
                         'title' => $industry->title,
-                        'description' => substr(strip_tags($industry->description ?? ''), 0, 100) . '...',
+                        'description' => substr(strip_tags($industry->description ?? ''), 0, 100).'...',
                         'url' => route('industryDetails', $industry->id),
                         'icon' => 'fas fa-industry',
-                        'category' => 'Industries'
+                        'category' => 'Industries',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Industries Error: ' . $e->getMessage());
+                \Log::error('Search Industries Error: '.$e->getMessage());
             }
 
             // Search Insights
             try {
                 $insights = Insight::where('is_active', 1)
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('content', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('content', 'like', '%'.$query.'%');
                     })
                     ->limit(5)
                     ->get();
@@ -91,22 +90,22 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'insight',
                         'title' => $insight->title,
-                        'description' => substr(strip_tags($insight->content ?? ''), 0, 100) . '...',
+                        'description' => substr(strip_tags($insight->content ?? ''), 0, 100).'...',
                         'url' => route('insightDetails', $insight->id),
                         'icon' => 'fas fa-lightbulb',
-                        'category' => 'Insights'
+                        'category' => 'Insights',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Insights Error: ' . $e->getMessage());
+                \Log::error('Search Insights Error: '.$e->getMessage());
             }
 
             // Search Blogs
             try {
                 $blogs = Blog::where('status', 'published')
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('content', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('content', 'like', '%'.$query.'%');
                     })
                     ->limit(5)
                     ->get();
@@ -115,22 +114,22 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'blog',
                         'title' => $blog->title,
-                        'description' => substr(strip_tags($blog->content ?? ''), 0, 100) . '...',
+                        'description' => substr(strip_tags($blog->content ?? ''), 0, 100).'...',
                         'url' => route('blog.detail', $blog->slug),
                         'icon' => 'fas fa-blog',
-                        'category' => 'Blogs'
+                        'category' => 'Blogs',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Blogs Error: ' . $e->getMessage());
+                \Log::error('Search Blogs Error: '.$e->getMessage());
             }
 
             // Search Events
             try {
                 $events = Event::where('status', 'active')
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('description', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('description', 'like', '%'.$query.'%');
                     })
                     ->limit(3)
                     ->get();
@@ -139,22 +138,22 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'event',
                         'title' => $event->title,
-                        'description' => substr(strip_tags($event->description ?? ''), 0, 100) . '...',
+                        'description' => substr(strip_tags($event->description ?? ''), 0, 100).'...',
                         'url' => route('eventDetails', $event->id),
                         'icon' => 'fas fa-calendar',
-                        'category' => 'Events'
+                        'category' => 'Events',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Events Error: ' . $e->getMessage());
+                \Log::error('Search Events Error: '.$e->getMessage());
             }
 
             // Search Careers
             try {
                 $careers = Career::where('status', 'active')
-                    ->where(function($q) use ($query) {
-                        $q->where('title', 'like', '%' . $query . '%')
-                          ->orWhere('description', 'like', '%' . $query . '%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('title', 'like', '%'.$query.'%')
+                            ->orWhere('description', 'like', '%'.$query.'%');
                     })
                     ->limit(3)
                     ->get();
@@ -163,14 +162,14 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'career',
                         'title' => $career->title,
-                        'description' => substr(strip_tags($career->description ?? ''), 0, 100) . '...',
-                        'url' => '/careers#career-' . $career->id,
+                        'description' => substr(strip_tags($career->description ?? ''), 0, 100).'...',
+                        'url' => '/careers#career-'.$career->id,
                         'icon' => 'fas fa-briefcase',
-                        'category' => 'Careers'
+                        'category' => 'Careers',
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Careers Error: ' . $e->getMessage());
+                \Log::error('Search Careers Error: '.$e->getMessage());
             }
 
             // If no results found, provide some sample data for testing
@@ -183,16 +182,16 @@ class SearchController extends Controller
                 'message' => 'Search completed',
                 'query' => $query,
                 'total_results' => count($results),
-                'results' => $results
+                'results' => $results,
             ]);
 
         } catch (\Exception $e) {
-            \Log::error('Search Controller Error: ' . $e->getMessage());
-            
+            \Log::error('Search Controller Error: '.$e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'Search error: ' . $e->getMessage(),
-                'results' => []
+                'message' => 'Search error: '.$e->getMessage(),
+                'results' => [],
             ], 500);
         }
     }
@@ -206,7 +205,7 @@ class SearchController extends Controller
                 'description' => 'Professional audit and assurance services for businesses of all sizes...',
                 'url' => '/services#audit',
                 'icon' => 'fas fa-file-invoice-dollar',
-                'category' => 'Services'
+                'category' => 'Services',
             ],
             [
                 'type' => 'service',
@@ -214,7 +213,7 @@ class SearchController extends Controller
                 'description' => 'Strategic tax planning and compliance services to optimize your tax position...',
                 'url' => '/services#tax',
                 'icon' => 'fas fa-file-invoice-dollar',
-                'category' => 'Services'
+                'category' => 'Services',
             ],
             [
                 'type' => 'industry',
@@ -222,7 +221,7 @@ class SearchController extends Controller
                 'description' => 'Specialized accounting and consulting services for healthcare organizations...',
                 'url' => '/industries#healthcare',
                 'icon' => 'fas fa-industry',
-                'category' => 'Industries'
+                'category' => 'Industries',
             ],
             [
                 'type' => 'industry',
@@ -230,7 +229,7 @@ class SearchController extends Controller
                 'description' => 'Expert financial services tailored for manufacturing companies...',
                 'url' => '/industries#manufacturing',
                 'icon' => 'fas fa-industry',
-                'category' => 'Industries'
+                'category' => 'Industries',
             ],
             [
                 'type' => 'blog',
@@ -238,7 +237,7 @@ class SearchController extends Controller
                 'description' => 'Essential tips and strategies to make tax season smoother for your business...',
                 'url' => '/blogs#tax-tips',
                 'icon' => 'fas fa-blog',
-                'category' => 'Blogs'
+                'category' => 'Blogs',
             ],
             [
                 'type' => 'insight',
@@ -246,8 +245,8 @@ class SearchController extends Controller
                 'description' => 'Key insights and trends in financial planning for modern businesses...',
                 'url' => '/insights#financial-planning',
                 'icon' => 'fas fa-lightbulb',
-                'category' => 'Insights'
-            ]
+                'category' => 'Insights',
+            ],
         ];
 
         // Filter sample data based on query
@@ -264,6 +263,7 @@ class SearchController extends Controller
     public function searchPage(Request $request)
     {
         $query = $request->get('q', '');
+
         return view('new.search', compact('query'));
     }
 }

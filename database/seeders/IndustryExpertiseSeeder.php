@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\IndustryExpertise;
+use Illuminate\Database\Seeder;
 
 class IndustryExpertiseSeeder extends Seeder
 {
@@ -24,7 +23,7 @@ class IndustryExpertiseSeeder extends Seeder
                 'sort_order' => 1,
                 'status' => 'active',
                 'is_featured' => true,
-                'color_theme' => '#007bff'
+                'color_theme' => '#007bff',
             ],
             [
                 'title' => 'Proven Results',
@@ -36,7 +35,7 @@ class IndustryExpertiseSeeder extends Seeder
                 'sort_order' => 2,
                 'status' => 'active',
                 'is_featured' => true,
-                'color_theme' => '#28a745'
+                'color_theme' => '#28a745',
             ],
             [
                 'title' => 'Strategic Partnerships',
@@ -48,7 +47,7 @@ class IndustryExpertiseSeeder extends Seeder
                 'sort_order' => 3,
                 'status' => 'active',
                 'is_featured' => true,
-                'color_theme' => '#ffc107'
+                'color_theme' => '#ffc107',
             ],
             [
                 'title' => 'Innovation Focus',
@@ -60,8 +59,8 @@ class IndustryExpertiseSeeder extends Seeder
                 'sort_order' => 4,
                 'status' => 'active',
                 'is_featured' => true,
-                'color_theme' => '#dc3545'
-            ]
+                'color_theme' => '#dc3545',
+            ],
         ];
 
         foreach ($expertises as $expertise) {

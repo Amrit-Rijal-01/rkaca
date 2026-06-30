@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\HomeSetting;
 use App\Models\FooterSetting;
+use App\Models\HomeSetting;
+use Illuminate\Database\Seeder;
 
 class SettingsSeeder extends Seeder
 {

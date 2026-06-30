@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
@@ -14,8 +13,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-          $teams = DB::table('about_team_members')->where('is_active', '1')->orderBy('sort_order','asc')->get();
-        
+        $teams = DB::table('about_team_members')->where('is_active', '1')->orderBy('sort_order', 'asc')->get();
+
         return view('new.ourteam', compact('teams'));
     }
 }

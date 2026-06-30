@@ -6,12 +6,11 @@ use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Career;
 use App\Models\CareerBenefit;
-use App\Models\JobOpening;
 use App\Models\CareerTestimonial;
 use App\Models\JobApplication;
+use App\Models\JobOpening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use PHPUnit\TextUI\Help;
 
 class CareerAdminController extends Controller
 {
@@ -25,6 +24,7 @@ class CareerAdminController extends Controller
     public function benefits()
     {
         $benefits = CareerBenefit::orderBy('sort_order')->orderBy('id')->get();
+
         return view('admin.careers.benefits', compact('benefits'));
     }
 
@@ -74,6 +74,7 @@ class CareerAdminController extends Controller
     public function jobs()
     {
         $jobs = JobOpening::all();
+
         return view('admin.careers.jobs', compact('jobs'));
     }
 
@@ -107,18 +108,18 @@ class CareerAdminController extends Controller
 
         // Filter out empty strings from arrays
         if (isset($validated['responsibilities'])) {
-            $validated['responsibilities'] = array_filter($validated['responsibilities'], function($item) {
-                return !empty(trim($item));
+            $validated['responsibilities'] = array_filter($validated['responsibilities'], function ($item) {
+                return ! empty(trim($item));
             });
         }
         if (isset($validated['requirements'])) {
-            $validated['requirements'] = array_filter($validated['requirements'], function($item) {
-                return !empty(trim($item));
+            $validated['requirements'] = array_filter($validated['requirements'], function ($item) {
+                return ! empty(trim($item));
             });
         }
         if (isset($validated['benefits'])) {
-            $validated['benefits'] = array_filter($validated['benefits'], function($item) {
-                return !empty(trim($item));
+            $validated['benefits'] = array_filter($validated['benefits'], function ($item) {
+                return ! empty(trim($item));
             });
         }
 
@@ -159,18 +160,18 @@ class CareerAdminController extends Controller
 
         // Filter out empty strings from arrays
         if (isset($validated['responsibilities'])) {
-            $validated['responsibilities'] = array_filter($validated['responsibilities'], function($item) {
-                return !empty(trim($item));
+            $validated['responsibilities'] = array_filter($validated['responsibilities'], function ($item) {
+                return ! empty(trim($item));
             });
         }
         if (isset($validated['requirements'])) {
-            $validated['requirements'] = array_filter($validated['requirements'], function($item) {
-                return !empty(trim($item));
+            $validated['requirements'] = array_filter($validated['requirements'], function ($item) {
+                return ! empty(trim($item));
             });
         }
         if (isset($validated['benefits'])) {
-            $validated['benefits'] = array_filter($validated['benefits'], function($item) {
-                return !empty(trim($item));
+            $validated['benefits'] = array_filter($validated['benefits'], function ($item) {
+                return ! empty(trim($item));
             });
         }
 
@@ -192,6 +193,7 @@ class CareerAdminController extends Controller
     public function testimonials()
     {
         $testimonials = CareerTestimonial::orderBy('sort_order')->orderBy('id')->get();
+
         return view('admin.careers.testimonials', compact('testimonials'));
     }
 
@@ -250,6 +252,7 @@ class CareerAdminController extends Controller
         }
         $testimonial->delete();
         $this->render();
+
         return redirect()->route('admin.careers.testimonials')->with('success', 'Testimonial deleted successfully!');
     }
 
@@ -257,14 +260,16 @@ class CareerAdminController extends Controller
     public function applications()
     {
         $applications = JobApplication::with('jobOpening')
-                                    ->orderBy('created_at', 'desc')
-                                    ->paginate(20);
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
         return view('admin.careers.applications', compact('applications'));
     }
 
     public function showApplication(JobApplication $application)
     {
         $application->load('jobOpening');
+
         return view('admin.careers.applications-show', compact('application'));
     }
 
@@ -283,23 +288,27 @@ class CareerAdminController extends Controller
     // Toggle Status Methods
     public function toggleBenefitStatus(CareerBenefit $benefit)
     {
-        $benefit->update(['is_active' => !$benefit->is_active]);
+        $benefit->update(['is_active' => ! $benefit->is_active]);
+
         return redirect()->back()->with('success', 'Benefit status updated successfully!');
     }
 
     public function toggleTestimonialStatus(CareerTestimonial $testimonial)
     {
-        $testimonial->update(['is_active' => !$testimonial->is_active]);
+        $testimonial->update(['is_active' => ! $testimonial->is_active]);
+
         return redirect()->back()->with('success', 'Testimonial status updated successfully!');
     }
 
     public function toggleJobFeatured(JobOpening $job)
     {
-        $job->update(['is_featured' => !$job->is_featured]);
+        $job->update(['is_featured' => ! $job->is_featured]);
+
         return redirect()->back()->with('success', 'Job featured status updated successfully!');
     }
 
-    public function render(){
+    public function render()
+    {
         $careers = Career::active()->latest()->paginate(10);
         $benefits = CareerBenefit::active()->ordered()->get();
         $jobOpenings = JobOpening::active()->ordered()->get();
@@ -310,6 +319,6 @@ class CareerAdminController extends Controller
 
         Helper::putCache('careers.benefits', view('admin.template.careers.benefits', compact('benefits'))->render());
         Helper::putCache('careers.testimonials', view('admin.template.careers.testimonials', compact('testimonials'))->render());
-        Helper::putCache('careers.job_openings', view('admin.template.careers.job_openings', compact('jobOpenings','jobsByCategory'))->render());
+        Helper::putCache('careers.job_openings', view('admin.template.careers.job_openings', compact('jobOpenings', 'jobsByCategory'))->render());
     }
 }

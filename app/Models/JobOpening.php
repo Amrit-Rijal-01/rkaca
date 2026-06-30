@@ -57,30 +57,31 @@ class JobOpening extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('is_featured', 'desc')
-                    ->orderBy('sort_order')
-                    ->orderBy('created_at', 'desc');
+            ->orderBy('sort_order')
+            ->orderBy('created_at', 'desc');
     }
 
     public function getFormattedSalaryAttribute()
     {
         if ($this->salary_min && $this->salary_max) {
-            return "NPR " . number_format($this->salary_min) . " - " . number_format($this->salary_max);
+            return 'NPR '.number_format($this->salary_min).' - '.number_format($this->salary_max);
         } elseif ($this->salary_min) {
-            return "NPR " . number_format($this->salary_min) . "+";
+            return 'NPR '.number_format($this->salary_min).'+';
         }
-        return "Negotiable";
+
+        return 'Negotiable';
     }
 
     public function getResponsibilitiesArrayAttribute()
     {
-        return explode("
-", $this->responsibilities);
+        return explode('
+', $this->responsibilities);
     }
 
     public function getRequirementsArrayAttribute()
     {
-        return explode("
-", $this->requirements);
+        return explode('
+', $this->requirements);
     }
 
     public function getBenefitsArrayAttribute()

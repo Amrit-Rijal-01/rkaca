@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
+use App\Models\FooterSetting;
+use App\Models\HomeSetting;
 use App\Models\Insight;
 use App\Models\InsightCategory;
-use App\Models\HomeSetting;
-use App\Models\FooterSetting;
-use Illuminate\Http\Request;
+use App\Models\Page;
 
 class PageController extends Controller
 {
@@ -31,6 +30,7 @@ class PageController extends Controller
     public function insights()
     {
         $page = Page::where('slug', 'insights')->active()->first();
+
         return view('insights', compact('page'));
     }
 
@@ -68,6 +68,7 @@ class PageController extends Controller
     public function show($slug)
     {
         $page = Page::where('slug', $slug)->active()->firstOrFail();
+
         return view('page', compact('page'));
     }
 }

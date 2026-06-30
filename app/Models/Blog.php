@@ -56,7 +56,7 @@ class Blog extends Model
         if ($value) {
             return $value;
         }
-        
+
         return Str::limit(strip_tags($this->content), 150);
     }
 
@@ -66,6 +66,7 @@ class Blog extends Model
     public function getReadingTimeAttribute()
     {
         $wordCount = str_word_count(strip_tags($this->content));
+
         return ceil($wordCount / 200); // Average reading speed: 200 words per minute
     }
 }

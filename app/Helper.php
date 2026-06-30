@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-use Illuminate\Support\Facades\Storage;
 
 class Helper
 {
@@ -18,12 +17,12 @@ class Helper
 
         $filePath = implode('/', $pathParts);
 
-        $filePath = resource_path("views/front/cache/" . $filePath);
+        $filePath = resource_path('views/front/cache/'.$filePath);
         // Extract the directory path from the file path
         $directoryPath = dirname($filePath);
 
         // Ensure the directory exists, if not create it
-        if (!is_dir($directoryPath)) {
+        if (! is_dir($directoryPath)) {
             mkdir($directoryPath, 0755, true);
         }
 

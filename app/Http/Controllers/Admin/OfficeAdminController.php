@@ -14,6 +14,7 @@ class OfficeAdminController extends Controller
     public function index()
     {
         $offices = Office::latest()->paginate(15);
+
         return view('admin.offices.index', compact('offices'));
     }
 
@@ -57,6 +58,7 @@ class OfficeAdminController extends Controller
 
         Office::create($data);
         $this->render();
+
         return redirect()->route('admin.offices.index')
             ->with('success', 'Office created successfully.');
     }
@@ -110,6 +112,7 @@ class OfficeAdminController extends Controller
 
         $office->update($data);
         $this->render();
+
         return redirect()->route('admin.offices.index')
             ->with('success', 'Office updated successfully.');
     }
@@ -123,6 +126,7 @@ class OfficeAdminController extends Controller
 
         $office->delete();
         $this->render();
+
         return redirect()->route('admin.offices.index')
             ->with('success', 'Office deleted successfully.');
     }

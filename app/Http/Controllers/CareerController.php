@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Career;
-use App\Models\CareerBenefit;
 use App\Models\JobOpening;
-use App\Models\CareerTestimonial;
 use Illuminate\Http\Request;
 
 class CareerController extends Controller
@@ -14,19 +12,20 @@ class CareerController extends Controller
     {
         // Get careers from existing Career model (for individual career posts)
 
-
         return view('careers');
     }
 
     public function show($slug)
     {
         $career = Career::where('slug', $slug)->active()->firstOrFail();
+
         return view('career-detail', compact('career'));
     }
 
     public function showJob($id)
     {
         $job = JobOpening::active()->findOrFail($id);
+
         return view('careers.job-detail', compact('job'));
     }
 
@@ -43,7 +42,7 @@ class CareerController extends Controller
         $jobs = $query->get();
 
         return response()->json([
-            'jobs' => $jobs->map(function($job) {
+            'jobs' => $jobs->map(function ($job) {
                 return [
                     'id' => $job->id,
                     'title' => $job->title,
@@ -57,7 +56,7 @@ class CareerController extends Controller
                     'benefits_array' => $job->benefits_array,
                     'formatted_salary' => $job->formatted_salary,
                 ];
-            })
+            }),
         ]);
     }
 }

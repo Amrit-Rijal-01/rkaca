@@ -46,6 +46,7 @@ class CreateAdminCommand extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return 1;
         }
 
@@ -57,9 +58,9 @@ class CreateAdminCommand extends Command
             'role' => 'admin',
         ]);
 
-        $this->info("Admin user created successfully!");
+        $this->info('Admin user created successfully!');
         $this->info("Email: {$user->email}");
-        $this->info("You can now login at /login");
+        $this->info('You can now login at /login');
 
         return 0;
     }

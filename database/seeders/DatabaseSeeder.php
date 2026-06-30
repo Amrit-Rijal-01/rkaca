@@ -2,20 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Page;
-use App\Models\Blog;
-use App\Models\Service;
-use App\Models\Career;
-use App\Models\Contact;
-use App\Models\Event;
-use App\Models\Industry;
-use App\Models\IndustryExpertise;
-use App\Models\Office;
-use App\Models\Insight;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\EventSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user only if doesn't exist
-        if (!User::where('email', 'admin@example.com')->exists()) {
+        if (! User::where('email', 'admin@example.com')->exists()) {
             User::factory()->create([
                 'name' => 'Admin User',
                 'email' => 'admin@example.com',
@@ -36,7 +26,7 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
 
         // Create main pages
-        if (!Page::where('slug', 'home')->exists()) {
+        if (! Page::where('slug', 'home')->exists()) {
             Page::factory()->create([
                 'title' => 'Home',
                 'slug' => 'home',
@@ -45,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (!Page::where('slug', 'about')->exists()) {
+        if (! Page::where('slug', 'about')->exists()) {
             Page::factory()->create([
                 'title' => 'About Us',
                 'slug' => 'about',

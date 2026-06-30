@@ -35,7 +35,7 @@ return new class extends Migration
                 'meta_description',
                 'tags',
                 'category_slug',
-                'is_active'
+                'is_active',
             ]);
         });
     }

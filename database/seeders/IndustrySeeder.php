@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Industry;
+use Illuminate\Database\Seeder;
 
 class IndustrySeeder extends Seeder
 {
@@ -23,7 +23,7 @@ class IndustrySeeder extends Seeder
                     'Medical practice accounting',
                     'Healthcare compliance audits',
                     'Revenue cycle management',
-                    'Medical equipment financing'
+                    'Medical equipment financing',
                 ],
                 'svg_icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
                 'category' => 'Healthcare',
@@ -31,7 +31,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 1,
                 'is_featured' => true,
                 'meta_title' => 'Healthcare & Medical Financial Services',
-                'meta_description' => 'Specialized accounting and financial services for healthcare providers, hospitals, and medical practices.'
+                'meta_description' => 'Specialized accounting and financial services for healthcare providers, hospitals, and medical practices.',
             ],
             [
                 'name' => 'Manufacturing & Industrial',
@@ -43,7 +43,7 @@ class IndustrySeeder extends Seeder
                     'Cost accounting systems',
                     'Inventory management',
                     'Supply chain finance',
-                    'Industrial tax planning'
+                    'Industrial tax planning',
                 ],
                 'svg_icon' => 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
                 'category' => 'Manufacturing',
@@ -51,7 +51,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 2,
                 'is_featured' => true,
                 'meta_title' => 'Manufacturing & Industrial Financial Services',
-                'meta_description' => 'Expert financial management for manufacturers including cost accounting and inventory optimization.'
+                'meta_description' => 'Expert financial management for manufacturers including cost accounting and inventory optimization.',
             ],
             [
                 'name' => 'Technology & Software',
@@ -63,7 +63,7 @@ class IndustrySeeder extends Seeder
                     'Software revenue recognition',
                     'R&D tax incentives',
                     'IP valuation',
-                    'Startup financial planning'
+                    'Startup financial planning',
                 ],
                 'svg_icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                 'category' => 'Technology',
@@ -71,7 +71,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 3,
                 'is_featured' => true,
                 'meta_title' => 'Technology & Software Financial Services',
-                'meta_description' => 'Specialized accounting for tech companies, startups, and software developers.'
+                'meta_description' => 'Specialized accounting for tech companies, startups, and software developers.',
             ],
             [
                 'name' => 'Real Estate & Construction',
@@ -83,7 +83,7 @@ class IndustrySeeder extends Seeder
                     'Project cost accounting',
                     'Property valuation',
                     'Construction audits',
-                    'Real estate tax planning'
+                    'Real estate tax planning',
                 ],
                 'svg_icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
                 'category' => 'Real Estate',
@@ -91,7 +91,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 4,
                 'is_featured' => false,
                 'meta_title' => 'Real Estate & Construction Financial Services',
-                'meta_description' => 'Project accounting and financial management for real estate and construction companies.'
+                'meta_description' => 'Project accounting and financial management for real estate and construction companies.',
             ],
             [
                 'name' => 'Financial Services',
@@ -103,7 +103,7 @@ class IndustrySeeder extends Seeder
                     'Banking compliance',
                     'Insurance accounting',
                     'Investment audits',
-                    'Fintech advisory'
+                    'Fintech advisory',
                 ],
                 'svg_icon' => 'M3 10l9-7 9 7 M21 10v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6 M8 10v6M12 10v6M16 10v6 M7 21h10',
                 'category' => 'Financial',
@@ -111,7 +111,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 5,
                 'is_featured' => false,
                 'meta_title' => 'Financial Services Industry Solutions',
-                'meta_description' => 'Specialized services for banks, insurance companies, and fintech organizations.'
+                'meta_description' => 'Specialized services for banks, insurance companies, and fintech organizations.',
             ],
             [
                 'name' => 'Non-Profit & NGOs',
@@ -123,7 +123,7 @@ class IndustrySeeder extends Seeder
                     'Grant accounting',
                     'Donor compliance',
                     'Impact reporting',
-                    'Non-profit audits'
+                    'Non-profit audits',
                 ],
                 'svg_icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
                 'category' => 'Non-Profit',
@@ -131,7 +131,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 6,
                 'is_featured' => false,
                 'meta_title' => 'Non-Profit & NGO Financial Services',
-                'meta_description' => 'Accounting and compliance services for non-profit organizations and NGOs.'
+                'meta_description' => 'Accounting and compliance services for non-profit organizations and NGOs.',
             ],
             [
                 'name' => 'Hospitality & Tourism',
@@ -143,7 +143,7 @@ class IndustrySeeder extends Seeder
                     'Hotel revenue management',
                     'Restaurant accounting',
                     'Tourism tax planning',
-                    'Seasonal cash flow'
+                    'Seasonal cash flow',
                 ],
                 'svg_icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
                 'category' => 'Hospitality',
@@ -151,7 +151,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 7,
                 'is_featured' => false,
                 'meta_title' => 'Hospitality & Tourism Financial Services',
-                'meta_description' => 'Financial management for hotels, restaurants, and tourism businesses.'
+                'meta_description' => 'Financial management for hotels, restaurants, and tourism businesses.',
             ],
             [
                 'name' => 'Education & Training',
@@ -163,7 +163,7 @@ class IndustrySeeder extends Seeder
                     'Educational accounting',
                     'Student fee management',
                     'Institutional audits',
-                    'Education compliance'
+                    'Education compliance',
                 ],
                 'svg_icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
                 'category' => 'Education',
@@ -171,7 +171,7 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 8,
                 'is_featured' => false,
                 'meta_title' => 'Education & Training Financial Services',
-                'meta_description' => 'Financial management for educational institutions and training centers.'
+                'meta_description' => 'Financial management for educational institutions and training centers.',
             ],
             [
                 'name' => 'Retail & E-commerce',
@@ -183,7 +183,7 @@ class IndustrySeeder extends Seeder
                     'Retail accounting systems',
                     'E-commerce analytics',
                     'Multi-channel reporting',
-                    'Customer profitability'
+                    'Customer profitability',
                 ],
                 'svg_icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z',
                 'category' => 'Retail',
@@ -191,8 +191,8 @@ class IndustrySeeder extends Seeder
                 'sort_order' => 9,
                 'is_featured' => false,
                 'meta_title' => 'Retail & E-commerce Financial Services',
-                'meta_description' => 'Financial solutions for retail and e-commerce businesses.'
-            ]
+                'meta_description' => 'Financial solutions for retail and e-commerce businesses.',
+            ],
         ];
 
         foreach ($industries as $industry) {

@@ -39,12 +39,12 @@ class JobApplication extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getResumeUrlAttribute()
     {
-        return $this->resume_path ? asset('storage/' . $this->resume_path) : null;
+        return $this->resume_path ? asset('storage/'.$this->resume_path) : null;
     }
 
     public function scopeByStatus($query, $status)

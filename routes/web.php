@@ -1,86 +1,81 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\CareerController;
-use App\Http\Controllers\JobApplicationController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\IndustryController;
-use App\Http\Controllers\OfficeController;
-use App\Http\Controllers\InsightController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AboutAdminController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\PageAdminController;
+use App\Http\Controllers\Admin\AuthorAdminController;
 use App\Http\Controllers\Admin\BlogAdminController;
-use App\Http\Controllers\Admin\EventAdminController;
 use App\Http\Controllers\Admin\CareerAdminController;
+use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\ContactInformationAdminController;
-use App\Http\Controllers\Admin\ServiceAdminController;
+use App\Http\Controllers\Admin\EventAdminController;
+use App\Http\Controllers\Admin\FooterSettingAdminController;
+use App\Http\Controllers\Admin\HomeSettingAdminController;
 use App\Http\Controllers\Admin\IndustryAdminController;
 use App\Http\Controllers\Admin\IndustryExpertiseAdminController;
-use App\Http\Controllers\Admin\OfficeAdminController;
 use App\Http\Controllers\Admin\InsightAdminController;
 use App\Http\Controllers\Admin\JumbotronController;
-use App\Http\Controllers\Admin\ServiceProcessController;
-use App\Http\Controllers\Admin\HomeSettingAdminController;
-use App\Http\Controllers\Admin\FooterSettingAdminController;
 use App\Http\Controllers\Admin\NavigationSettingAdminController;
+use App\Http\Controllers\Admin\OfficeAdminController;
+use App\Http\Controllers\Admin\PageAdminController;
 use App\Http\Controllers\Admin\PostAdminController;
-use App\Http\Controllers\Admin\CategoryAdminController;
+use App\Http\Controllers\Admin\ServiceAdminController;
+use App\Http\Controllers\Admin\ServiceProcessController;
 use App\Http\Controllers\Admin\TagAdminController;
-use App\Http\Controllers\Admin\AuthorAdminController;
 use App\Http\Controllers\Admin\TeamAdminController;
-use App\Http\Controllers\AboutAdminController;
-use App\Http\Controllers\Front\ServiceController as FrontServiceController;
-use App\Http\Controllers\Front\IndustryController as FrontIndustryController;
-use App\Http\Controllers\Front\InsightsController as FrontInsightsController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CareerController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\Front\AboutController as FrontAboutController;
-use App\Http\Controllers\Front\ContactController as FrontContactController;
-use App\Http\Controllers\Front\HomeController as FrontHomeController;
-use App\Http\Controllers\Front\OfficeController as FrontOfficeController;
-use App\Http\Controllers\Front\EventController as FrontEventController;
 use App\Http\Controllers\Front\BlogController as FrontBlogController;
 use App\Http\Controllers\Front\CareerController as FrontCareerController;
-use App\Http\Controllers\Front\TeamController as FrontTeamController;
+use App\Http\Controllers\Front\ContactController as FrontContactController;
+use App\Http\Controllers\Front\EventController as FrontEventController;
+use App\Http\Controllers\Front\HomeController as FrontHomeController;
+use App\Http\Controllers\Front\IndustryController as FrontIndustryController;
+use App\Http\Controllers\Front\InsightsController as FrontInsightsController;
+use App\Http\Controllers\Front\OfficeController as FrontOfficeController;
 use App\Http\Controllers\Front\SearchController as FrontSearchController;
-
-
-
+use App\Http\Controllers\Front\ServiceController as FrontServiceController;
+use App\Http\Controllers\Front\TeamController as FrontTeamController;
+use App\Http\Controllers\IndustryController;
+use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ServiceController;
+use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/services',[FrontServiceController::class,'index'])->name('services');
+Route::get('/services', [FrontServiceController::class, 'index'])->name('services');
 Route::get('/services/all', [FrontServiceController::class, 'getAll'])->name('services.all');
 Route::get('/industries', [FrontIndustryController::class, 'index'])->name('industries');
 Route::get('/insights', [FrontInsightsController::class, 'index'])->name('insights');
-Route::get('/events',[FrontEventController::class,'index'])->name('events');
+Route::get('/events', [FrontEventController::class, 'index'])->name('events');
 Route::get('/about', [FrontAboutController::class, 'index'])->name('about');
-Route::get('/offices', [FrontOfficeController::class,'index'])->name('offices');
+Route::get('/offices', [FrontOfficeController::class, 'index'])->name('offices');
 Route::get('/blogs', [FrontBlogController::class, 'index'])->name('blogs');
 Route::get('/blog/{slug}', [FrontBlogController::class, 'show'])->name('blog.detail');
 Route::get('/careers', [FrontCareerController::class, 'index'])->name('careers');
-Route::post('/carrers/apply',[FrontCareerController::class,'apply'])->name('application.store');
+Route::post('/carrers/apply', [FrontCareerController::class, 'apply'])->name('application.store');
 Route::get('/contact', [FrontContactController::class, 'index'])->name('contact');
 Route::get('/', [FrontHomeController::class, 'home'])->name('home');
 Route::get('/industries/all', [FrontIndustryController::class, 'getAll'])->name('industries.all');
 
-// Appointment Routes  
-Route::get('/consultation', function() { return view('new.consultation'); })->name('consultation');
+// Appointment Routes
+Route::get('/consultation', function () {
+    return view('new.consultation');
+})->name('consultation');
 Route::post('/appointments', [App\Http\Controllers\AppointmentController::class, 'store'])->name('appointments.store');
 
 // Search Routes
 Route::get('/search', [FrontSearchController::class, 'searchPage'])->name('search.page');
 Route::get('/api/search', [FrontSearchController::class, 'search'])->name('search.api');
-
-
-
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
@@ -183,7 +178,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('careers', CareerAdminController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
     // Redirect careers index to benefits page (main careers management)
-    Route::get('careers', function() {
+    Route::get('careers', function () {
         return redirect()->route('admin.careers.benefits');
     })->name('careers.index');
 
@@ -416,15 +411,10 @@ Route::get('/consultation', function () {
 
 // Dynamic page routes (should be last)
 
-
-
 Route::get('/{slug}', [PageController::class, 'show'])->name('pages.show');
 
-
-//temp routes
-//singlepge routes
+// temp routes
+// singlepge routes
 
 Route::get('/industryDetails/{id}', [FrontIndustryController::class, 'show'])->name('industryDetails');
 Route::get('/serviceDetails/{id}', [FrontServiceController::class, 'show'])->name('serviceDetails');
-
-

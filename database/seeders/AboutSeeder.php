@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\About;
 use App\Models\AboutCoreValue;
-use App\Models\AboutTeamMember;
 use App\Models\AboutExpertiseArea;
+use App\Models\AboutTeamMember;
 use App\Models\AboutWhyChooseUs;
+use Illuminate\Database\Seeder;
 
 class AboutSeeder extends Seeder
 {

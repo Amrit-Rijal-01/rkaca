@@ -19,14 +19,15 @@ class EventFactory extends Factory
         $title = fake()->sentence(4);
         $startDate = fake()->dateTimeBetween('now', '+3 months');
         $endDateMax = (clone $startDate)->modify('+1 month');
+
         return [
             'title' => $title,
             'slug' => fake()->slug(),
             'description' => fake()->paragraphs(2, true),
-            'location' => fake()->city() . ', ' . fake()->state(),
+            'location' => fake()->city().', '.fake()->state(),
             'start_date' => $startDate,
             'end_date' => fake()->dateTimeBetween($startDate, $endDateMax),
-            'featured_image' => 'https://picsum.photos/800/600?random=' . fake()->numberBetween(1, 1000),
+            'featured_image' => 'https://picsum.photos/800/600?random='.fake()->numberBetween(1, 1000),
             'status' => 'active',
         ];
     }

@@ -79,8 +79,9 @@ class Event extends Model
     public function getFormattedTimeAttribute()
     {
         if ($this->start_time && $this->end_time) {
-            return $this->start_time->format('g:i A') . ' - ' . $this->end_time->format('g:i A');
+            return $this->start_time->format('g:i A').' - '.$this->end_time->format('g:i A');
         }
+
         return null;
     }
 
@@ -99,6 +100,6 @@ class Event extends Model
 
     public function getImageUrlAttribute()
     {
-        return $this->featured_image ? asset('storage/' . $this->featured_image) : null;
+        return $this->featured_image ? asset('storage/'.$this->featured_image) : null;
     }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Models\About;
 use App\Models\AboutCoreValue;
-use App\Models\AboutTeamMember;
 use App\Models\AboutExpertiseArea;
+use App\Models\AboutTeamMember;
 use App\Models\AboutWhyChooseUs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,10 +16,18 @@ class AboutAdminController extends Controller
     public function index()
     {
         $about = About::with([
-            'coreValues' => function($query) { $query->orderBy('sort_order'); },
-            'teamMembers' => function($query) { $query->orderBy('sort_order'); },
-            'expertiseAreas' => function($query) { $query->orderBy('sort_order'); },
-            'whyChooseUsItems' => function($query) { $query->orderBy('sort_order'); }
+            'coreValues' => function ($query) {
+                $query->orderBy('sort_order');
+            },
+            'teamMembers' => function ($query) {
+                $query->orderBy('sort_order');
+            },
+            'expertiseAreas' => function ($query) {
+                $query->orderBy('sort_order');
+            },
+            'whyChooseUsItems' => function ($query) {
+                $query->orderBy('sort_order');
+            },
         ])->first();
 
         return view('admin.about.index', compact('about'));
@@ -242,6 +250,7 @@ class AboutAdminController extends Controller
     {
         AboutWhyChooseUs::findOrFail($id)->delete();
         $this->renderAboutMainContent();
+
         return redirect()->back()->with('success', 'Why choose us item deleted successfully!');
     }
 
@@ -249,47 +258,51 @@ class AboutAdminController extends Controller
     public function toggleCoreValueStatus($id)
     {
         $coreValue = AboutCoreValue::findOrFail($id);
-        $coreValue->update(['is_active' => !$coreValue->is_active]);
+        $coreValue->update(['is_active' => ! $coreValue->is_active]);
+
         return redirect()->back()->with('success', 'Core value status updated!');
     }
 
     public function toggleTeamMemberStatus($id)
     {
         $teamMember = AboutTeamMember::findOrFail($id);
-        $teamMember->update(['is_active' => !$teamMember->is_active]);
+        $teamMember->update(['is_active' => ! $teamMember->is_active]);
+
         return redirect()->back()->with('success', 'Team member status updated!');
     }
 
     public function toggleExpertiseAreaStatus($id)
     {
         $expertiseArea = AboutExpertiseArea::findOrFail($id);
-        $expertiseArea->update(['is_active' => !$expertiseArea->is_active]);
+        $expertiseArea->update(['is_active' => ! $expertiseArea->is_active]);
+
         return redirect()->back()->with('success', 'Expertise area status updated!');
     }
 
     public function toggleWhyChooseUsStatus($id)
     {
         $whyChooseUs = AboutWhyChooseUs::findOrFail($id);
-        $whyChooseUs->update(['is_active' => !$whyChooseUs->is_active]);
+        $whyChooseUs->update(['is_active' => ! $whyChooseUs->is_active]);
+
         return redirect()->back()->with('success', 'Why choose us item status updated!');
     }
 
-    public function renderAboutMainContent(){
-             $about = \App\Models\About::with([
-            'coreValues' => function($query) {
+    public function renderAboutMainContent()
+    {
+        $about = \App\Models\About::with([
+            'coreValues' => function ($query) {
                 $query->where('is_active', true)->orderBy('sort_order');
             },
-            'teamMembers' => function($query) {
+            'teamMembers' => function ($query) {
                 $query->where('is_active', true)->orderBy('sort_order');
             },
-            'expertiseAreas' => function($query) {
+            'expertiseAreas' => function ($query) {
                 $query->where('is_active', true)->orderBy('sort_order');
             },
-            'whyChooseUsItems' => function($query) {
+            'whyChooseUsItems' => function ($query) {
                 $query->where('is_active', true)->orderBy('sort_order');
-            }
+            },
         ])->where('is_active', true)->first();
-        Helper::putCache('about.index',view('admin.template.about.main',compact('about')));
+        Helper::putCache('about.index', view('admin.template.about.main', compact('about')));
     }
-
 }

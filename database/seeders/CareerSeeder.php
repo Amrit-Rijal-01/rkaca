@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\CareerBenefit;
-use App\Models\JobOpening;
 use App\Models\CareerTestimonial;
+use App\Models\JobOpening;
+use Illuminate\Database\Seeder;
 
 class CareerSeeder extends Seeder
 {

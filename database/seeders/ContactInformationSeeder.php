@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ContactInformation;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ContactInformationSeeder extends Seeder
@@ -24,7 +23,7 @@ class ContactInformationSeeder extends Seeder
                 'twitter' => 'https://twitter.com/charteredinsights',
                 'facebook' => 'https://facebook.com/charteredinsights',
             ],
-            'map_embed_url' => "", // To be filled by admin
+            'map_embed_url' => '', // To be filled by admin
             'google_maps_link' => 'https://maps.google.com',
             'business_hours' => [
                 'monday' => '9:00 AM - 6:00 PM',

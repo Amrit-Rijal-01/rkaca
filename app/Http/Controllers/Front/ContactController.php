@@ -3,24 +3,20 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\ContactInformation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-
-
-
 
 class ContactController extends Controller
 {
     public function index()
     {
         $contactInfo = ContactInformation::getActive();
-        $jumbotrons=DB::table('jumbotrons')->where('page_slug','contact')->where('is_active',1)->orderBy('sort_order','asc')->get();
-       $footer_setting = \App\Models\FooterSetting::getInstance();
-  
-        return view('new.contact', compact('contactInfo','jumbotrons','footer_setting'));
+        $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'contact')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
+        $footer_setting = \App\Models\FooterSetting::getInstance();
+
+        return view('new.contact', compact('contactInfo', 'jumbotrons', 'footer_setting'));
     }
 
     public function store(Request $request)
@@ -37,7 +33,7 @@ class ContactController extends Controller
         ]);
 
         // Combine first and last name
-        $name = $request->first_name . ' ' . $request->last_name;
+        $name = $request->first_name.' '.$request->last_name;
 
         Contact::create([
             'name' => $name,
@@ -51,5 +47,3 @@ class ContactController extends Controller
         return redirect()->route('contact')->with('success', 'Thank you for your message. We will get back to you soon!');
     }
 }
-
-

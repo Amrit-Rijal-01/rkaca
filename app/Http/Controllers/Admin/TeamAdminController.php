@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-
 
 class TeamAdminController extends Controller
 {
@@ -17,6 +15,7 @@ class TeamAdminController extends Controller
     public function index()
     {
         $teams = Team::paginate(6);
+
         return view('admin.teams.index', compact('teams'));
     }
 
@@ -72,6 +71,7 @@ class TeamAdminController extends Controller
     public function edit(Team $team)
     {
         $team = Team::find($team->id);
+
         return view('admin.teams.edit', compact('team'));
     }
 

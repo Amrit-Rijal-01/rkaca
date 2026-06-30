@@ -9,11 +9,11 @@ use App\Models\Team;
 
 // Check if teams exist
 $teamCount = Team::count();
-echo "Current team count: " . $teamCount . "\n";
+echo 'Current team count: '.$teamCount."\n";
 
 if ($teamCount == 0) {
     echo "Seeding teams...\n";
-    
+
     $teams = [
         [
             'name' => 'Priya Sharma',
@@ -50,9 +50,9 @@ if ($teamCount == 0) {
     foreach ($teams as $team) {
         Team::create($team);
     }
-    
+
     echo "Teams seeded successfully!\n";
-    echo "New team count: " . Team::count() . "\n";
+    echo 'New team count: '.Team::count()."\n";
 } else {
     echo "Teams already exist!\n";
 }

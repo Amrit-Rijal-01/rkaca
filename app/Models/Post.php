@@ -20,12 +20,12 @@ class Post extends Model
         'category_id',
         'status',
         'is_featured',
-        'published_at'
+        'published_at',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'is_featured' => 'boolean'
+        'is_featured' => 'boolean',
     ];
 
     // Auto-generate slug when creating
@@ -89,7 +89,7 @@ class Post extends Model
 
     public function getThumbnailUrlAttribute()
     {
-        return $this->thumbnail ? asset('storage/' . $this->thumbnail) : 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800&auto=format&fit=crop';
+        return $this->thumbnail ? asset('storage/'.$this->thumbnail) : 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800&auto=format&fit=crop';
     }
 
     public function getFormattedDateAttribute()

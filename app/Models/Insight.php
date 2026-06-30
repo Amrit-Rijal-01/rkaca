@@ -45,8 +45,8 @@ class Insight extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
-                    ->where('is_active', true)
-                    ->whereNotNull('published_at');
+            ->where('is_active', true)
+            ->whereNotNull('published_at');
     }
 
     /**
@@ -88,7 +88,7 @@ class Insight extends Model
     {
         $this->attributes['title'] = $value;
 
-        if (!$this->slug) {
+        if (! $this->slug) {
             $this->attributes['slug'] = Str::slug($value);
         }
     }
@@ -106,11 +106,11 @@ class Insight extends Model
      */
     public function getReadTimeTextAttribute()
     {
-        if (!$this->read_time) {
+        if (! $this->read_time) {
             return null;
         }
 
-        return $this->read_time . ' min read';
+        return $this->read_time.' min read';
     }
 
     /**

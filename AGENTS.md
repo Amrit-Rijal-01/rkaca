@@ -86,21 +86,14 @@ Cache TTL: 3600s. **Manual DB updates bypass events — call `clearCache()` your
 Entry points: `resources/css/app.css`, `resources/js/app.js`.
 - `composer run dev` — starts PHP + queue + Pail + Vite together.
 - `npm run build` — production build.
-
-## Setup
-```bash
-composer install && npm install
-cp .env.example .env && php artisan key:generate
-php artisan migrate --seed
-composer run dev   # http://localhost:8000 | admin at /admin
-php artisan test
-```
+- no test needed.
 
 ## Code Style
 - PSR-12; run `./vendor/bin/pint` before committing.
 - No raw PHP in Blade; use components/directives.
 - Sanitise rich text with `mews/purifier`.
 - Images: `Storage::disk('public')` + `php artisan storage:link`.
+- Always use ponytail.md file inside /agents/rules/ folder.
 
 ## Pitfalls
 1. **Duplicate routes**: `/consultation` defined twice. Check before adding routes.

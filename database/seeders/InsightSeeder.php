@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\InsightCategory;
 use App\Models\Insight;
+use App\Models\InsightCategory;
+use Illuminate\Database\Seeder;
 
 class InsightSeeder extends Seeder
 {

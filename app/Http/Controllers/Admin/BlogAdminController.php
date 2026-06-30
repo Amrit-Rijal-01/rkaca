@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogAdminController extends Controller
 {
     public function index()
     {
         $blogs = Blog::latest()->paginate(15);
+
         return view('admin.blogs.index', compact('blogs'));
     }
 
@@ -40,7 +41,7 @@ class BlogAdminController extends Controller
         // Handle file upload
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
-            $imageName = time() . '_' . Str::slug($data['title']) . '.' . $image->getClientOriginalExtension();
+            $imageName = time().'_'.Str::slug($data['title']).'.'.$image->getClientOriginalExtension();
             $imagePath = $image->storeAs('blogs', $imageName, 'public');
             $data['featured_image'] = $imagePath;
         }
@@ -65,7 +66,7 @@ class BlogAdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:blogs,slug,' . $blog->id,
+            'slug' => 'nullable|string|max:255|unique:blogs,slug,'.$blog->id,
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -85,7 +86,7 @@ class BlogAdminController extends Controller
             }
 
             $image = $request->file('featured_image');
-            $imageName = time() . '_' . Str::slug($data['title']) . '.' . $image->getClientOriginalExtension();
+            $imageName = time().'_'.Str::slug($data['title']).'.'.$image->getClientOriginalExtension();
             $imagePath = $image->storeAs('blogs', $imageName, 'public');
             $data['featured_image'] = $imagePath;
         }

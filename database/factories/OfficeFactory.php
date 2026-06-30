@@ -17,8 +17,9 @@ class OfficeFactory extends Factory
     public function definition(): array
     {
         $city = fake()->city();
+
         return [
-            'name' => $city . ' Office',
+            'name' => $city.' Office',
             'slug' => fake()->slug(),
             'address' => fake()->streetAddress(),
             'city' => $city,

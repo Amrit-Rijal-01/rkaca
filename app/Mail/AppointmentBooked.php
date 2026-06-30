@@ -2,13 +2,12 @@
 
 namespace App\Mail;
 
+use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Appointment;
 
 class AppointmentBooked extends Mailable
 {
@@ -30,7 +29,7 @@ class AppointmentBooked extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Appointment Booking - ' . $this->appointment->name,
+            subject: 'New Appointment Booking - '.$this->appointment->name,
         );
     }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -84,7 +84,7 @@ class BlogController extends Controller
 
         return response()->json([
             'html' => $html,
-            'hasMore' => $posts->hasMorePages()
+            'hasMore' => $posts->hasMorePages(),
         ]);
     }
 }

@@ -14,7 +14,7 @@ class Category extends Model
         'name',
         'slug',
         'description',
-        'icon'
+        'icon',
     ];
 
     // Auto-generate slug when creating
@@ -48,7 +48,7 @@ class Category extends Model
 
     public function getIconUrlAttribute()
     {
-        return $this->icon ? asset('storage/' . $this->icon) : null;
+        return $this->icon ? asset('storage/'.$this->icon) : null;
     }
 
     public function getPostsCountAttribute()
