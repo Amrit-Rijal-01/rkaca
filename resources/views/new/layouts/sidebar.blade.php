@@ -120,13 +120,6 @@
     <div class="rka-sidebar-scope">
         <div class="overlay" id="overlay"></div>
         <div class="sidebar" id="sidebar">
-            <div class="page-preview" id="page-preview">
-                <h3 id="preview-title"></h3>
-                <img id="preview-image" src="" alt="Page Preview">
-                <p id="preview-description"></p>
-                <div class="tags" id="preview-tags"></div>
-                <div class="services-container" id="preview-services"></div>
-            </div>
             @if (isset($navigationItems) && $navigationItems->where('page_slug', 'home')->first())
                 @php $homeNav = $navigationItems->where('page_slug', 'home')->first(); @endphp
                 <a href="{{ route($homeNav->route_name) }}" data-tooltip="{{ $homeNav->page_title }}"
@@ -350,6 +343,12 @@
                 </span>
             </a>
         </div>
+        <div class="page-preview" id="page-preview">
+            <h3 id="preview-title"></h3>
+            <p id="preview-description"></p>
+            <div class="tags" id="preview-tags"></div>
+            <div class="services-container" id="preview-services"></div>
+        </div>
     </div>
 
     <div class="rka-content-scope" id="main-content">
@@ -401,6 +400,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let activeTimeline = null;
+        let closeTimeout = null;
+
+        function startCloseTimeout() {
+            if (closeTimeout) clearTimeout(closeTimeout);
+            closeTimeout = setTimeout(() => {
+                closePreviewPanel();
+            }, 50);
+        }
+
+        function clearCloseTimeout() {
+            if (closeTimeout) {
+                clearTimeout(closeTimeout);
+                closeTimeout = null;
+            }
+        }
 
         function closePreviewPanel() {
             const previewPanel = document.getElementById('page-preview');
@@ -429,12 +443,12 @@
                     .to(previewPanel, {
                         opacity: 0,
                         x: '5%',
-                        duration: 0.3,
+                        duration: 0.25,
                         ease: 'power3.inOut'
                     })
                     .to(overlay, {
                         opacity: 0,
-                        duration: 0.3,
+                        duration: 0.25,
                         ease: 'power3.inOut'
                     }, 0);
             }
@@ -881,7 +895,7 @@
                     ease: 'power3.out'
                 });
                 gsap.to(previewPanel, {
-                    left: isActive ? 480 : 80,
+                    left: isActive ? 492 : 92, // ponytail: sidebar width + 12px gap
                     duration: 0.2,
                     ease: 'power3.out'
                 });
@@ -911,7 +925,6 @@
                 '.rka-sidebar-scope .sidebar a, .rka-sidebar-scope .sidebar .text-item');
             const previewPanel = document.getElementById('page-preview');
             const previewTitle = document.getElementById('preview-title');
-            const previewImage = document.getElementById('preview-image');
             const previewDescription = document.getElementById('preview-description');
             const previewTags = document.getElementById('preview-tags');
             const previewServices = document.getElementById('preview-services');
@@ -933,23 +946,18 @@
                 link.addEventListener('mouseenter', () => {
                     if (isMobile || link.getAttribute('href') === currentPath) return;
 
+                    // ponytail: cancel any pending close timeouts
+                    clearCloseTimeout();
 
                     if (activeTimeline) {
                         activeTimeline.kill();
                     }
 
-
-                    activeTimeline = gsap.timeline({
-                        onStart: () => {
-                            previewPanel.classList.add('active');
-                            overlay.classList.add('active');
-                        }
-                    });
-
+                    // ponytail: hide the card synchronously so we don't see content or position jumping/flashing
+                    previewPanel.style.opacity = '0';
+                    previewPanel.style.visibility = 'hidden';
 
                     previewTitle.textContent = link.getAttribute('data-tooltip');
-                    previewImage.src = link.getAttribute('data-image');
-                    previewImage.alt = `${link.getAttribute('data-tooltip')} Preview`;
                     previewDescription.textContent = link.getAttribute('data-description');
                     const tags = link.getAttribute('data-tags')?.split(',') || [];
                     previewTags.innerHTML = tags.map(tag =>
@@ -974,6 +982,36 @@
                         `).join('');
                     }
 
+                    // --- Viewport-safe positioning ---
+                    const linkRect = link.getBoundingClientRect();
+                    const linkCenter = linkRect.top + linkRect.height / 2;
+
+                    // Temporarily force display inline to calculate layout height synchronously
+                    previewPanel.style.display = 'flex';
+                    previewPanel.classList.add('active');
+
+                    // Read offsetHeight (clamped by CSS max-height) to force synchronous reflow
+                    const cardH = previewPanel.offsetHeight || 380;
+
+                    // Reset inline display style
+                    previewPanel.style.display = '';
+
+                    const vpH = window.innerHeight;
+                    const minTop = 92; // 80px header + 12px gap
+                    const bottomPad = 12;
+
+                    // Centre on the hovered link, then clamp so card never leaves viewport
+                    let cardTop = linkCenter - cardH / 2;
+                    cardTop = Math.max(minTop, Math.min(cardTop, vpH - bottomPad - cardH));
+                    previewPanel.style.top = `${cardTop}px`;
+
+                    // Now trigger GSAP animation to fade in
+                    activeTimeline = gsap.timeline({
+                        onStart: () => {
+                            previewPanel.classList.add('active');
+                            overlay.classList.add('active');
+                        }
+                    });
 
                     activeTimeline
                         .set(previewPanel, {
@@ -1000,6 +1038,15 @@
                         }, 0);
                 });
             });
+
+            // ponytail: clear close timeout when entering the hover card, start close timeout on leaving it
+            const previewPanelEl = document.getElementById('page-preview');
+            if (previewPanelEl) {
+                previewPanelEl.removeEventListener('mouseenter', clearCloseTimeout);
+                previewPanelEl.removeEventListener('mouseleave', startCloseTimeout);
+                previewPanelEl.addEventListener('mouseenter', clearCloseTimeout);
+                previewPanelEl.addEventListener('mouseleave', startCloseTimeout);
+            }
         }
 
         let resizeTimeout;
@@ -1024,7 +1071,7 @@
                     gsap.set(previewPanel, {
                         opacity: 0,
                         visibility: 'hidden',
-                        left: 80,
+                        left: 92,
                         x: 0,
                         scaleX: 1
                     });
@@ -1046,7 +1093,7 @@
                         visibility: 'visible'
                     });
                     gsap.set(previewPanel, {
-                        left: 80,
+                        left: 92,
                         opacity: 0,
                         visibility: 'hidden',
                         x: 0,
@@ -1119,11 +1166,11 @@
             });
             document.addEventListener('click', handleOutsideClick);
 
-            // Close preview panel when mouse leaves the sidebar
+            // Close preview panel when mouse leaves the sidebar with a delay
             const sidebarElement = document.getElementById('sidebar');
             if (sidebarElement) {
                 sidebarElement.addEventListener('mouseleave', () => {
-                    closePreviewPanel();
+                    startCloseTimeout();
                 });
             }
 

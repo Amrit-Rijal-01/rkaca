@@ -4,7 +4,7 @@
     <meta name="description"
         content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
     <meta name="keywords" content="blog, insights, {{ $blog->title }}">
-    <meta name="author" content="{{ $blog->author }}">
+    <meta name="author" content="{{ $blog->author?->name }}">
 
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $blog->title }}">
@@ -12,8 +12,8 @@
         content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ url()->current() }}">
-    @if ($blog->featured_image)
-        <meta property="og:image" content="{{ asset('storage/' . $blog->featured_image) }}">
+    @if ($blog->thumbnail)
+        <meta property="og:image" content="{{ $blog->thumbnail_url }}">
     @endif
 
     <!-- Twitter Card -->
@@ -21,8 +21,8 @@
     <meta name="twitter:title" content="{{ $blog->title }}">
     <meta name="twitter:description"
         content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
-    @if ($blog->featured_image)
-        <meta name="twitter:image" content="{{ asset('storage/' . $blog->featured_image) }}">
+    @if ($blog->thumbnail)
+        <meta name="twitter:image" content="{{ $blog->thumbnail_url }}">
     @endif
 @endsection
 
@@ -359,7 +359,7 @@
                         <div class="blog-meta-info gsap-animate" data-delay="0.2">
                             <div class="meta-item">
                                 <i class="fas fa-user"></i>
-                                <span>{{ $blog->author }}</span>
+                                <span>{{ $blog->author?->name }}</span>
                             </div>
                             <div class="meta-item">
                                 <i class="fas fa-calendar"></i>
@@ -386,9 +386,9 @@
                             </a>
 
                             <!-- Featured Image -->
-                            @if ($blog->featured_image)
+                            @if ($blog->thumbnail)
                                 <div class="blog-featured-image gsap-animate" data-delay="0.2">
-                                    <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}"
+                                    <img src="{{ $blog->thumbnail_url }}" alt="{{ $blog->title }}"
                                         class="img-fluid">
                                 </div>
                             @endif
@@ -437,9 +437,9 @@
                             @foreach ($relatedBlogs as $index => $relatedBlog)
                                 <div class="col-md-6 col-lg-4 gsap-animate" data-delay="{{ 0.3 + $index * 0.1 }}">
                                     <div class="related-blog-card">
-                                        @if ($relatedBlog->featured_image)
+                                        @if ($relatedBlog->thumbnail)
                                             <div class="related-blog-image">
-                                                <img src="{{ asset('storage/' . $relatedBlog->featured_image) }}"
+                                                <img src="{{ $relatedBlog->thumbnail_url }}"
                                                     alt="{{ $relatedBlog->title }}">
                                             </div>
                                         @endif
@@ -452,7 +452,7 @@
                                                 {{ $relatedBlog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($relatedBlog->content), 100) }}
                                             </p>
                                             <div class="related-blog-meta">
-                                                By {{ $relatedBlog->author }} •
+                                                By {{ $relatedBlog->author?->name }} •
                                                 {{ $relatedBlog->published_at ? $relatedBlog->published_at->format('M d, Y') : $relatedBlog->created_at->format('M d, Y') }}
                                             </div>
                                         </div>

@@ -17,7 +17,7 @@
     <div class="rka-footer-scope">
         <footer class="footer">
             <div class="section-container">
-                <div class="footer-grid">
+                <div class="footer-grid text-justify">
                     <div class="gsap-animate floating-element">
                         <h3>About Us</h3>
                         <p>{{ $footerSetting->company_name ?? 'Roshan Kumar & Associates' }} is a premier chartered

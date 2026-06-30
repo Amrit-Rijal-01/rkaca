@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blog;
+use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::where('status', 'published')->orderBy('published_at', 'desc')->get();
+        $blogs = Post::with(['author', 'category'])->published()->orderBy('published_at', 'desc')->get();
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'blogs')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
 
         return view('new.blogs', compact('blogs', 'jumbotrons'));
@@ -18,12 +18,15 @@ class BlogController extends Controller
 
     public function show($slug)
     {
-        $blog = Blog::where('slug', $slug)
-            ->where('status', 'published')
+        $blog = Post::with(['author', 'category', 'tags'])
+            ->where('slug', $slug)
+            ->published()
             ->firstOrFail();
 
-        // Get related blogs (same author or recent)
-        $relatedBlogs = Blog::where('status', 'published')
+        // Get related posts (same category or recent)
+        $relatedBlogs = Post::with(['author', 'category'])
+            ->published()
+            ->where('category_id', $blog->category_id)
             ->where('id', '!=', $blog->id)
             ->orderBy('published_at', 'desc')
             ->limit(3)

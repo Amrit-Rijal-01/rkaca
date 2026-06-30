@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blog;
 use App\Models\Career;
 use App\Models\Event;
 use App\Models\Industry;
 use App\Models\Insight;
+use App\Models\Post;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -49,7 +50,7 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Services Error: '.$e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Search Services Error: '.$e->getMessage());
             }
 
             // Search Industries
@@ -73,7 +74,7 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Industries Error: '.$e->getMessage());
+                Log::error('Search Industries Error: '.$e->getMessage());
             }
 
             // Search Insights
@@ -97,12 +98,12 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Insights Error: '.$e->getMessage());
+                Log::error('Search Insights Error: '.$e->getMessage());
             }
 
             // Search Blogs
             try {
-                $blogs = Blog::where('status', 'published')
+                $blogs = Post::published()
                     ->where(function ($q) use ($query) {
                         $q->where('title', 'like', '%'.$query.'%')
                             ->orWhere('content', 'like', '%'.$query.'%');
@@ -121,7 +122,7 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Blogs Error: '.$e->getMessage());
+                Log::error('Search Blogs Error: '.$e->getMessage());
             }
 
             // Search Events
@@ -145,7 +146,7 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Events Error: '.$e->getMessage());
+                Log::error('Search Events Error: '.$e->getMessage());
             }
 
             // Search Careers
@@ -169,7 +170,7 @@ class SearchController extends Controller
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::error('Search Careers Error: '.$e->getMessage());
+                Log::error('Search Careers Error: '.$e->getMessage());
             }
 
             // If no results found, provide some sample data for testing
@@ -186,7 +187,7 @@ class SearchController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            \Log::error('Search Controller Error: '.$e->getMessage());
+            Log::error('Search Controller Error: '.$e->getMessage());
 
             return response()->json([
                 'success' => false,

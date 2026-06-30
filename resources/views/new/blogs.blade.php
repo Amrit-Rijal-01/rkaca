@@ -30,15 +30,15 @@
                         @forelse($blogs as $index => $blog)
                             <div class="col-12 col-md-6 col-lg-4 gsap-animate" data-delay="{{ $index * 0.2 }}">
                                 <div class="blog-card">
-                                    @if ($blog->featured_image)
+                                    @if ($blog->thumbnail)
                                         <div class="blog-image">
-                                            <img src="{{ asset('storage/' . $blog->featured_image) }}"
+                                            <img src="{{ $blog->thumbnail_url }}"
                                                 alt="{{ $blog->title }}" class="img-fluid">
                                         </div>
                                     @endif
                                     <div class="content">
                                         <div class="blog-meta">
-                                            <span class="author">{{ $blog->author }}</span>
+                                            <span class="author">{{ $blog->author?->name }}</span>
                                             <span
                                                 class="date">{{ $blog->published_at ? $blog->published_at->format('M d, Y') : $blog->created_at->format('M d, Y') }}</span>
                                         </div>

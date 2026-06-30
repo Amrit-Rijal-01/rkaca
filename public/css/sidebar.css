@@ -352,28 +352,29 @@
 
 .rka-sidebar-scope .page-preview {
     position: fixed;
-    top: 0;
-    left: 80px;
-    width: 60vw;
-    max-width: 900px;
-    height: 89vh;
+    top: 92px;
+    left: 92px;
+    width: 380px;
+    max-width: 90vw;
+    height: auto; /* ponytail: JS overrides this per hover to clamp within viewport */
+    max-height: calc(100vh - 104px); /* ponytail: hard cap so card never overflows viewport */
     background: var(--white);
-
     border: 1px solid rgba(0, 43, 74, 0.1);
-    box-shadow: 0 12px 40px var(--shadow-lg);
+    box-shadow: 0 4px 15px rgba(0, 43, 74, 0.08);
+    border-radius: 12px;
     opacity: 0;
     visibility: hidden;
     z-index: 999;
-    padding: 32px;
+    padding: 24px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     transition: left 0.2s ease;
 }
 
-.rka-sidebar-scope .sidebar.active .page-preview {
-    left: 480px;
+.rka-sidebar-scope .sidebar.active ~ .page-preview {
+    left: 492px; /* ponytail: active sidebar (480px) + 12px gap */
 }
 
 .rka-sidebar-scope .page-preview.active {
@@ -381,33 +382,27 @@
     visibility: visible;
 }
 
+
 .rka-sidebar-scope .page-preview h3 {
-    font-size: 1.8rem;
+    font-size: 1.5rem; /* ponytail: slightly smaller heading for the compact card */
     color: var(--primary);
     margin: 0;
     font-weight: 600;
     font-family: "Lora", serif;
 }
 
-.rka-sidebar-scope .page-preview img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid var(--lighter);
-}
-
 .rka-sidebar-scope .page-preview p {
-    font-size: 1rem;
+    font-size: 0.95rem; /* ponytail: adjusted for readability in compact layout */
     color: var(--gray);
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
+    text-align: justify;
 }
 
 .rka-sidebar-scope .page-preview .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
 }
 
 .rka-sidebar-scope .page-preview .tag {
@@ -415,9 +410,9 @@
     align-items: center;
     background: var(--lighter);
     color: var(--primary);
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: background 0.2s ease;
 }
@@ -428,16 +423,16 @@
 
 .rka-sidebar-scope .page-preview .tag i {
     margin-right: 6px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 }
 
 .rka-sidebar-scope .page-preview .services-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    display: flex; /* ponytail: single-column layout for compact spacing */
+    flex-direction: column;
+    gap: 12px;
     background: transparent;
     border-radius: 12px;
-    padding: 8px 0;
+    padding: 4px 0;
 }
 
 .rka-sidebar-scope .page-preview .service-box {
@@ -447,7 +442,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px;
+    padding: 12px 16px; /* ponytail: tighter padding for compact card */
     border-radius: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

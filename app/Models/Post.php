@@ -84,7 +84,7 @@ class Post extends Model
     // Accessors
     public function getUrlAttribute()
     {
-        return route('blog.show', $this->slug);
+        return route('blog.detail', $this->slug);
     }
 
     public function getThumbnailUrlAttribute()
