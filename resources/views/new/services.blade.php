@@ -57,61 +57,20 @@
                         @endforeach
 
                     </div>
-                </div>
-
-                @if ($services->count() > 6)
-                    <div class="text-center mt-4">
-                        <a href="javascript:void(0)" id="viewAllBtn" class="btn-all gsap-animate">
-                            <span class="btn-text">View All Services</span>
-                            <span class="btn-spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i>
-                                Loading...</span>
-                        </a>
-                        <a href="javascript:void(0)" id="showLessBtn" class="btn-all gsap-animate" style="display:none;">
-                            <span class="btn-text">Show Less</span> <i class="fas fa-arrow-up"></i>
-                        </a>
-                    </div>
-                @endif
-    </div>
-    </section>
-
-    <!-- Service Details Section -->
-    <section class="service-details-section" id="service-details">
-        <div class="section-container">
-            <h2 class="gsap-animate">Service Details</h2>
-
-            <!-- FIXED: Added missing serviceDetails container -->
-            <div id="serviceDetails">
-                <div class="row g-4">
-                    @foreach ($services->take(6) as $index => $service)
-                        <div class="col-12 gsap-animate" id="service-{{ $service->id }}" data-delay="{{ $index * 0.15 }}">
-                            <div class="detail-card">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-6 detail-content">
-                                        <h3>{{ $service->title }}</h3>
-                                        <p>{{ $service->content }}</p>
-                                        @if (is_array($service->sub_services))
-                                            @foreach ($service->sub_services as $sub => $items)
-                                                <h4>{{ $sub }}</h4>
-                                                <ul>
-                                                    @foreach ($items as $item)
-                                                        <li>{{ $item }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <img src="{{ Storage::url($service->featured_image) }}"
-                                            alt="{{ $service->title }}">
-                                    </div>
-                                </div>
-                            </div>
+                    @if ($services->count() > 6)
+                        <div class="text-center mt-4">
+                            <a href="javascript:void(0)" id="viewAllBtn" class="btn-all gsap-animate">
+                                <span class="btn-text">View All Services</span>
+                                <span class="btn-spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i>
+                                    Loading...</span>
+                            </a>
+                            <a href="javascript:void(0)" id="showLessBtn" class="btn-all gsap-animate" style="display:none;">
+                                <span class="btn-text">Show Less</span> <i class="fas fa-arrow-up"></i>
+                            </a>
                         </div>
-                    @endforeach
+                    @endif
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
     <!-- Industry Expertise Section -->
     <section class="industries-section">
@@ -238,12 +197,10 @@
         // AJAX View All Services Implementation
         let allServicesLoaded = false;
         let originalServiceHtml = '';
-        let originalDetailHtml = '';
 
         $(document).ready(function() {
             // Store original content for "Show Less" functionality
             originalServiceHtml = $('#servicesGrid').html();
-            originalDetailHtml = $('#serviceDetails').html();
 
             // View All Button Handler
             $('#viewAllBtn').on('click', function() {
@@ -266,11 +223,6 @@
                         // Update services grid
                         if (response.services_html) {
                             $('#servicesGrid').html(response.services_html);
-                        }
-
-                        // Update service details
-                        if (response.details_html) {
-                            $('#serviceDetails').html(response.details_html);
                         }
 
                         // Animate new elements
@@ -301,7 +253,6 @@
             $('#showLessBtn').on('click', function() {
                 // Restore original content
                 $('#servicesGrid').html(originalServiceHtml);
-                $('#serviceDetails').html(originalDetailHtml);
 
                 // Update button states
                 $(this).hide();
@@ -319,8 +270,6 @@
                     ScrollTrigger.refresh();
                 }, 100);
             });
-
-
         });
     </script>
 @endsection

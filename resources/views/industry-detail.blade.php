@@ -24,7 +24,7 @@
                         </div>
 
                         <h1 class="hero-title">
-                            Industry Solutions & Expertise
+                            Industry Solutions & Expertise ???
                         </h1>
 
                         <p class="hero-description">

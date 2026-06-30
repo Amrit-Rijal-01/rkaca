@@ -127,7 +127,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-6 gsap-animate" data-delay="0.2">
+            <div class="col-lg-6 gsap-animate d-flex flex-column" data-delay="0.2">
                 <div class="contact-info-card mb-4">
                     <h3>Main Office -
                         {{ $footerSetting? Str::of(str_replace(',', '', $footerSetting->address))->explode(' ')->first(): 'N/A' }}
@@ -142,7 +142,7 @@
                             href="{{ 'mailto:' . ($footerSetting ? $footerSetting->email : '') }}"
                             class="text-secondary">{{ $footerSetting ? $footerSetting->email : 'N/A' }}</a></p>
                 </div>
-                <div class="contact-info-card">
+                <div class="contact-info-card flex-grow-1 d-flex flex-column">
                     <h3>Business Hours</h3>
                     <ul>
                         @if (
@@ -346,9 +346,7 @@
 
     .contact-info-card .social-links {
         display: flex;
-        justify-content: center;
         gap: 0.8rem;
-        margin-top: 1.2rem;
     }
 
     .contact-info-card .social-links a {

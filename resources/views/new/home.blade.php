@@ -47,7 +47,8 @@
                             @foreach ($stats as $index => $stat)
                                 <div class="col-6 col-md-3">
                                     <div class="stat-item gsap-animate" data-delay="{{ $index * 0.2 }}">
-                                        <div class="stat-number" data-target="{{ $stat['number'] ?? 0 }}">{{ $stat['number'] ?? 0 }}+</div>
+                                        <div class="stat-number" data-target="{{ $stat['number'] ?? 0 }}">
+                                            {{ $stat['number'] ?? 0 }}+</div>
                                         <div class="stat-label">{{ $stat['label'] }}</div>
                                     </div>
                                 </div>
@@ -77,7 +78,7 @@
                             @endforeach
 
                         </div>
-                        <a href="/services" class="btn-all gsap-animate">View All Services</a>
+                        <a href="/services" class="btn-all gsap-animate">View Services</a>
                     </div>
                 </section>
 
@@ -88,22 +89,20 @@
                             {{ $footerSetting ? $footerSetting->company_name : 'Charter Insights' }}</h2>
                         <p class="lead gsap-animate">Partner with us for unmatched expertise, innovative solutions, and a
                             dedication to your business success.</p>
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-6 gsap-animate">
+                        <div class="why-choose-grid">
+                            <div class="why-choose-image gsap-animate">
                                 <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=800&h=600"
                                     alt="Team collaboration" class="w-100">
                             </div>
-                            <div class="col-lg-6">
-                                @foreach ($why_choose_us as $index => $item)
-                                    <div class="feature-item gsap-animate">
-                                        <div class="feature-icon"><i class="{{ $item->icon }}"></i></div>
-                                        <div>
-                                            <h4 class="feature-title">{{ $item->title }}</h4>
-                                            <p class="feature-description">{{ $item->description }}</p>
-                                        </div>
+                            @foreach ($why_choose_us as $index => $item)
+                                <div class="feature-item gsap-animate choice-card-{{ $index + 1 }}">
+                                    <div class="feature-icon"><i class="{{ $item->icon }}"></i></div>
+                                    <div>
+                                        <h4 class="feature-title">{{ $item->title }}</h4>
+                                        <p class="feature-description">{{ $item->description }}</p>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </section>
@@ -237,7 +236,9 @@
                 const target = parseInt(num.getAttribute('data-target'), 10);
                 if (!Number.isFinite(target)) return;
 
-                const obj = { val: 0 };
+                const obj = {
+                    val: 0
+                };
                 gsap.to(obj, {
                     val: target,
                     duration: 2,
@@ -251,7 +252,7 @@
             // Animate GSAP elements
             gsap.utils.toArray('.gsap-animate').forEach((el) => {
                 const delay = parseFloat(el.getAttribute('data-delay')) || 0;
-                
+
                 // If this is a stat-item, find its stat-number and set it to 0+ initially so it can count up
                 const statNum = el.querySelector('.stat-number');
                 if (statNum) {

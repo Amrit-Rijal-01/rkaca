@@ -434,25 +434,29 @@
 .rka-sidebar-scope .page-preview .services-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: #e5e7eb;
-    border-radius: 8px;
-    padding: 2px;
+    gap: 20px;
+    background: transparent;
+    border-radius: 12px;
+    padding: 8px 0;
 }
 
 .rka-sidebar-scope .page-preview .service-box {
-    background: var(--white);
+    background: #ffffff;
+    border: 1px solid rgba(0, 43, 74, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 43, 74, 0.04);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    border-radius: 6px;
-    transition: background 0.2s ease, transform 0.2s ease;
+    padding: 16px 20px;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .rka-sidebar-scope .page-preview .service-box:hover {
-    background: var(--lighter);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ffffff 0%, #f4f9ff 100%);
+    border-color: rgba(0, 128, 192, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 43, 74, 0.1);
+    transform: translateY(-3px) scale(1.01);
 }
 
 .rka-sidebar-scope .page-preview .service-info {
