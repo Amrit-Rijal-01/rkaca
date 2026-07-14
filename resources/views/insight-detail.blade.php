@@ -1,8 +1,8 @@
 @extends('new.layouts.sidebar')
 
-@section('title', $insight->title . ' - Chartered Insights')
-@section('meta_description', $insight->meta_description ?: Str::limit(strip_tags($insight->excerpt ?:
-    $insight->content), 155))
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta($insight->title, $insight->meta_description ?: ($insight->excerpt ?: $insight->content), 'insight, ' . $insight->title) !!}
+@endpush
 
     @push('styles')
         <style>

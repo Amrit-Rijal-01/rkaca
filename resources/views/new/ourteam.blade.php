@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Meet Our Team', 'Get to know the partners, directors, and professional staff at Roshan Kumar & Associates.', 'our team, partners, experts, team members, professional staff, Nepal') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/ourteam.css') }}">
 @endsection

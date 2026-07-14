@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Events & Webinars', 'Join our upcoming events, seminars, and webinars to get the latest updates on tax, accounting, and financial practices.', 'events, webinars, seminars, workshops, business networking, Nepal') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/event.css') }}">
     @include('new.layouts.links')

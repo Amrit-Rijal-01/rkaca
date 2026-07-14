@@ -475,6 +475,8 @@
 .rka-sidebar-scope .page-preview .plus-icon {
     width: 26px;
     height: 26px;
+    min-width: 26px;
+    min-height: 26px;
     background: var(--accent);
     border-radius: 50%;
     display: flex;

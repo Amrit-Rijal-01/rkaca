@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Careers at Roshan Kumar & Associates', 'Explore job openings, career opportunities, and why Roshan Kumar & Associates is a great place to grow your professional career.', 'careers, accounting vacancies, jobs in Nepal, audit career, employment') !!}
+@endpush
+
 @section('styles')
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">

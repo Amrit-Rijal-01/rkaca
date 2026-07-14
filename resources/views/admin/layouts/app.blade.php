@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -166,6 +167,7 @@
             .sidebar {
                 transform: translateX(-100%);
             }
+
             .sidebar.show {
                 transform: translateX(0);
             }
@@ -226,7 +228,14 @@
             margin-right: 0;
         }
 
-        .col, .col-md-6, .col-lg-6, .col-xl-3, .col-xl-4, .col-xl-6, .col-xl-8, .col-xl-12 {
+        .col,
+        .col-md-6,
+        .col-lg-6,
+        .col-xl-3,
+        .col-xl-4,
+        .col-xl-6,
+        .col-xl-8,
+        .col-xl-12 {
             padding-left: 0.75rem;
             padding-right: 0.75rem;
         }
@@ -238,12 +247,14 @@
         }
 
         /* Form improvements */
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 1px solid #dee2e6;
             border-radius: 0.375rem;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--sidebar-accent);
             box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
         }
@@ -291,7 +302,8 @@
             overflow-x: hidden;
         }
 
-        html, body {
+        html,
+        body {
             max-width: 100%;
         }
 
@@ -318,10 +330,23 @@
         .breadcrumb-item.active {
             color: #374151;
         }
+
+        /* Summernote Fullscreen Fix */
+        .note-editor.fullscreen {
+            z-index: 99999 !important;
+            background-color: #ffffff !important;
+        }
+
+        .note-editor.fullscreen .note-editable {
+            background-color: #ffffff !important;
+        }
     </style>
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
 
     @stack('styles')
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -347,9 +372,11 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('home') }}" target="_blank">
-                                <i class="fas fa-external-link-alt me-2"></i>View Site
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
+                                    <i class="fas fa-external-link-alt me-2"></i>View Site
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -384,39 +411,40 @@
                         </nav>
                     @endif
 
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         {{-- <h1 class="h2">@yield('page-title', 'Dashboard')</h1> --}}
                         <div class="btn-toolbar mb-2 mb-md-0">
                             @yield('page-actions')
                         </div>
                     </div>
 
-                <!-- Alert Messages -->
-                {{-- @if(session('success'))
+                    <!-- Alert Messages -->
+                    {{-- @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
 
-                @if(session('error'))
+                @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif --}}
 
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <ul class="mb-0">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    @endif
 
                     @yield('content')
                 </div>
@@ -431,20 +459,32 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 
     <script>
         // Initialize DataTables
         $(document).ready(function() {
             $('.data-table').DataTable({
                 responsive: true,
-                order: [[ 0, "desc" ]],
+                order: [
+                    [0, "desc"]
+                ],
                 pageLength: 25,
                 scrollX: false,
                 autoWidth: false,
-                columnDefs: [
-                    { responsivePriority: 1, targets: 0 },
-                    { responsivePriority: 2, targets: -1 },
-                    { responsivePriority: 3, targets: 2 }
+                columnDefs: [{
+                        responsivePriority: 1,
+                        targets: 0
+                    },
+                    {
+                        responsivePriority: 2,
+                        targets: -1
+                    },
+                    {
+                        responsivePriority: 3,
+                        targets: 2
+                    }
                 ],
                 language: {
                     search: "Search:",
@@ -458,8 +498,8 @@
                     }
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                     '<"row"<"col-sm-12"tr>>' +
-                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
             });
 
             // Mobile sidebar toggle
@@ -485,4 +525,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

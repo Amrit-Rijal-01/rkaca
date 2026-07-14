@@ -1,4 +1,8 @@
 @extends('new.layouts.sidebar')
+
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('About Us', 'Learn about our firm, core values, history, and professionals dedicated to delivering top-tier financial and consulting solutions.', 'about us, firm history, core values, accounting professionals, Nepal') !!}
+@endpush
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/about.css') }}">
     @include('new.layouts.links')

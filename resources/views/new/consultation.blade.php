@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Book a Consultation', 'Schedule a consultation with our financial and accounting experts to discuss your business needs.', 'book appointment, financial advice, expert consultation, accounting support') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/consultation.css') }}">
     @include('new.layouts.links')
@@ -87,6 +91,23 @@
         .form-textarea {
             min-height: 120px;
             resize: vertical;
+        }
+
+        .day.disabled {
+            color: #d1d5db !important;
+            background: transparent !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            opacity: 0.5;
+        }
+
+        .time-slot.disabled {
+            border-color: #e5e7eb !important;
+            background: #f3f4f6 !important;
+            color: #9ca3af !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            opacity: 0.6;
         }
     </style>
 @endsection
@@ -209,8 +230,6 @@
 
                 this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-                this.currentDate = new Date(2025, 8, 1);
-
                 this.initElements();
                 this.initEventListeners();
                 this.render();
@@ -248,8 +267,12 @@
             }
 
             previousMonth() {
-                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                this.render();
+                const prevMonthDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+                const currentMonthStart = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+                if (prevMonthDate >= currentMonthStart) {
+                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                    this.render();
+                }
             }
 
             nextMonth() {
@@ -266,6 +289,15 @@
                 const month = this.monthNames[this.currentDate.getMonth()];
                 const year = this.currentDate.getFullYear();
                 this.monthYearEl.textContent = `${month} ${year}`;
+
+                // Hide prevMonth navigation button if the previous month is in the past
+                const prevMonthDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+                const currentMonthStart = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+                if (prevMonthDate < currentMonthStart) {
+                    this.prevBtn.style.visibility = 'hidden';
+                } else {
+                    this.prevBtn.style.visibility = 'visible';
+                }
             }
 
             renderCalendar() {
@@ -290,7 +322,7 @@
                 }
 
                 for (let day = 1; day <= daysInMonth; day++) {
-                    const dayEl = this.createDayElement(day, 'current-month');
+                    const dayEl = this.createDayElement(day, 'current-month', year, month);
 
                     const currentDate = new Date(year, month, day);
                     if (this.isSameDate(currentDate, this.today)) {
@@ -309,28 +341,31 @@
                 }
             }
 
-            createDayElement(dayNum, monthClass) {
+            createDayElement(dayNum, monthClass, year, month) {
                 const dayEl = document.createElement('div');
                 dayEl.className = `day ${monthClass}`;
                 dayEl.innerHTML = `<span>${dayNum}</span>`;
 
                 if (monthClass === 'current-month') {
-                    dayEl.addEventListener('click', () => {
-                        const prevSelected = this.calendarEl.querySelector('.day.selected');
-                        if (prevSelected) {
-                            prevSelected.classList.remove('selected');
-                        }
+                    const todayStart = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
+                    const cellDate = new Date(year, month, dayNum);
 
-                        dayEl.classList.add('selected');
-                        this.selectedDate = new Date(
-                            this.currentDate.getFullYear(),
-                            this.currentDate.getMonth(),
-                            dayNum
-                        );
+                    if (cellDate < todayStart) {
+                        dayEl.classList.add('disabled');
+                    } else {
+                        dayEl.addEventListener('click', () => {
+                            const prevSelected = this.calendarEl.querySelector('.day.selected');
+                            if (prevSelected) {
+                                prevSelected.classList.remove('selected');
+                            }
 
-                        this.calendarSection.classList.add('compact');
-                        this.showTimeSlots();
-                    });
+                            dayEl.classList.add('selected');
+                            this.selectedDate = new Date(year, month, dayNum);
+
+                            this.calendarSection.classList.add('compact');
+                            this.showTimeSlots();
+                        });
+                    }
                 }
 
                 return dayEl;
@@ -346,6 +381,7 @@
                 this.selectedTime = null;
                 this.nextButton.style.display = 'none';
                 this.updateSelectedTimeBanner();
+                this.generateTimeSlots();
             }
 
             generateTimeSlots() {
@@ -366,19 +402,32 @@
                     timeSlot.className = 'time-slot';
                     timeSlot.textContent = this.formatTime(time.hour, time.minute);
 
-                    timeSlot.addEventListener('click', () => {
-                        document.querySelectorAll('.time-slot').forEach(slot =>
-                            slot.classList.remove('selected')
-                        );
+                    const now = new Date();
+                    const slotDateTime = this.selectedDate ? new Date(
+                        this.selectedDate.getFullYear(),
+                        this.selectedDate.getMonth(),
+                        this.selectedDate.getDate(),
+                        time.hour,
+                        time.minute
+                    ) : null;
 
-                        timeSlot.classList.add('selected');
-                        this.selectedTime = {
-                            hour: time.hour,
-                            minute: time.minute
-                        };
-                        this.nextButton.style.display = 'block';
-                        this.updateSelectedTimeBanner();
-                    });
+                    if (slotDateTime && slotDateTime < now) {
+                        timeSlot.classList.add('disabled');
+                    } else {
+                        timeSlot.addEventListener('click', () => {
+                            document.querySelectorAll('.time-slot').forEach(slot =>
+                                slot.classList.remove('selected')
+                            );
+
+                            timeSlot.classList.add('selected');
+                            this.selectedTime = {
+                                hour: time.hour,
+                                minute: time.minute
+                            };
+                            this.nextButton.style.display = 'block';
+                            this.updateSelectedTimeBanner();
+                        });
+                    }
 
                     this.timeSlotsEl.appendChild(timeSlot);
                 });

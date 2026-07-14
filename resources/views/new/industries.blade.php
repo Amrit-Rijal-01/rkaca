@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Industries We Serve', 'Discover the industries we serve. We provide customized financial and compliance solutions for manufacturing, technology, healthcare, real estate, and more.', 'industries, manufacturing, technology, healthcare, industry experience, financial solutions') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/industries.css') }}">
     @include('new.layouts.links')

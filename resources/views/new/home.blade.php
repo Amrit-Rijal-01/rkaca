@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Home', 'Welcome to Roshan Kumar & Associates, Chartered Accountants. We provide professional audit, tax, advisory, and consulting services in Nepal.', 'chartered accountants, audit, tax compliance, financial advisory, Nepal') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     @include('new.layouts.links')

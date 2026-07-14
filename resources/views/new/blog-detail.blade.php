@@ -1,32 +1,8 @@
 @extends('new.layouts.sidebar')
 
-@section('meta')
-    <meta name="description"
-        content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
-    <meta name="keywords" content="blog, insights, {{ $blog->title }}">
-    <meta name="author" content="{{ $blog->author?->name }}">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="{{ $blog->title }}">
-    <meta property="og:description"
-        content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ url()->current() }}">
-    @if ($blog->thumbnail)
-        <meta property="og:image" content="{{ $blog->thumbnail_url }}">
-    @endif
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $blog->title }}">
-    <meta name="twitter:description"
-        content="{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 160) }}">
-    @if ($blog->thumbnail)
-        <meta name="twitter:image" content="{{ $blog->thumbnail_url }}">
-    @endif
-@endsection
-
-@section('title', $blog->title . ' - Charter Insights')
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta($blog->title, $blog->excerpt ?: $blog->content, 'blog, insights, ' . $blog->title, $blog->thumbnail_url) !!}
+@endpush
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/blogs.css') }}">

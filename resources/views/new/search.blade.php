@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Search Results' . (empty($query) ? '' : ' for "' . $query . '"'), 'Search results for your queries on our site. Find services, industries, blogs, and insights.', 'search, query') !!}
+@endpush
+
 @section('content')
     <div class="container mt-4">
         <div class="row">

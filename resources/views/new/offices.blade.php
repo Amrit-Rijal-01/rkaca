@@ -1,14 +1,10 @@
 @extends('new.layouts.sidebar')
 
-@section('styles')
-    <!-- SEO Meta Tags in Head -->
-    <title>Our Office Locations - Professional Accounting Services Across Nepal |
-        {{ env('APP_NAME', 'Charter Accountants') }}</title>
-    <meta name="description"
-        content="Visit our strategically located offices across Nepal for personalized accounting, audit, tax, and business advisory services. Find contact details, directions, and book appointments at our convenient locations.">
-    <meta name="keywords"
-        content="chartered accountants offices Nepal, accounting services locations, audit firm offices, tax consultation centers, business advisory locations, professional accounting Nepal, CA firm branches">
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Our Office Locations', 'Visit our strategically located offices across Nepal for personalized accounting, audit, tax, and business advisory services.', 'chartered accountants offices Nepal, accounting services locations, audit firm offices, tax consultation centers, business advisory locations, professional accounting Nepal, CA firm branches') !!}
+@endpush
 
+@section('styles')
     <link rel="stylesheet" href="{{ asset('css/offices.css') }}">
     @include('new.layouts.links')
 @endsection

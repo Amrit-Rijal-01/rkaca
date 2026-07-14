@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Our Services', 'Explore our comprehensive range of services including audit & assurance, taxation, risk management, and business advisory services tailored to your needs.', 'services, audit, tax, advisory, accounting services, business planning') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/services.css') }}">
     @include('new.layouts.links')

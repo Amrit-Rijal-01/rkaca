@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Blogs & News', 'Read our latest articles, news updates, and expert opinions on business, taxation, and economy.', 'blogs, news, articles, expert opinions, business blog') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/blogs.css') }}">
     @include('new.layouts.links')

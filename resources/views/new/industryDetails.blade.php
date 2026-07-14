@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta($industry->title ?: $industry->name, $industry->meta_description ?: $industry->description, 'industry, ' . ($industry->title ?: $industry->name) . ', financial solutions, auditing, compliance') !!}
+@endpush
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/industryDetails.css') }}">
     @include('new.layouts.links')

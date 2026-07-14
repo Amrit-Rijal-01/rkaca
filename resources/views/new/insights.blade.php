@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Insights & Publications', 'Stay updated with the latest insights, financial updates, tax regulations, and regulatory changes in Nepal.', 'insights, financial updates, tax law, business articles, publications, Nepal') !!}
+@endpush
+
 @section('styles')
     @include('new.layouts.links')
     <link rel="stylesheet" href="{{ asset('css/insights.css') }}">

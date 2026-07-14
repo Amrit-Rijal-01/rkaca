@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $footerSetting->company_name ?? 'Laravel' }}</title>
+    @stack('seo')
+    @if (!\App\Helpers\SeoHelper::hasRendered())
+        {!! \App\Helpers\SeoHelper::meta('') !!}
+    @endif
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -17,9 +20,22 @@
     <link rel='icon'
         href='{{ $homeSetting && $homeSetting->home_logo ? asset('storage/' . $homeSetting->home_logo) : asset('favicon.ico') }}'
         type='image/x-icon' />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <style>
+        .note-editor.fullscreen {
+            z-index: 99999 !important;
+            background-color: #ffffff !important;
+        }
+
+        .note-editor.fullscreen .note-editable {
+            background-color: #ffffff !important;
+        }
+    </style>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('styles')
     @stack('styles')
+
 </head>
 
 <body>
@@ -398,6 +414,8 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
     <script>
         let activeTimeline = null;
         let closeTimeout = null;
@@ -977,7 +995,7 @@
                                     <i class="${service.icon}"></i>
                                     <h4>${service.title}</h4>
                                 </div>
-                                <div class="plus-icon">+</div>
+                                <div class="plus-icon ml-2"><i class="fas fa-arrow-right"></i></div>
                             </div>
                         `).join('');
                     }

@@ -1,5 +1,9 @@
 @extends('new.layouts.sidebar')
 
+@push('seo')
+    {!! \App\Helpers\SeoHelper::meta('Contact Us', 'Get in touch with our team for any inquiries, services, or support. We are here to help your business grow.', 'contact us, reach us, phone, email, support, address') !!}
+@endpush
+
 @section('styles')
     <link href="{{ asset('css/contactus.css') }}" rel="stylesheet">
     @include('new.layouts.links')
