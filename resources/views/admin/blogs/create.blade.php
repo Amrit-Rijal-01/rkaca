@@ -104,6 +104,9 @@
                                     @error('featured_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">
+                                        <span class="text-info fw-medium"><i class="fas fa-info-circle me-1"></i>Recommended best fit: <strong>1200 × 630 px</strong> (16:9 aspect ratio). JPG or PNG, max 2MB.</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

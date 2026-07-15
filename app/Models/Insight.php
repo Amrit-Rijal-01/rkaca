@@ -122,6 +122,10 @@ class Insight extends Model
             return $value;
         }
 
+        if ($this->content && str_ends_with(strtolower($this->content), '.pdf')) {
+            return 'Read the PDF document: '.$this->title;
+        }
+
         // Auto-generate excerpt from content
         return Str::limit(strip_tags($this->content), 160);
     }

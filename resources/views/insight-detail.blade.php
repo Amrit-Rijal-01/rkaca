@@ -269,6 +269,158 @@
             .prose-enhanced h4+* {
                 margin-top: 0.75rem;
             }
+            /* PDF Viewer Styling */
+            .pdf-document-wrapper {
+                margin-bottom: 2.5rem;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .pdf-viewer-header {
+                background: #f8f9fa;
+                padding: 1rem 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .pdf-viewer-title {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                font-weight: 600;
+                color: #00213f;
+            }
+
+            .pdf-viewer-title i {
+                color: #dc3545;
+                font-size: 1.25rem;
+            }
+
+            .btn-pdf-download {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.45rem 1rem;
+                border-radius: 6px;
+                background: #00213f;
+                color: #fff;
+                font-size: 0.85rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .btn-pdf-download:hover {
+                background: #003366;
+                color: #fff;
+                text-decoration: none;
+                transform: translateY(-1px);
+            }
+
+            .pdf-iframe-box {
+                height: 85vh;
+                min-height: 500px;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            @media (max-width: 768px) {
+                .pdf-iframe-box {
+                    height: 85vh;
+                    min-height: 400px;
+                }
+            }
+
+            /* Insight Detail Hero layout to match Blog detail layout */
+            .insight-detail-hero {
+                background: linear-gradient(135deg, var(--primary, #00213f), var(--secondary, #0090d4));
+                padding: 4.5rem 0 2.5rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .insight-detail-hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.08"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+                pointer-events: none;
+            }
+
+            .insight-detail-content {
+                position: relative;
+                z-index: 2;
+            }
+
+            .insight-breadcrumb {
+                margin-bottom: 1.25rem;
+                font-size: 0.875rem;
+            }
+
+            .insight-breadcrumb a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            .insight-breadcrumb a:hover {
+                color: #ffffff;
+            }
+
+            .insight-breadcrumb .separator {
+                margin: 0 0.5rem;
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            .insight-title {
+                font-size: clamp(2rem, 4.5vw, 2.75rem);
+                font-weight: 700;
+                color: #ffffff;
+                margin-bottom: 1rem;
+                line-height: 1.25;
+                letter-spacing: -0.02em;
+                text-align: left;
+            }
+
+            .insight-subtitle {
+                font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+                color: rgba(255, 255, 255, 0.9);
+                margin-bottom: 1.25rem;
+                line-height: 1.5;
+                text-align: left;
+            }
+
+            .insight-meta-info {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                margin-bottom: 0.5rem;
+                justify-content: flex-start;
+            }
+
+            .insight-meta-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 0.9rem;
+            }
+
+            .insight-meta-item i {
+                color: var(--accent, #00b4f2);
+                font-size: 0.85rem;
+            }
         </style>
     @endpush
 
@@ -277,63 +429,56 @@
     <div class="reading-progress"></div>
 
     <!-- Hero Section -->
-    <section class="relative hero-gradient py-16 md:py-24 lg:py-32">
+    <section class="insight-detail-hero">
         <div class="container-custom relative z-10">
-            <div class="max-w-5xl mx-auto text-center">
-                <!-- Category Badge -->
-                {{-- @if ($insight->category)
-                    <div class="mb-6 fade-in-up">
-                        <span class="category-badge">
-                            {{ $insight->category }}
-                        </span>
-                    </div>
-                @endif --}}
+            <div class="insight-detail-content">
+                <!-- Breadcrumb -->
+                <nav class="insight-breadcrumb">
+                    <a href="{{ route('home') }}">Home</a>
+                    <span class="separator">/</span>
+                    <a href="{{ route('insights') }}">Insights</a>
+                    <span class="separator">/</span>
+                    <span>{{ $insight->title }}</span>
+                </nav>
 
                 <!-- Title -->
-                <h1
-                    class="text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-6 lg:mb-8 leading-tight fade-in-up-delay-1">
+                <h1 class="insight-title gsap-animate">
                     {{ $insight->title }}
                 </h1>
 
-                <!-- Excerpt -->
+                <!-- Subtitle (if excerpt exists) -->
                 @if ($insight->excerpt)
-                    <p
-                        class="text-lg md:text-xl lg:text-2xl text-white/90 mb-8 lg:mb-12 leading-relaxed max-w-4xl mx-auto fade-in-up-delay-2">
+                    <p class="insight-subtitle gsap-animate" data-delay="0.1">
                         {{ $insight->excerpt }}
                     </p>
                 @endif
 
                 <!-- Meta Information -->
-                <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-white/80 fade-in-up-delay-3">
+                <div class="insight-meta-info gsap-animate" data-delay="0.2">
                     @if ($insight->author)
-                        <div class="meta-info">
-                            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <span class="truncate">By {{ $insight->author }}</span>
+                        <div class="insight-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>{{ $insight->author }}</span>
                         </div>
                     @endif
 
-                    <div class="meta-info">
-                        <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                    <div class="insight-meta-item">
+                        <i class="fas fa-calendar"></i>
                         <span>{{ $insight->published_at->format('F j, Y') }}</span>
                     </div>
 
-                    @if ($insight->read_time)
-                        <div class="meta-info">
-                            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>{{ $insight->read_time }} min read</span>
-                        </div>
-                    @endif
+                    <div class="insight-meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>
+                            @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
+                                PDF Document
+                            @elseif ($insight->read_time)
+                                {{ $insight->read_time }} min read
+                            @else
+                                {{ ceil(str_word_count(strip_tags($insight->content)) / 200) }} min read
+                            @endif
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -342,36 +487,43 @@
     <!-- Main Content -->
     <section class="section bg-white">
         <div class="container-custom">
-            <div class="max-w-4xl mx-auto">
+            <div class="w-full">
                 <!-- Featured Image -->
                 @if ($insight->featured_image)
-                    <div class="mb-12 lg:mb-16">
+                    <div class="mb-12 lg:mb-16" style="border-radius: 12px; overflow: hidden; box-shadow: 0 12px 35px rgba(0, 33, 63, 0.08); border: 1px solid rgba(0, 33, 63, 0.06); aspect-ratio: 16 / 9; width: 100%;">
                         <img src="{{ asset('storage/' . $insight->featured_image) }}" alt="{{ $insight->title }}"
-                            class="w-full h-auto rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+                            style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease;"
+                            onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
                     </div>
                 @endif
 
                 <div class="space-y-12">
                     <!-- Article Content -->
                     <div>
-                        <article class="article-content prose prose-enhanced prose-lg max-w-none">
-                            {!! $insight->content !!}
-                        </article>
-
-                        <!-- Tags -->
-                        @if ($insight->tags && count($insight->tags) > 0)
-                            <div class="mt-12 lg:mt-16 pt-8 border-t border-gray-200">
-                                <h4 class="text-lg md:text-xl font-semibold text-deep-chartered-blue mb-6">Related Tags</h4>
-                                <div class="flex flex-wrap gap-3">
-                                    @foreach ($insight->tags as $tag)
-                                        <span
-                                            class="inline-block bg-gradient-to-r from-audit-grey to-gray-100 text-deep-chartered-blue px-4 py-2 rounded-full text-sm font-medium hover:shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer">
-                                            #{{ $tag }}
-                                        </span>
-                                    @endforeach
+                        @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
+                            <div class="pdf-document-wrapper mb-8">
+                                <div class="pdf-viewer-header">
+                                    <div class="pdf-viewer-title">
+                                        <i class="fas fa-file-pdf"></i>
+                                        <span>{{ $insight->title }} (PDF Document)</span>
+                                    </div>
+                                    <a href="{{ asset('storage/' . $insight->content) }}" target="_blank" download
+                                        class="btn-pdf-download">
+                                        <i class="fas fa-download"></i> Download PDF
+                                    </a>
+                                </div>
+                                <div class="pdf-iframe-box">
+                                    <iframe src="{{ asset('storage/' . $insight->content) }}" width="100%"
+                                        height="100%" style="border: none;"></iframe>
                                 </div>
                             </div>
+                        @else
+                            <article class="article-content prose prose-enhanced prose-lg max-w-none">
+                                {!! $insight->content !!}
+                            </article>
                         @endif
+
+
 
                         <!-- Share Section -->
                         <div class="mt-12 lg:mt-16 pt-8 border-t border-gray-200">
@@ -426,67 +578,6 @@
                                             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                     </svg>
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sidebar (stacked at the bottom) -->
-                    <div class="space-y-8 mt-12 pt-8 border-t border-gray-200">
-                        <div class="space-y-8">
-                            <!-- Navigation Back -->
-                            <div class="sidebar-card p-6">
-                                <a href="{{ route('insights') }}"
-                                    class="inline-flex items-center text-fresh-teal hover:text-deep-chartered-blue transition-colors group">
-                                    <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                    Back to Insights
-                                </a>
-                            </div>
-
-                            <!-- Table of Contents -->
-                            <div class="toc-container">
-                                <h4
-                                    class="text-lg md:text-xl font-semibold text-deep-chartered-blue mb-4 flex items-center">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                    </svg>
-                                    Table of Contents
-                                </h4>
-                                <div id="table-of-contents">
-                                    <!-- Generated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <!-- Contact CTA -->
-                            <div class="cta-card p-6 lg:p-8">
-                                <div class="text-center">
-                                    <div
-                                        class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                        </svg>
-                                    </div>
-                                    <h4 class="text-xl md:text-2xl font-bold mb-3">Need Expert Advice?</h4>
-                                    <p class="mb-6 text-white/90 leading-relaxed">
-                                        Our team of chartered accountants is ready to help with your specific challenges.
-                                    </p>
-                                    <a href="{{ route('contact') }}"
-                                        class="btn-primary bg-fresh-teal hover:bg-opacity-90 w-full text-center transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-                                        Get In Touch
-                                        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

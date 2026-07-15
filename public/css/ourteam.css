@@ -183,7 +183,7 @@
     box-shadow: 0 6px 25px var(--shadow);
     padding: clamp(0.9rem, 3vw, 2rem);
     text-align: center;
-    min-height: clamp(270px, 40vw, 350px);
+    height: 100%;
     margin-bottom: clamp(0.8rem, 3vw, 2rem);
     display: flex;
     flex-direction: column;
@@ -220,6 +220,9 @@
 
 .team-card .content {
     transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .team-card:hover .content {
@@ -231,6 +234,14 @@
     margin-bottom: clamp(0.5rem, 1.5vw, 0.8rem);
     position: relative;
     transition: var(--transition);
+}
+
+.team-card h3 .name-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .team-card h3:hover {
@@ -258,13 +269,44 @@
     font-weight: 600;
     color: var(--secondary);
     margin-bottom: clamp(0.6rem, 1.5vw, 1rem);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    height: 2.8em;
+    width: 100%;
 }
 
 .team-card p {
     font-size: clamp(0.8rem, 2vw, 1.05rem);
     color: var(--gray);
     margin-bottom: clamp(0.8rem, 2vw, 1.2rem);
-    flex-grow: 1;
+}
+
+.team-card .bio {
+    text-align: justify;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.6;
+    height: 9.6em;
+    flex-grow: 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.team-card .bio:hover {
+    color: var(--secondary);
+}
+
+.team-card .bio.expanded {
+    display: block;
+    height: auto;
+    overflow: visible;
 }
 
 /* Responsive Adjustments */
@@ -461,7 +503,7 @@
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-top: 15px;
+    margin-top: auto;
 }
 
 .team-card .social-links a {
@@ -494,4 +536,23 @@
         height: 30px;
         font-size: 12px;
     }
+}
+
+/* Read More Button Styling */
+.team-card .read-more-btn {
+    display: inline-block;
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+    cursor: pointer;
+    margin: 5px auto 10px auto;
+    transition: var(--transition);
+    text-align: center;
+    border-bottom: 1px dashed transparent;
+    width: fit-content;
+}
+
+.team-card .read-more-btn:hover {
+    color: var(--primary);
+    border-bottom: 1px dashed var(--primary);
 }

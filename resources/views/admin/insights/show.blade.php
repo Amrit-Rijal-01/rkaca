@@ -42,9 +42,20 @@
 
                         <div class="mb-4">
                             <h6 class="text-muted mb-2">Full Content</h6>
-                            <div class="border rounded p-3" style="background-color: #f8f9fa;">
-                                {!! nl2br(e($insight->content)) !!}
-                            </div>
+                            @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
+                                <div class="mb-3" style="height: 85vh; min-height: 500px; border: 1px solid #dee2e6; border-radius: 0.375rem; overflow: hidden; background: #fff;">
+                                    <iframe src="{{ asset('storage/' . $insight->content) }}" width="100%" height="100%" style="border: none;"></iframe>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <a href="{{ asset('storage/' . $insight->content) }}" target="_blank" class="btn btn-outline-primary">
+                                        <i class="fas fa-file-download me-2"></i>Download PDF Document
+                                    </a>
+                                </div>
+                            @else
+                                <div class="border rounded p-3" style="background-color: #f8f9fa;">
+                                    {!! nl2br(e($insight->content)) !!}
+                                </div>
+                            @endif
                         </div>
 
                         @if($insight->key_takeaways)
@@ -101,18 +112,7 @@
                                         <td><strong>Reading Time:</strong></td>
                                         <td>{{ $insight->reading_time ?? 'Not calculated' }}</td>
                                     </tr>
-                                    <tr>
-                                        <td><strong>Tags:</strong></td>
-                                        <td>
-                                            @if($insight->tags && count($insight->tags) > 0)
-                                                @foreach($insight->tags as $tag)
-                                                    <span class="badge bg-light text-dark me-1">{{ trim($tag) }}</span>
-                                                @endforeach
-                                            @else
-                                                <span class="text-muted">No tags</span>
-                                            @endif
-                                        </td>
-                                    </tr>
+
                                     <tr>
                                         <td><strong>Published Date:</strong></td>
                                         <td>

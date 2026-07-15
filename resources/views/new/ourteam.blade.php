@@ -33,8 +33,8 @@
                         our clients.</p>
                     <div class="row g-8">
                         @foreach ($teams as $index => $team)
-                            <div class="col-lg-4 col-md-6 col-12 gsap-animate" data-delay="{{ ($index % 3) * 0.08 }}">
-                                <div class="team-card">
+                            <div class="col-lg-4 col-md-6 col-12 gsap-animate d-flex align-items-stretch" data-delay="{{ ($index % 3) * 0.08 }}">
+                                <div class="team-card w-100">
                                     @if ($team->image)
                                         <img src="{{ Storage::url($team->image) }}" alt="{{ $team->name }}"
                                             class="gsap-image">
@@ -43,9 +43,10 @@
                                             alt="{{ $team->name }}" class="gsap-image">
                                     @endif
                                     <div class="content">
-                                        <h3>{{ $team->name }}</h3>
-                                        <p class="role">{{ $team->position }}</p>
-                                        <p>{{ $team->bio }}</p>
+                                        <h3><span class="name-text" title="{{ $team->name }}">{{ $team->name }}</span></h3>
+                                        <p class="role" title="{{ $team->position }}">{{ $team->position }}</p>
+                                        <p class="bio">{{ $team->bio }}</p>
+                                        <span class="read-more-btn" style="display: none;">Read More</span>
 
                                         @if ($team->linkedin_url || $team->twitter_url || $team->email)
                                             <div class="social-links mt-3">
@@ -168,6 +169,48 @@
                         once: true
                     }
                 });
+            });
+
+            // Setup Read More / Read Less logic for card bios
+            document.querySelectorAll('.team-card').forEach(card => {
+                const bio = card.querySelector('.bio');
+                const btn = card.querySelector('.read-more-btn');
+                if (!bio || !btn) return;
+
+                const checkOverflow = () => {
+                    const wasExpanded = bio.classList.contains('expanded');
+                    if (wasExpanded) {
+                        bio.classList.remove('expanded');
+                    }
+                    
+                    const isOverflowing = bio.scrollHeight > bio.clientHeight;
+                    
+                    if (wasExpanded) {
+                        bio.classList.add('expanded');
+                    }
+                    
+                    if (isOverflowing) {
+                        btn.style.display = 'inline-block';
+                    } else if (!wasExpanded) {
+                        btn.style.display = 'none';
+                    }
+                };
+
+                checkOverflow();
+                window.addEventListener('resize', checkOverflow);
+
+                const toggleExpand = () => {
+                    bio.classList.toggle('expanded');
+                    if (bio.classList.contains('expanded')) {
+                        btn.textContent = 'Read Less';
+                    } else {
+                        btn.textContent = 'Read More';
+                    }
+                    ScrollTrigger.refresh();
+                };
+
+                bio.addEventListener('click', toggleExpand);
+                btn.addEventListener('click', toggleExpand);
             });
 
             // Recalc positions after images affect layout

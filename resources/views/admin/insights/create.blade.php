@@ -50,13 +50,12 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="content" class="form-label">Content <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="15"
-                                        required>{{ old('content') }}</textarea>
+                                    <label for="content" class="form-label">PDF Document <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control @error('content') is-invalid @enderror" id="content" name="content" accept="application/pdf" required>
                                     @error('content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">Please upload a PDF document. Max size: 2MB.</div>
                                 </div>
                             </div>
 
@@ -144,15 +143,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="tags" class="form-label">Tags</label>
-                                    <input type="text" class="form-control @error('tags') is-invalid @enderror"
-                                        id="tags" name="tags" value="{{ old('tags') }}">
-                                    <div class="form-text">Separate tags with commas</div>
-                                    @error('tags')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
 
                                 <div class="mb-3">
                                     <label for="published_at" class="form-label">Published Date</label>
@@ -169,6 +160,7 @@
                                     <input type="file"
                                         class="form-control @error('featured_image') is-invalid @enderror"
                                         id="featured_image" name="featured_image" accept="image/*">
+                                    <div class="form-text">Recommended resolution: 1200x675 pixels (16:9 aspect ratio).</div>
                                     @error('featured_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -180,6 +172,16 @@
                                             name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_featured">
                                             Featured Insight
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="is_active"
+                                            name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">
+                                            Active (visible on public site)
                                         </label>
                                     </div>
                                 </div>

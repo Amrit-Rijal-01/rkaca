@@ -40,7 +40,7 @@ class AppointmentController extends Controller
             ]);
 
             // Send email notification
-            Mail::to('karkeemiraj@gmail.com')->send(new AppointmentBooked($appointment));
+            Mail::to(config('mail.from.address'))->send(new AppointmentBooked($appointment));
 
             return response()->json([
                 'success' => true,

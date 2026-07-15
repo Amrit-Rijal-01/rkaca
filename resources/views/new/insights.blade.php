@@ -99,31 +99,37 @@
                 @endforeach
             </section>
 
-            <!-- Featured Articles Section -->
+            <!-- Featured Insights Section -->
             <section class="articles-section" id="articles">
                 <div class="section-container">
-                    <h2 class="gsap-animate">Featured Articles</h2>
+                    <h2 class="gsap-animate">Featured Insights</h2>
                     <p class="lead gsap-animate">Our most popular and impactful insights that are shaping business decisions
                         across industries.</p>
                     <div class="row g-4">
                         @foreach ($insights as $index => $insight)
                             @if ($insight->is_featured == 1)
                                 <div class="col-12 col-md-6 col-lg-4 gsap-animate data-delay="{{ $index * 0.1 }}">
-                                    <div class="article-card">
-                                        <div class="image-container">
-                                            <img src="{{ asset('storage/' . $insight->featured_image) }}"
-                                                alt="Strategic Tax Planning">
-                                            <div class="gradient-overlay"></div>
-                                            <div class="title-overlay">
+                                    <a href="{{ route('insights.detail', $insight->slug) }}" class="article-card-link" style="text-decoration: none; color: inherit; display: block;">
+                                        <div class="article-card" @if($insight->featured_image) style="background-image: url('{{ asset('storage/' . $insight->featured_image) }}'); background-size: cover; background-position: center;" @endif>
+                                            <!-- Dark overlay for image legibility -->
+                                            @if($insight->featured_image)
+                                                <div class="card-img-overlay"></div>
+                                            @endif
+                                            <!-- Category Badge (Normal state) -->
+                                            <span class="category-badge-normal">{{ $insight->category }}</span>
+                                            <!-- Default State Title (Unhovered) -->
+                                            <div class="default-title">
                                                 <h3>{{ $insight->title }}</h3>
                                             </div>
+                                            <!-- Hover State Content Overlay -->
                                             <div class="content-overlay">
-                                                <span class="category">{{ $insight->category }}</span>
-                                                <h3>{{ $insight->title }}l</h3>
-                                                <p>{{ $insight->excerpt }}</p>
+                                                <div class="content-details">
+                                                    <h3>{{ $insight->title }}</h3>
+                                                    <p>{{ $insight->excerpt }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endif
                         @endforeach
@@ -164,34 +170,35 @@
                 </div>
             </section>
 
-            <!-- Recent Articles Section -->
+            <!-- Recent Insights Section -->
             <section class="recent-articles-section">
                 <div class="section-container">
-                    <h2 class="gsap-animate">Recent Articles</h2>
+                    <h2 class="gsap-animate">Recent Insights</h2>
                     <p class="lead gsap-animate">Stay updated with our latest insights and expert commentary.</p>
                     <div class="row g-4">
                         @foreach ($insightLatest as $index => $insight)
-                            <div class="col-12 col-md-6 col-lg-4 gsap-animate data-delay="{{ $index * 0.3 }}">
-                                <div class="article-card" data-category="{{ strtoupper($insight->category) }}"
-                                    data-title="{{ $insight->title }}" data-description="{{ $insight->excerpt }}"
-                                    data-author="{{ $insight->author }}"
-                                    data-date="{{ date('F d, Y', strtotime($insight->published_at)) }}"
-                                    data-read-time="{{ $insight->read_time }} min read"
-                                    data-content="{{ $insight->content }}"
-                                    data-tags="{{ collect(json_decode($insight->tags ?? '[]'))->map(fn($tag) => '#' . str_replace(' ', '', $tag))->implode(',') }}">
-                                    <div class="image-container">
-                                        <img src="{{ asset('storage/' . $insight->featured_image) }}" alt="NFRS Updates">
-                                        <div class="gradient-overlay"></div>
-                                        <div class="title-overlay">
+                            <div class="col-12 col-md-6 col-lg-4 gsap-animate recent-insight-item {{ $index >= 6 ? 'd-none' : '' }}" data-delay="{{ $index * 0.3 }}">
+                                <a href="{{ route('insights.detail', $insight->slug) }}" class="article-card-link" style="text-decoration: none; color: inherit; display: block;">
+                                    <div class="article-card" @if($insight->featured_image) style="background-image: url('{{ asset('storage/' . $insight->featured_image) }}'); background-size: cover; background-position: center;" @endif>
+                                        <!-- Dark overlay for image legibility -->
+                                        @if($insight->featured_image)
+                                            <div class="card-img-overlay"></div>
+                                        @endif
+                                        <!-- Category Badge (Normal state) -->
+                                        <span class="category-badge-normal">{{ $insight->category }}</span>
+                                        <!-- Default State Title (Unhovered) -->
+                                        <div class="default-title">
                                             <h3>{{ $insight->title }}</h3>
                                         </div>
+                                        <!-- Hover State Content Overlay -->
                                         <div class="content-overlay">
-                                            <span class="category">{{ strtoupper($insight->category) }}</span>
-                                            <h3>{{ $insight->title }}</h3>
-                                            <p>{{ $insight->excerpt }}</p>
+                                            <div class="content-details">
+                                                <h3>{{ $insight->title }}</h3>
+                                                <p>{{ $insight->excerpt }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                         {{-- Example static articles for layout demonstration --}}
@@ -244,52 +251,15 @@
                             </div>
                         </div> --}}
                     </div>
-                    <div class="btn-all-container gsap-animate">
-                        <a href="#articles" class="btn-all">View All Articles <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    @if ($insightLatest->count() >= 7)
+                        <div class="btn-all-container gsap-animate">
+                            <a href="#" class="btn-all" id="btn-view-all-insights">View All Insights <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    @endif
                 </div>
             </section>
 
-            <!-- Article Overlay -->
-            <div class="article-overlay">
-                <div class="article-overlay-content">
-                    <button class="article-overlay-close"><i class="fas fa-times"></i></button>
-                    <span class="category"></span>
-                    <h3></h3>
-                    <p class="lead"></p>
-                    <div class="meta"></div>
-                    <div class="content"></div>
-                    <div class="tags">
-                        <strong>Related Tags</strong><br>
-                    </div>
-                    <div class="share">
-                        <button class="btn-share" id="shareBtn">Share this insight <i
-                                class="fas fa-share-alt"></i></button>
-                        <div class="social-share-icons" id="socialShareIcons" style="display: none;">
-                            <a href="#" class="social-share facebook" data-platform="facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-share twitter" data-platform="twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-share linkedin" data-platform="linkedin">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a href="#" class="social-share whatsapp" data-platform="whatsapp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                            <a href="#" class="social-share copy-link" data-platform="copy">
-                                <i class="fas fa-link"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <a href="#articles" class="back-link">Back to Insights</a>
-                    <div class="toc">
-                        <h4>Table of Contents</h4>
-                        <p>No headings found</p>
-                    </div>
-                </div>
-            </div>
+
         </main>
     </div>
     @include('new.layouts.contactusform')
@@ -302,160 +272,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // Article Overlay Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.recent-articles-section .article-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    const title = this.dataset.title;
-                    const description = this.dataset.description;
-                    const author = this.dataset.author;
-                    const date = this.dataset.date;
-                    const readTime = this.dataset.readTime;
-                    const content = this.dataset.content;
-                    const tags = this.dataset.tags.split(',');
-
-                    const overlay = document.querySelector('.article-overlay');
-                    overlay.querySelector('.category').textContent = category;
-                    overlay.querySelector('h3').textContent = title;
-                    overlay.querySelector('.lead').textContent = description;
-                    overlay.querySelector('.meta').textContent =
-                        `${author} • ${date} • ${readTime}`;
-                    overlay.querySelector('.content').textContent = content;
-                    overlay.querySelector('.tags').innerHTML = '<strong>Related Tags</strong><br>';
-                    tags.forEach(tag => {
-                        const tagLink = document.createElement('a');
-                        tagLink.href = '#';
-                        tagLink.className = 'tag';
-                        tagLink.textContent = tag;
-                        overlay.querySelector('.tags').appendChild(tagLink);
-                    });
-
-                    overlay.classList.add('active');
-                    gsap.fromTo('.article-overlay-content', {
-                        opacity: 0,
-                        y: 50
-                    }, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.5,
-                        ease: 'power3.out'
-                    });
-                });
-            });
-
-            document.querySelectorAll('.article-overlay, .article-overlay-close, .fa-times').forEach(element => {
-                element.addEventListener('click', function(e) {
-                    if (e.target.classList.contains('article-overlay') ||
-                        e.target.classList.contains('article-overlay-close') ||
-                        e.target.classList.contains('fa-times')) {
-                        const overlay = document.querySelector('.article-overlay');
-                        gsap.to('.article-overlay-content', {
-                            opacity: 0,
-                            y: 50,
-                            duration: 0.5,
-                            ease: 'power3.in',
-                            onComplete: () => {
-                                overlay.classList.remove('active');
-                                overlay.querySelector('.category').textContent = '';
-                                overlay.querySelector('h3').textContent = '';
-                                overlay.querySelector('.lead').textContent = '';
-                                overlay.querySelector('.meta').textContent = '';
-                                overlay.querySelector('.content').textContent = '';
-                                overlay.querySelector('.tags').innerHTML =
-                                    '<strong>Related Tags</strong><br>';
-                            }
-                        });
-                    }
-                });
-            });
-
-            document.querySelectorAll('.btn-share').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const socialIcons = document.getElementById('socialShareIcons');
-                    if (socialIcons.style.display === 'none') {
-                        socialIcons.style.display = 'flex';
-                        gsap.fromTo(socialIcons, {
-                            opacity: 0,
-                            y: -10
-                        }, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.3,
-                            ease: 'power2.out'
-                        });
-                    } else {
-                        gsap.to(socialIcons, {
-                            opacity: 0,
-                            y: -10,
-                            duration: 0.3,
-                            ease: 'power2.in',
-                            onComplete: () => {
-                                socialIcons.style.display = 'none';
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Social media sharing functionality
-            document.querySelectorAll('.social-share').forEach(shareBtn => {
-                shareBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    const platform = this.dataset.platform;
-                    const overlay = document.querySelector('.article-overlay');
-                    const title = overlay.querySelector('h3').textContent;
-                    const description = overlay.querySelector('.lead').textContent;
-                    const url = encodeURIComponent(window.location.href);
-                    const encodedTitle = encodeURIComponent(title);
-                    const encodedDescription = encodeURIComponent(description);
-
-                    let shareUrl = '';
-
-                    switch (platform) {
-                        case 'facebook':
-                            shareUrl =
-                                `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${encodedTitle} - ${encodedDescription}`;
-                            break;
-                        case 'twitter':
-                            shareUrl =
-                                `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${url}`;
-                            break;
-                        case 'linkedin':
-                            shareUrl =
-                                `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${encodedTitle}&summary=${encodedDescription}`;
-                            break;
-                        case 'whatsapp':
-                            shareUrl =
-                                `https://wa.me/?text=${encodedTitle} - ${encodedDescription} ${url}`;
-                            break;
-                        case 'copy':
-                            // Copy link to clipboard
-                            navigator.clipboard.writeText(window.location.href).then(() => {
-                                // Show success message
-                                const originalIcon = this.innerHTML;
-                                this.innerHTML = '<i class="fas fa-check"></i>';
-                                this.style.background = '#28a745';
-                                setTimeout(() => {
-                                    this.innerHTML = originalIcon;
-                                    this.style.background = '';
-                                }, 2000);
-                            }).catch(() => {
-                                alert('Failed to copy link to clipboard');
-                            });
-                            return;
-                    }
-
-                    if (shareUrl) {
-                        window.open(shareUrl, '_blank',
-                            'width=600,height=400,scrollbars=yes,resizable=yes');
-                    }
-                });
-            });
-        });
-
         // GSAP Animations
         window.addEventListener('load', function() {
             gsap.registerPlugin(ScrollTrigger);
@@ -479,6 +295,32 @@
                         invalidateOnRefresh: true
                     }
                 });
+            });
+
+            // View All Insights click handler with GSAP animation
+            document.getElementById('btn-view-all-insights')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                const hiddenItems = document.querySelectorAll('.recent-insight-item.d-none');
+                hiddenItems.forEach(item => {
+                    item.classList.remove('d-none');
+                });
+                
+                // Animate showing items using GSAP
+                gsap.fromTo(hiddenItems, {
+                    opacity: 0,
+                    y: 30
+                }, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: 'power3.out'
+                });
+                
+                const btnContainer = document.querySelector('.btn-all-container');
+                if (btnContainer) {
+                    btnContainer.style.display = 'none';
+                }
             });
         });
     </script>

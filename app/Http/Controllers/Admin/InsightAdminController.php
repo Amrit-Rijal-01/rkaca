@@ -37,7 +37,7 @@ class InsightAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:insights',
             'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string',
+            'content' => 'required|file|mimes:pdf|max:2048',
             'category_slug' => 'nullable|string|exists:insight_categories,slug',
             'type' => 'nullable|string|in:article,whitepaper,report,infographic,video,podcast,webinar',
             'author' => 'nullable|string|max:255',
@@ -49,13 +49,13 @@ class InsightAdminController extends Controller
             'sort_order' => 'nullable|integer|min:0',
             'read_time' => 'nullable|integer|min:1',
             'meta_description' => 'nullable|string|max:500',
-            'tags' => 'nullable|string',
         ]);
 
         $data = $request->all();
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
         $data['is_featured'] = $request->has('is_featured');
         $data['is_active'] = $request->has('is_active') ? true : false;
+        $data['tags'] = null; // Tags are removed
 
         // Set default values
         if (! isset($data['is_active'])) {
@@ -65,11 +65,9 @@ class InsightAdminController extends Controller
             $data['sort_order'] = Insight::max('sort_order') + 1;
         }
 
-        // Convert tags string to array
-        if ($data['tags']) {
-            $data['tags'] = array_map('trim', explode(',', $data['tags']));
-        } else {
-            $data['tags'] = null;
+        // Handle content (PDF) upload
+        if ($request->hasFile('content')) {
+            $data['content'] = $request->file('content')->store('insights/pdfs', 'public');
         }
 
         // Handle file upload
@@ -102,7 +100,7 @@ class InsightAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:insights,slug,'.$insight->id,
             'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string',
+            'content' => 'nullable|file|mimes:pdf|max:2048',
             'category_slug' => 'nullable|string|exists:insight_categories,slug',
             'type' => 'nullable|string|in:article,whitepaper,report,infographic,video,podcast,webinar',
             'author' => 'nullable|string|max:255',
@@ -114,19 +112,22 @@ class InsightAdminController extends Controller
             'sort_order' => 'nullable|integer|min:0',
             'read_time' => 'nullable|integer|min:1',
             'meta_description' => 'nullable|string|max:500',
-            'tags' => 'nullable|string',
         ]);
 
         $data = $request->all();
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
         $data['is_featured'] = $request->has('is_featured');
         $data['is_active'] = $request->has('is_active') ? true : false;
+        $data['tags'] = null; // Tags are removed
 
-        // Convert tags string to array
-        if ($data['tags']) {
-            $data['tags'] = array_map('trim', explode(',', $data['tags']));
+        // Handle content (PDF) upload
+        if ($request->hasFile('content')) {
+            if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf')) {
+                Storage::disk('public')->delete($insight->content);
+            }
+            $data['content'] = $request->file('content')->store('insights/pdfs', 'public');
         } else {
-            $data['tags'] = null;
+            $data['content'] = $insight->content;
         }
 
         // Handle file upload
@@ -149,6 +150,11 @@ class InsightAdminController extends Controller
         // Delete associated image
         if ($insight->featured_image) {
             Storage::disk('public')->delete($insight->featured_image);
+        }
+
+        // Delete associated PDF if exists
+        if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf')) {
+            Storage::disk('public')->delete($insight->content);
         }
 
         $insight->delete();

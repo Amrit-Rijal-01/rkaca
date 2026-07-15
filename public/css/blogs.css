@@ -116,7 +116,7 @@
 /* Blog Articles Section */
 .blog-articles-section,
 .contribute-section {
-    padding: 5rem 0;
+    padding: 3.5rem 0;
     background: var(--white);
 }
 
@@ -161,7 +161,8 @@
 
 /* Blog Image Styles */
 .blog-image {
-    height: 200px;
+    aspect-ratio: 16 / 9;
+    width: 100%;
     overflow: hidden;
     position: relative;
 }
@@ -284,7 +285,7 @@
 
 /* CTA Section */
 .cta-section {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: var(--white);
 }

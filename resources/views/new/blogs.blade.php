@@ -47,7 +47,7 @@
                                                 class="date">{{ $blog->published_at ? $blog->published_at->format('M d, Y') : $blog->created_at->format('M d, Y') }}</span>
                                         </div>
                                         <h3>{{ $blog->title }}</h3>
-                                        <p>{{ $blog->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($blog->content), 150) }}
+                                        <p>{{ $blog->excerpt ?: (str_ends_with(strtolower($blog->content), '.pdf') ? 'PDF Document' : \Illuminate\Support\Str::limit(strip_tags($blog->content), 150)) }}
                                         </p>
                                         <a href="{{ route('blog.detail', $blog->slug) }}" class="btn-blog">Read More <i
                                                 class="fas fa-arrow-right"></i></a>

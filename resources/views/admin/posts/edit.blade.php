@@ -60,12 +60,20 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="content" class="form-label">Content <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="15" required>{!! old('content', $post->content) !!}</textarea>
+                                    <label for="content" class="form-label">PDF Document</label>
+                                    @if($post->content && str_ends_with(strtolower($post->content), '.pdf'))
+                                        <div class="mb-2">
+                                            <a href="{{ asset('storage/' . $post->content) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-file-pdf me-2"></i>View Current PDF
+                                            </a>
+                                            <span class="text-muted ms-2">(Upload a new PDF to replace the current one)</span>
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control @error('content') is-invalid @enderror" id="content" name="content" accept="application/pdf">
                                     @error('content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">Upload a new PDF document if you want to replace the current one. Max size: 2MB.</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -82,8 +90,10 @@
                                     @error('thumbnail')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    <div class="form-text">Upload a new image to replace the current one (JPEG, PNG, JPG,
-                                        GIF, SVG). Max size: 2MB</div>
+                                    <div class="form-text">
+                                        Upload a new image to replace the current one (JPEG, PNG, JPG, GIF, SVG). Max size: 2MB.<br>
+                                        <span class="text-info fw-medium"><i class="fas fa-info-circle me-1"></i>Recommended best fit: <strong>1200 × 630 px</strong> (16:9 aspect ratio)</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

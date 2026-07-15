@@ -52,15 +52,22 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="content" class="form-label">Content <span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="12"
-                                        required>{{ old('content', $insight->content) }}</textarea>
-                                    @error('content')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                 <div class="mb-3">
+                                     <label for="content" class="form-label">PDF Document</label>
+                                     @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
+                                         <div class="mb-2">
+                                             <a href="{{ asset('storage/' . $insight->content) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                                 <i class="fas fa-file-pdf text-danger me-1"></i>View Current PDF
+                                             </a>
+                                         </div>
+                                     @endif
+                                     <input type="file" class="form-control @error('content') is-invalid @enderror"
+                                         id="content" name="content" accept="application/pdf">
+                                     @error('content')
+                                         <div class="invalid-feedback">{{ $message }}</div>
+                                     @enderror
+                                     <div class="form-text">Upload a new PDF to replace the current one. Max size: 2MB.</div>
+                                 </div>
 
                                 <div class="mb-3">
                                     <label for="key_takeaways" class="form-label">Key Takeaways</label>
@@ -187,17 +194,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="tags" class="form-label">Tags</label>
-                                    <input type="text" class="form-control @error('tags') is-invalid @enderror"
-                                        id="tags" name="tags"
-                                        value="{{ old('tags', is_array($insight->tags) ? implode(', ', $insight->tags) : $insight->tags) }}"
-                                        placeholder="tag1, tag2, tag3">
-                                    <div class="form-text">Separate tags with commas</div>
-                                    @error('tags')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
                                 <div class="mb-3">
                                     <label for="published_at" class="form-label">Published Date</label>
                                     <input type="datetime-local"
@@ -221,7 +218,7 @@
                                     <input type="file"
                                         class="form-control @error('featured_image') is-invalid @enderror"
                                         id="featured_image" name="featured_image" accept="image/*">
-                                    <div class="form-text">Upload a new image to replace the current one</div>
+                                    <div class="form-text">Upload a new image to replace the current one. Recommended resolution: 1200x675 pixels (16:9 aspect ratio).</div>
                                     @error('featured_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -234,6 +231,17 @@
                                             {{ old('is_featured', $insight->is_featured) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_featured">
                                             Featured Insight
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="is_active"
+                                            name="is_active" value="1"
+                                            {{ old('is_active', $insight->is_active) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">
+                                            Active (visible on public site)
                                         </label>
                                     </div>
                                 </div>

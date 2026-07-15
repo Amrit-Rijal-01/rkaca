@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Industry;
+use App\Models\Insight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class IndustryController extends Controller
         $industries = DB::table('industries')->where('status', 'active')->orderBy('sort_order', 'asc')->get();
         $industryExperties = DB::table('industry_expertises')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate(4);
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'industries')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
-        $insights = DB::table('insights')->where('status', 'published')->orderBy('published_at', 'desc')->where('is_active', 1)->limit(3)->get();
+        $insights = Insight::where('status', 'published')->orderBy('published_at', 'desc')->where('is_active', true)->limit(3)->get();
 
         return view('new.industries', compact('industries', 'industryExperties', 'jumbotrons', 'insights'));
     }

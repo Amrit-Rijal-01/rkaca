@@ -53,12 +53,12 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="15"
-                                        required>{{ old('content') }}</textarea>
+                                    <label for="content" class="form-label">PDF Document <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control @error('content') is-invalid @enderror" id="content" name="content" accept="application/pdf" required>
                                     @error('content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">Please upload a PDF document. Max size: 2MB.</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -68,7 +68,10 @@
                                     @error('thumbnail')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    <div class="form-text">Upload an image (JPEG, PNG, JPG, GIF, SVG). Max size: 2MB</div>
+                                    <div class="form-text">
+                                        Upload an image (JPEG, PNG, JPG, GIF, SVG). Max size: 2MB.<br>
+                                        <span class="text-info fw-medium"><i class="fas fa-info-circle me-1"></i>Recommended best fit: <strong>1200 × 630 px</strong> (16:9 aspect ratio)</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

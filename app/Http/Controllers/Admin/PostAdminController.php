@@ -57,7 +57,7 @@ class PostAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug',
             'excerpt' => 'nullable|string',
-            'content' => 'required|string',
+            'content' => 'required|file|mimes:pdf|max:2048',
             'status' => 'required|in:draft,published',
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
@@ -76,6 +76,11 @@ class PostAdminController extends Controller
 
         // Handle boolean values
         $data['is_featured'] = $request->has('is_featured');
+
+        // Handle content (PDF) upload
+        if ($request->hasFile('content')) {
+            $data['content'] = $request->file('content')->store('posts/pdfs', 'public');
+        }
 
         // Handle thumbnail upload
         if ($request->hasFile('thumbnail')) {
@@ -117,7 +122,7 @@ class PostAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,'.$post->id,
             'excerpt' => 'nullable|string',
-            'content' => 'required|string',
+            'content' => 'nullable|file|mimes:pdf|max:2048',
             'status' => 'required|in:draft,published',
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
@@ -137,6 +142,18 @@ class PostAdminController extends Controller
 
         // Handle boolean values
         $data['is_featured'] = $request->has('is_featured');
+
+        // Handle content (PDF) upload
+        if ($request->hasFile('content')) {
+            // Delete old PDF if exists
+            if ($post->content && str_ends_with(strtolower($post->content), '.pdf')) {
+                Storage::disk('public')->delete($post->content);
+            }
+            $data['content'] = $request->file('content')->store('posts/pdfs', 'public');
+        } else {
+            // Keep the old content (PDF path or HTML text)
+            $data['content'] = $post->content;
+        }
 
         // Handle thumbnail upload
         if ($request->hasFile('thumbnail')) {
@@ -163,6 +180,11 @@ class PostAdminController extends Controller
         // Delete thumbnail if exists
         if ($post->thumbnail) {
             Storage::disk('public')->delete($post->thumbnail);
+        }
+
+        // Delete PDF if exists
+        if ($post->content && str_ends_with(strtolower($post->content), '.pdf')) {
+            Storage::disk('public')->delete($post->content);
         }
 
         // Detach tags
