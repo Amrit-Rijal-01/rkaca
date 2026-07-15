@@ -84,6 +84,12 @@
                         </div>
                     </div>
                     <i class="fas fa-search search-icon" onclick="toggleSearch()"></i>
+
+                    <!-- ponytail: consultation page icon button -->
+                    <a href="{{ route('consultation') }}" class="consultation-icon" title="Book Consultation / Meeting">
+                        <i class="fas fa-calendar-check"></i>
+                    </a>
+
                     <button id="menu-btn" class="menu-btn hidden text-white hover:bg-white/10 p-2 rounded"
                         aria-label="Toggle menu" onclick="toggleMenu()">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
