@@ -11,7 +11,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::where('status', 'active')->orderBy('sort_order', 'asc')->get();
+        $services = Service::where('status', 'active')->topLevel()->orderBy('sort_order', 'asc')->get();
         $industries = DB::table('industries')->select('name', 'svg_icon')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate(6);
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'services')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
 
@@ -21,8 +21,8 @@ class ServiceController extends Controller
     public function getAll(Request $request)
     {
         if ($request->ajax()) {
-            // Get all services
-            $services = Service::where('status', 'active')->orderBy('sort_order', 'asc')->get();
+            // Get all top-level services
+            $services = Service::where('status', 'active')->topLevel()->orderBy('sort_order', 'asc')->get();
 
             // Generate services grid HTML
             $servicesHtml = '';
@@ -53,7 +53,9 @@ class ServiceController extends Controller
     // temp route for service details page
     public function show($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::with(['subServices' => function ($query) {
+            $query->where('status', 'active')->orderBy('sort_order', 'asc');
+        }])->findOrFail($id);
 
         // dd($service);
         return view('new.serviceDetails', compact('service'));

@@ -42,19 +42,22 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description <span
+                                    <label for="short_description" class="form-label">Event Summary <span
                                             class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                                        rows="6" required>{{ old('description') }}</textarea>
-                                    @error('description')
+                                    <textarea class="form-control @error('short_description') is-invalid @enderror" id="short_description" name="short_description"
+                                        rows="3" required>{{ old('short_description') }}</textarea>
+                                    <div class="form-text">Brief summary for previews and listings</div>
+                                    @error('short_description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="content" class="form-label">Content</label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="10">{{ old('content') }}</textarea>
-                                    @error('content')
+                                    <label for="pdf_file" class="form-label">PDF Document</label>
+                                    <input type="file" class="form-control @error('pdf_file') is-invalid @enderror"
+                                        id="pdf_file" name="pdf_file" accept=".pdf,application/pdf">
+                                    <div class="form-text">Upload a PDF document for the event content</div>
+                                    @error('pdf_file')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

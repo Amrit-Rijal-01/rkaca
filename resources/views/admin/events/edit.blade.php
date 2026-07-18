@@ -43,37 +43,30 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Event Description <span
+                                    <label for="short_description" class="form-label">Event Summary <span
                                             class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                                        rows="8" required>{{ old('description', $event->description) }}</textarea>
-                                    @error('description')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="summary" class="form-label">Event Summary</label>
-                                    <textarea class="form-control @error('summary') is-invalid @enderror" id="summary" name="summary" rows="4">{{ old('summary', $event->summary) }}</textarea>
+                                    <textarea class="form-control @error('short_description') is-invalid @enderror" id="short_description" name="short_description"
+                                        rows="3" required>{{ old('short_description', $event->short_description) }}</textarea>
                                     <div class="form-text">Brief summary for previews and listings</div>
-                                    @error('summary')
+                                    @error('short_description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="agenda" class="form-label">Event Agenda</label>
-                                    <textarea class="form-control @error('agenda') is-invalid @enderror" id="agenda" name="agenda" rows="6">{{ old('agenda', $event->agenda) }}</textarea>
-                                    @error('agenda')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="speakers" class="form-label">Speakers</label>
-                                    <textarea class="form-control @error('speakers') is-invalid @enderror" id="speakers" name="speakers" rows="4">{{ old('speakers', $event->speakers) }}</textarea>
-                                    <div class="form-text">List event speakers and their details</div>
-                                    @error('speakers')
+                                    <label for="pdf_file" class="form-label">PDF Document</label>
+                                    @if ($event->pdf_file)
+                                        <div class="mb-2">
+                                            <a href="{{ Storage::url($event->pdf_file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-file-pdf me-1"></i> View Current PDF
+                                            </a>
+                                            <div class="form-text">Current PDF file</div>
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control @error('pdf_file') is-invalid @enderror"
+                                        id="pdf_file" name="pdf_file" accept=".pdf,application/pdf">
+                                    <div class="form-text">Upload a new PDF to replace the current one</div>
+                                    @error('pdf_file')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -134,7 +127,7 @@
                                     <label for="start_date" class="form-label">Event Start Date <span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control @error('start_date') is-invalid @enderror"
-                                        id="event_date" name="start_date" value="{{ old('start_date') }}" required>
+                                        id="event_date" name="start_date" value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}" required>
                                     @error('start_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -143,7 +136,7 @@
                                     <label for="end_date" class="form-label">Event End Date <span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control @error('end_date') is-invalid @enderror"
-                                        id="end_date" name="end_date" value="{{ old('end_date') }}" required>
+                                        id="end_date" name="end_date" value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}" required>
                                     @error('end_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -153,7 +146,7 @@
                                     <label for="start_time" class="form-label">Event Start Time <span
                                             class="text-danger">*</span></label>
                                     <input type="time" class="form-control @error('start_time') is-invalid @enderror"
-                                        id="event_date" name="start_time" value="{{ old('start_time') }}" required>
+                                        id="event_date" name="start_time" value="{{ old('start_time', $event->start_time ? $event->start_time->format('H:i') : '') }}" required>
                                     @error('start_time')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -163,7 +156,7 @@
                                     <label for="end_time" class="form-label">Event End Time <span
                                             class="text-danger">*</span></label>
                                     <input type="time" class="form-control @error('end_time') is-invalid @enderror"
-                                        id="event_date" name="end_time" value="{{ old('end_time') }}" required>
+                                        id="event_date" name="end_time" value="{{ old('end_time', $event->end_time ? $event->end_time->format('H:i') : '') }}" required>
                                     @error('end_time')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

@@ -45,7 +45,7 @@
                                         <div>
                                             <strong>{{ $event->title }}</strong>
                                             <br>
-                                            <small class="text-muted">{{ Str::limit($event->description, 50) }}</small>
+                                            <small class="text-muted">{{ Str::limit($event->short_description, 80) }}</small>
                                         </div>
                                     </div>
                                 </td>

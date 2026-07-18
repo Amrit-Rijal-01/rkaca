@@ -93,6 +93,22 @@
             background: var(--white);
         }
 
+        .sd-body-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .sd-body-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .blog-featured-image {
             margin-bottom: 2rem;
             border-radius: 12px;
@@ -439,7 +455,7 @@
 
 @section('content')
     <div class="rka-scope" style="margin: 0; padding: 0; overflow-x: hidden;">
-        <main style="margin: 0; padding: 0; width: 100vw;">
+        <main style="margin: 0; padding: 0; width: 100%;">
             <!-- Blog Detail Hero Section -->
             <section class="blog-detail-hero">
                 <div class="section-container">
@@ -483,22 +499,19 @@
             <!-- Blog Content Section -->
             <section class="blog-content-section">
                 <div class="section-container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-9 col-xl-8">
-                            <!-- Back to Blogs -->
+                    <div class="sd-body-inner">
+                        <div class="sd-content-card gsap-animate">
                             <a href="{{ route('blogs') }}" class="back-to-blogs gsap-animate">
                                 <i class="fas fa-arrow-left"></i>
                                 Back to Blogs
                             </a>
 
-                            <!-- Featured Image -->
                             @if ($blog->thumbnail)
                                 <div class="blog-featured-image gsap-animate" data-delay="0.15">
                                     <img src="{{ $blog->thumbnail_url }}" alt="{{ $blog->title }}" class="img-fluid">
                                 </div>
                             @endif
 
-                            <!-- Blog Content -->
                             <div class="blog-content gsap-animate p-0" data-delay="0.2">
                                 @if ($blog->content && str_ends_with(strtolower($blog->content), '.pdf'))
                                     <div class="pdf-document-wrapper">
@@ -522,7 +535,6 @@
                                 @endif
                             </div>
 
-                            <!-- Blog Share -->
                             <div class="blog-share gsap-animate" data-delay="0.3">
                                 <h4>Share this article</h4>
                                 <div class="share-buttons">
@@ -545,6 +557,9 @@
                                 </div>
                             </div>
                         </div>
+
+                        <x-sidebar-cta :backRoute="route('blogs')" backLabel="All Blogs" />
+                    </div>
                     </div>
                 </div>
             </section>

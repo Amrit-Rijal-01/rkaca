@@ -12,14 +12,16 @@ class ServiceAdminController extends Controller
 {
     public function index()
     {
-        $services = Service::latest()->paginate(15);
+        $services = Service::with('parent')->latest()->paginate(15);
 
         return view('admin.services.index', compact('services'));
     }
 
     public function create()
     {
-        return view('admin.services.create');
+        $parentServices = Service::topLevel()->ordered()->get();
+
+        return view('admin.services.create', compact('parentServices'));
     }
 
     public function store(Request $request)
@@ -33,6 +35,8 @@ class ServiceAdminController extends Controller
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
+            'is_sub_service' => 'boolean',
+            'parent_id' => 'nullable|required_if:is_sub_service,1|exists:services,id',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
         ]);
@@ -40,6 +44,10 @@ class ServiceAdminController extends Controller
         $data = $request->all();
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
         $data['is_featured'] = $request->has('is_featured');
+        $data['is_sub_service'] = $request->has('is_sub_service');
+        if (! $data['is_sub_service']) {
+            $data['parent_id'] = null;
+        }
 
         Service::create($data);
         $this->render();
@@ -55,7 +63,9 @@ class ServiceAdminController extends Controller
 
     public function edit(Service $service)
     {
-        return view('admin.services.edit', compact('service'));
+        $parentServices = Service::topLevel()->where('id', '!=', $service->id)->ordered()->get();
+
+        return view('admin.services.edit', compact('service', 'parentServices'));
     }
 
     public function update(Request $request, Service $service)
@@ -69,6 +79,8 @@ class ServiceAdminController extends Controller
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
+            'is_sub_service' => 'boolean',
+            'parent_id' => 'nullable|required_if:is_sub_service,1|exists:services,id',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
         ]);
@@ -76,6 +88,10 @@ class ServiceAdminController extends Controller
         $data = $request->all();
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
         $data['is_featured'] = $request->has('is_featured');
+        $data['is_sub_service'] = $request->has('is_sub_service');
+        if (! $data['is_sub_service']) {
+            $data['parent_id'] = null;
+        }
 
         $service->update($data);
         $this->render();
@@ -95,7 +111,7 @@ class ServiceAdminController extends Controller
 
     public function render()
     {
-        $services = Service::active()->ordered()->get();
+        $services = Service::active()->topLevel()->ordered()->get();
         Helper::putCache('services.index', view('admin.template.services.index', compact('services'))->render());
         Helper::putCache('offices.services', view('admin.template.offices.services', compact('services'))->render());
         Helper::putCache('home.services', view('admin.template.home.services', compact('services'))->render());

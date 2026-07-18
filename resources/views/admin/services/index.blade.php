@@ -31,6 +31,8 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Category</th>
+                                <th>Type</th>
+                                <th>Parent Service</th>
                                 <th>Status</th>
                                 <th>Featured</th>
                                 <th>Sort Order</th>
@@ -56,6 +58,20 @@
                                         <span class="badge bg-secondary">{{ ucfirst($service->category) }}</span>
                                     @else
                                         <span class="text-muted">No category</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($service->is_sub_service)
+                                        <span class="badge bg-warning text-dark">Sub-Service</span>
+                                    @else
+                                        <span class="badge bg-info">Main Service</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($service->is_sub_service && $service->parent)
+                                        <a href="{{ route('admin.services.show', $service->parent->id) }}">{{ $service->parent->title }}</a>
+                                    @else
+                                        <span class="text-muted">—</span>
                                     @endif
                                 </td>
                                 <td>
@@ -111,9 +127,9 @@
 $(document).ready(function() {
     $('#servicesTable').DataTable({
         responsive: true,
-        order: [[4, 'asc']], // Sort by sort order
+        order: [[6, 'asc']], // Sort by sort order
         columnDefs: [
-            { orderable: false, targets: [6] } // Disable sorting on actions column
+            { orderable: false, targets: [8] } // Disable sorting on actions column
         ]
     });
 });

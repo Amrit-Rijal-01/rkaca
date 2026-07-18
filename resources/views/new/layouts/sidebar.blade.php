@@ -87,7 +87,7 @@
 
                     <!-- ponytail: consultation page icon button -->
                     <a href="{{ route('consultation') }}" class="consultation-icon" title="Book Consultation / Meeting">
-                        <i class="fas fa-calendar-check"></i>
+                        <i class="fas fa-calendar-check" style="font-size: 2rem;"></i>
                     </a>
 
                     <button id="menu-btn" class="menu-btn hidden text-white hover:bg-white/10 p-2 rounded"
@@ -146,24 +146,19 @@
                 @php $homeNav = $navigationItems->where('page_slug', 'home')->first(); @endphp
                 <a href="{{ route($homeNav->route_name) }}" data-tooltip="{{ $homeNav->page_title }}"
                     data-image="{{ $homeNav->preview_image_url }}" data-description="{{ $homeNav->description }}"
-                    data-tags="{{ $homeNav->tags }}"
-                    @if ($homeNav && $homeNav->quick_links) @php $links = json_decode($homeNav->quick_links, true); @endphp @if (is_array($links) && !empty($links)) data-services='[@foreach ($links as $link){"title": "{{ $link['title'] ?? '' }}", "icon": "{{ $link['icon'] ?? 'fas fa-link' }}", "url": "{{ $link['url'] ?? '#' }}"}@if (!$loop->last), @endif
-                    @endforeach]'
+                    data-tags="{{ $homeNav->tags }}" data-is-home="true">
+                    <i class="fas fa-home"></i>
+                    <span>{{ $homeNav->page_title }}</span>
+                </a>
+            @else
+                <a href="{{ route('home') }}" data-tooltip="Home"
+                    data-image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=300&h=120"
+                    data-description="Welcome to Chartered Insights, your trusted partner for expert financial solutions. We provide comprehensive audit, tax, and consulting services tailored to drive your business forward. Our team of experienced professionals is dedicated to delivering strategic insights and sustainable growth for clients across various industries."
+                    data-tags="Finance,Consulting,Audit" data-is-home="true">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
             @endif
-            @endif
-        @else
-            <a href="{{ route('home') }}" data-tooltip="Home"
-                data-image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=300&h=120"
-                data-description="Welcome to Chartered Insights, your trusted partner for expert financial solutions. We provide comprehensive audit, tax, and consulting services tailored to drive your business forward. Our team of experienced professionals is dedicated to delivering strategic insights and sustainable growth for clients across various industries."
-                data-tags="Finance,Consulting,Audit" @endif
-                data-services='[
-        {"title": "Financial Planning", "icon": "fas fa-chart-line", "url": "/services"},
-        {"title": "Investment Advice", "icon": "fas fa-piggy-bank", "url": "/consultation"},
-        {"title": "Risk Management", "icon": "fas fa-shield-alt", "url": "/serviceDetails/3"}
-    ]'>
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
             @php
                 $servicesNav = isset($navigationItems)
                     ? $navigationItems->where('page_slug', 'services')->first()
@@ -986,24 +981,31 @@
                     const tags = link.getAttribute('data-tags')?.split(',') || [];
                     previewTags.innerHTML = tags.map(tag =>
                         `<span class="tag"><i class="fas fa-tag"></i>${tag.trim()}</span>`).join('');
-                    const services = JSON.parse(link.getAttribute('data-services') || '[]');
-                    if (services.length === 0) {
-                        previewServices.innerHTML = `
-                            <div class="empty-state-message" style="padding: 1.5rem; text-align: center; color: #6c757d; font-size: 0.95rem; background: rgba(0, 33, 63, 0.03); border-radius: 12px; border: 1px dashed rgba(0, 33, 63, 0.1); width: 100%;">
-                                <i class="fas fa-info-circle" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: #0090d4;"></i>
-                                <p style="margin: 0; font-weight: 500; line-height: 1.5;">No items are currently available. Please check back later or connect with us directly.</p>
-                            </div>
-                        `;
+                    const isHome = link.getAttribute('data-is-home') === 'true';
+                    if (isHome) {
+                        previewServices.style.display = 'none';
+                        previewServices.innerHTML = '';
                     } else {
-                        previewServices.innerHTML = services.map(service => `
-                            <div class="service-box" onclick="window.location.href='${service.url || '#'}'" style="cursor: pointer;">
-                                <div class="service-info">
-                                    <i class="${service.icon}"></i>
-                                    <h4>${service.title}</h4>
+                        previewServices.style.display = 'flex';
+                        const services = JSON.parse(link.getAttribute('data-services') || '[]');
+                        if (services.length === 0) {
+                            previewServices.innerHTML = `
+                                <div class="empty-state-message" style="padding: 1.5rem; text-align: center; color: #6c757d; font-size: 0.95rem; background: rgba(0, 33, 63, 0.03); border-radius: 12px; border: 1px dashed rgba(0, 33, 63, 0.1); width: 100%;">
+                                    <i class="fas fa-info-circle" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: #0090d4;"></i>
+                                    <p style="margin: 0; font-weight: 500; line-height: 1.5;">No items are currently available. Please check back later or connect with us directly.</p>
                                 </div>
-                                <div class="plus-icon ml-2"><i class="fas fa-arrow-right"></i></div>
-                            </div>
-                        `).join('');
+                            `;
+                        } else {
+                            previewServices.innerHTML = services.map(service => `
+                                <div class="service-box" onclick="window.location.href='${service.url || '#'}'" style="cursor: pointer;">
+                                    <div class="service-info">
+                                        <i class="${service.icon}"></i>
+                                        <h4>${service.title}</h4>
+                                    </div>
+                                    <div class="plus-icon ml-2"><i class="fas fa-arrow-right"></i></div>
+                                </div>
+                            `).join('');
+                        }
                     }
 
                     // --- Viewport-safe positioning ---

@@ -99,6 +99,26 @@
                                         <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_featured">Featured Service</label>
                                     </div>
+
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="is_sub_service" name="is_sub_service" value="1" {{ old('is_sub_service') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_sub_service">Is Sub-Service</label>
+                                    </div>
+
+                                    <div class="mb-3" id="parentServiceWrapper" style="display: {{ old('is_sub_service') ? 'block' : 'none' }};">
+                                        <label for="parent_id" class="form-label">Parent Service <span class="text-danger">*</span></label>
+                                        <select class="form-select @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id" {{ old('is_sub_service') ? 'required' : '' }}>
+                                            <option value="">-- Select Parent Service --</option>
+                                            @foreach($parentServices as $parentService)
+                                                <option value="{{ $parentService->id }}" {{ old('parent_id') == $parentService->id ? 'selected' : '' }}>
+                                                    {{ $parentService->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('parent_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
@@ -151,6 +171,17 @@ $(document).ready(function() {
             .replace(/-+/g, '-')
             .trim('-');
         document.getElementById('slug').value = slug;
+    });
+
+    // Toggle parent service select field visibility
+    $('#is_sub_service').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#parentServiceWrapper').slideDown();
+            $('#parent_id').attr('required', 'required');
+        } else {
+            $('#parentServiceWrapper').slideUp();
+            $('#parent_id').removeAttr('required').val('');
+        }
     });
 
     // Initialize Summernote

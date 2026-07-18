@@ -139,7 +139,7 @@ class SearchController extends Controller
                     $results[] = [
                         'type' => 'event',
                         'title' => $event->title,
-                        'description' => substr(strip_tags($event->description ?? ''), 0, 100).'...',
+                        'description' => substr(strip_tags($event->short_description ?? ''), 0, 100).'...',
                         'url' => route('eventDetails', $event->id),
                         'icon' => 'fas fa-calendar',
                         'category' => 'Events',

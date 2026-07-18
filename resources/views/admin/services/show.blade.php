@@ -62,20 +62,19 @@
                             </div>
                         @endif
 
-                        @if($service->sub_services && is_array($service->sub_services))
+                        @if($service->subServices && $service->subServices->isNotEmpty())
                             <div class="mb-4">
-                                <h6 class="text-muted mb-2">Sub Services</h6>
+                                <h6 class="text-muted mb-2">Child Sub-Services</h6>
                                 <div class="border rounded p-3" style="background-color: #f8f9ff;">
-                                    @foreach($service->sub_services as $subServiceTitle => $subServiceItems)
-                                        <div class="mb-3">
-                                            <h6 class="text-primary">{{ $subServiceTitle }}</h6>
-                                            <ul class="mb-0">
-                                                @foreach($subServiceItems as $item)
-                                                    <li>{{ $item }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endforeach
+                                    <ul class="mb-0">
+                                        @foreach($service->subServices as $subService)
+                                            <li class="mb-2">
+                                                <a href="{{ route('admin.services.show', $subService->id) }}"><strong>{{ $subService->title }}</strong></a> 
+                                                <span class="badge bg-{{ $subService->status === 'active' ? 'success' : 'secondary' }} btn-sm">{{ ucfirst($subService->status) }}</span>
+                                                <p class="text-muted mb-0 small">{{ $subService->description }}</p>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         @endif
@@ -111,6 +110,28 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>Type:</strong></td>
+                                        <td>
+                                            @if($service->is_sub_service)
+                                                <span class="badge bg-warning text-dark">Sub-Service</span>
+                                            @else
+                                                <span class="badge bg-info">Main Service</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @if($service->is_sub_service)
+                                    <tr>
+                                        <td><strong>Parent Service:</strong></td>
+                                        <td>
+                                            @if($service->parent)
+                                                <a href="{{ route('admin.services.show', $service->parent->id) }}">{{ $service->parent->title }}</a>
+                                            @else
+                                                <span class="text-muted">None</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endif
                                     <tr>
                                         <td><strong>Starting Price:</strong></td>
                                         <td>{{ $service->price ?? 'Contact for quote' }}</td>

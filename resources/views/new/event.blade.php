@@ -47,7 +47,7 @@
                     <div class="event-grid">
                         @foreach ($upcomingEvents as $event)
                             <div class="event-card gsap-animate" data-category="{{ ucfirst($event->type) }}"
-                                data-title="{{ $event->title }}" data-description="{{ $event->description }}"
+                                data-title="{{ $event->title }}" data-description="{{ $event->short_description }}"
                                 data-details="{{ $event->location }}|{{ $event->formatted_time }}|{{ $event->display_price }}"
                                 data-button-text="{{ $event->is_free ? 'Join ' . ucfirst($event->type) . ' (Free)' : 'Register Now' }}"
                                 data-button-link="{{ $event->registration_link ?: '#register' }}">
@@ -89,7 +89,7 @@
                     <div class="event-grid">
                         @foreach ($pastEvents as $event)
                             <div class="event-card gsap-animate" data-category="{{ ucfirst($event->type) }}"
-                                data-title="{{ $event->title }}" data-description="{{ $event->description }}"
+                                data-title="{{ $event->title }}" data-description="{{ $event->short_description }}"
                                 data-details="{{ $event->start_date->format('F j, Y') }}"
                                 data-button-text="{{ $event->recording_link ? 'View Recording' : 'Event Completed' }}{{ $event->resources_link ? '|Download Resources' : '' }}"
                                 data-button-link="{{ $event->recording_link ?: '#' }}{{ $event->resources_link ? '|' . $event->resources_link : '' }}">

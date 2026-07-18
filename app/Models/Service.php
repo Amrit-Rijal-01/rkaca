@@ -18,16 +18,30 @@ class Service extends Model
         'status',
         'sort_order',
         'is_featured',
+        'parent_id',
+        'is_sub_service',
         'meta_title',
         'meta_description',
     ];
 
     protected $casts = [
+        'parent_id' => 'integer',
+        'is_sub_service' => 'boolean',
         'sort_order' => 'integer',
         'is_featured' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(Service::class, 'parent_id');
+    }
+
+    public function subServices()
+    {
+        return $this->hasMany(Service::class, 'parent_id');
+    }
 
     public function scopeActive($query)
     {
@@ -37,5 +51,10 @@ class Service extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order');
+    }
+
+    public function scopeTopLevel($query)
+    {
+        return $query->where('is_sub_service', false);
     }
 }

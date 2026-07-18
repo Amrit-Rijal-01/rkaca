@@ -108,11 +108,18 @@
                         </div>
                     </div>
 
-                    @if($event->description)
+                    @if($event->pdf_file)
                     <div class="mt-4">
-                        <h6 class="text-primary fw-bold mb-3">Description</h6>
-                        <div class="p-3 bg-light rounded border">
-                            {!! nl2br(e($event->description)) !!}
+                        <h6 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-file-pdf text-danger me-1"></i>PDF Document
+                        </h6>
+                        <div class="mb-3" style="height: 85vh; min-height: 500px; border: 1px solid #dee2e6; border-radius: 0.375rem; overflow: hidden; background: #fff;">
+                            <iframe src="{{ Storage::url($event->pdf_file) }}" width="100%" height="100%" style="border: none;"></iframe>
+                        </div>
+                        <div class="text-center mt-2">
+                            <a href="{{ Storage::url($event->pdf_file) }}" target="_blank" class="btn btn-outline-primary">
+                                <i class="fas fa-file-download me-2"></i>Download PDF Document
+                            </a>
                         </div>
                     </div>
                     @endif

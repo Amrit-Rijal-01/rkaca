@@ -13,8 +13,8 @@ class Event extends Model
         'title',
         'slug',
         'type',
-        'description',
         'short_description',
+        'pdf_file',
         'location',
         'venue_type',
         'start_date',
@@ -101,5 +101,10 @@ class Event extends Model
     public function getImageUrlAttribute()
     {
         return $this->featured_image ? asset('storage/'.$this->featured_image) : null;
+    }
+
+    public function getPdfUrlAttribute()
+    {
+        return $this->pdf_file ? asset('storage/'.$this->pdf_file) : null;
     }
 }

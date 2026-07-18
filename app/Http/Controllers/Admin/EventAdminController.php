@@ -29,8 +29,8 @@ class EventAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:events',
             'type' => 'required|in:webinar,workshop,conference,training',
-            'description' => 'required|string',
-            'short_description' => 'nullable|string|max:500',
+            'short_description' => 'required|string|max:500',
+            'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'start_time' => 'nullable|date_format:H:i',
@@ -54,9 +54,12 @@ class EventAdminController extends Controller
         $data['is_featured'] = $request->has('is_featured');
         $data['is_free'] = $request->has('is_free');
 
-        // Handle file upload
+        // Handle file uploads
         if ($request->hasFile('featured_image')) {
             $data['featured_image'] = $request->file('featured_image')->store('events', 'public');
+        }
+        if ($request->hasFile('pdf_file')) {
+            $data['pdf_file'] = $request->file('pdf_file')->store('events/pdfs', 'public');
         }
 
         Event::create($data);
@@ -82,8 +85,8 @@ class EventAdminController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:events,slug,'.$event->id,
             'type' => 'required|in:webinar,workshop,conference,training',
-            'description' => 'required|string',
-            'short_description' => 'nullable|string|max:500',
+            'short_description' => 'required|string|max:500',
+            'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'start_time' => 'nullable|date_format:H:i',
@@ -107,13 +110,18 @@ class EventAdminController extends Controller
         $data['is_featured'] = $request->has('is_featured');
         $data['is_free'] = $request->has('is_free');
 
-        // Handle file upload
+        // Handle file uploads
         if ($request->hasFile('featured_image')) {
-            // Delete old image if exists
             if ($event->featured_image) {
                 Storage::disk('public')->delete($event->featured_image);
             }
             $data['featured_image'] = $request->file('featured_image')->store('events', 'public');
+        }
+        if ($request->hasFile('pdf_file')) {
+            if ($event->pdf_file) {
+                Storage::disk('public')->delete($event->pdf_file);
+            }
+            $data['pdf_file'] = $request->file('pdf_file')->store('events/pdfs', 'public');
         }
 
         $event->update($data);
@@ -125,9 +133,12 @@ class EventAdminController extends Controller
 
     public function destroy(Event $event)
     {
-        // Delete associated image
+        // Delete associated files
         if ($event->featured_image) {
             Storage::disk('public')->delete($event->featured_image);
+        }
+        if ($event->pdf_file) {
+            Storage::disk('public')->delete($event->pdf_file);
         }
 
         $event->delete();
