@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/event.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/event.css')">
     @include('new.layouts.links')
     <style>
         .event-detail-hero {

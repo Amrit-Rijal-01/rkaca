@@ -6,7 +6,7 @@
 
 @section('styles')
     @include('new.layouts.links')
-    <link rel="stylesheet" href="{{ asset('css/insights.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/insights.css')">
     <style>
             /* Article Content Styling */
             .article-content {

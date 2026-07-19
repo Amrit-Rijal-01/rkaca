@@ -13,7 +13,7 @@
         rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/carrers.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/carrers.css')">
 @endsection
 
 @section('content')

@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/industryDetails.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/industryDetails.css')">
     @include('new.layouts.links')
 @endsection
 

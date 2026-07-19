@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/offices.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/offices.css')">
     @include('new.layouts.links')
 @endsection
 

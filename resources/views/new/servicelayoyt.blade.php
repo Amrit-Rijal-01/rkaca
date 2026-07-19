@@ -1,7 +1,7 @@
 @extends('new.layouts.sidebar')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/services.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/services.css')">
     @include('new.layouts.links')
     <!-- Slick Slider CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">

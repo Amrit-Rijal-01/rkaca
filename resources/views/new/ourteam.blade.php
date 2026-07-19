@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/ourteam.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/ourteam.css')">
 @endsection
 
 @section('content')

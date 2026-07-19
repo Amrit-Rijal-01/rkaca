@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/serviceDetails.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/serviceDetails.css')">
     @include('new.layouts.links')
     <style>
         /* ─── Page-level overrides ─────────────────────────── */

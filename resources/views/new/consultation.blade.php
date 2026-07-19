@@ -5,7 +5,7 @@
 @endpush
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/consultation.css') }}">
+    <link rel="stylesheet" href="@versionedAsset('css/consultation.css')">
     @include('new.layouts.links')
     <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

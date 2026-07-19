@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register versioned asset helper directive
+        \Illuminate\Support\Facades\Blade::directive('versionedAsset', function ($expression) {
+            return "<?php echo \App\Helpers\AssetHelper::versioned($expression); ?>";
+        });
+
         // Register view composers
         View::composer('partials.footer', FooterComposer::class);
         View::composer('new.layouts.sidebar', \App\View\Composers\SidebarComposer::class);
