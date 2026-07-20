@@ -445,7 +445,7 @@
                                                 <h3>{{ $subService->title }}</h3>
                                                 <p>{{ $subService->description }}</p>
                                             </div>
-                                            <a href="{{ route('serviceDetails', $subService->id) }}" class="learn-more">
+                                            <a href="{{ route('serviceDetails', $subService->slug) }}" class="learn-more">
                                                 Learn More <i class="fas fa-arrow-right"></i>
                                             </a>
                                         </div>

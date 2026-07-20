@@ -145,7 +145,7 @@
                                     <h3 class="service-title">{{ $other->name }}</h3>
                                     <p class="service-description">{{ $other->description }}</p>
 
-                                    <a href="{{ route('industryDetails', $other->id) }}" class="learn-more">Learn More <i
+                                    <a href="{{ route('industryDetails', $other->slug) }}" class="learn-more">Learn More <i
                                             class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>

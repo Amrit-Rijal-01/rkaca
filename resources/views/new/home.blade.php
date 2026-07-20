@@ -75,7 +75,7 @@
                                     <div class="service-card">
                                         <h3>{{ $service->title }}</h3>
                                         <p>{{ $service->description }}</p>
-                                        <a href="{{ route('serviceDetails', $service->id) }}" class="learn-more">Learn More
+                                        <a href="{{ route('serviceDetails', $service->slug) }}" class="learn-more">Learn More
                                             <i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </div>

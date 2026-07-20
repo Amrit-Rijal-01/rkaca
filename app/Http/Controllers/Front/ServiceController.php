@@ -28,7 +28,7 @@ class ServiceController extends Controller
             $servicesHtml = '';
             foreach ($services as $index => $service) {
                 $delay = $index * 0.2;
-                $serviceUrl = route('serviceDetails', $service->id);
+                $serviceUrl = route('serviceDetails', $service->slug);
                 $servicesHtml .= "
             
                 <div class='col-md-6 col-lg-4 gsap-animate' data-delay='{$delay}'>
@@ -50,12 +50,11 @@ class ServiceController extends Controller
         return response()->json(['success' => false], 400);
     }
 
-    // temp route for service details page
-    public function show($id)
+    public function show($slug)
     {
         $service = Service::with(['subServices' => function ($query) {
             $query->where('status', 'active')->orderBy('sort_order', 'asc');
-        }])->findOrFail($id);
+        }])->where('slug', $slug)->firstOrFail();
 
         // dd($service);
         return view('new.serviceDetails', compact('service'));

@@ -169,7 +169,7 @@
                 data-image="{{ $servicesNav ? $servicesNav->preview_image_url : 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=300&h=120' }}"
                 data-description="{{ $servicesNav ? $servicesNav->description : 'Explore our comprehensive audit, tax, and consulting services tailored to your needs. From financial reporting and compliance to strategic business consulting, we offer solutions that ensure regulatory adherence, optimize financial performance, and support long-term success.' }}"
                 data-tags="{{ $servicesNav ? $servicesNav->tags : 'Audit,Tax,Consulting' }}"
-                data-services='[@foreach ($servicesNavItems as $item){"title": "{{ $item->title }}", "icon": "{{ $item->icon ?? 'fas fa-briefcase' }}", "url": "{{ route('serviceDetails', $item->id) }}"}@if (!$loop->last), @endif @endforeach]'>
+                data-services='[@foreach ($servicesNavItems as $item){"title": "{{ $item->title }}", "icon": "{{ $item->icon ?? 'fas fa-briefcase' }}", "url": "{{ route('serviceDetails', $item->slug) }}"}@if (!$loop->last), @endif @endforeach]'>
                 <i
                     class="@if ($servicesNav) {{ $servicesNav->icon_class }}@else fas fa-file-invoice-dollar @endif"></i>
                 <span>{{ $servicesNav ? $servicesNav->page_title : 'Services' }}</span>
@@ -185,7 +185,7 @@
                 data-image="{{ $industriesNav ? $industriesNav->preview_image_url : 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=300&h=120' }}"
                 data-description="{{ $industriesNav ? $industriesNav->description : 'Specialized expertise across diverse sectors to meet your unique challenges. Our industry-specific knowledge in healthcare, technology, manufacturing, and more ensures customized solutions that address your business\'s specific needs and goals.' }}"
                 data-tags="{{ $industriesNav ? $industriesNav->tags : 'Healthcare,Technology,Manufacturing' }}"
-                data-services='[@foreach ($industriesNavItems as $item){"title": "{{ $item->name }}", "icon": "{{ $item->icon ?? 'fas fa-industry' }}", "url": "{{ route('industryDetails', $item->id) }}"}@if (!$loop->last), @endif @endforeach]'>
+                data-services='[@foreach ($industriesNavItems as $item){"title": "{{ $item->name }}", "icon": "{{ $item->icon ?? 'fas fa-industry' }}", "url": "{{ route('industryDetails', $item->slug) }}"}@if (!$loop->last), @endif @endforeach]'>
                 <i
                     class="@if ($industriesNav) {{ $industriesNav->icon_class }}@else fas fa-industry @endif"></i>
                 <span>{{ $industriesNav ? $industriesNav->page_title : 'Industries' }}</span>

@@ -50,7 +50,7 @@ class IndustryController extends Controller
                     }
                     $industriesHtml .= '</ul>';
                 }
-                $industriesHtml .= '<a href="'.route('industryDetails', $industry->id).'" class="learn-more">';
+                $industriesHtml .= '<a href="'.route('industryDetails', $industry->slug).'" class="learn-more">';
                 $industriesHtml .= 'Learn More <i class="fas fa-arrow-right"></i>';
                 $industriesHtml .= '</a>';
                 $industriesHtml .= '</div></div>';
@@ -64,10 +64,9 @@ class IndustryController extends Controller
         return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-
-        $industry = Industry::findorFail($id);
+        $industry = Industry::where('slug', $slug)->firstOrFail();
         $nextindustry = Industry::where('id', '>', $industry->id)->orderBy('id', 'asc')->take(3)->get();
 
         return view('new.industryDetails', compact('industry', 'nextindustry'));

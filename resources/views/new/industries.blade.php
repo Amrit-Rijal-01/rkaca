@@ -67,7 +67,7 @@
                                             @endforeach
                                         </ul>
                                     @endif
-                                    <a href="{{ route('industryDetails', $industry->id) }}" class="learn-more">
+                                    <a href="{{ route('industryDetails', $industry->slug) }}" class="learn-more">
                                         Learn More <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>

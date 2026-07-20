@@ -62,7 +62,7 @@
                     </div>
                     @php
                         $services = DB::table('services')
-                            ->select('id', 'title')
+                            ->select('id', 'title', 'slug')
                             ->orderBy('sort_order', 'asc')
                             ->limit(5)
                             ->get();
@@ -71,7 +71,7 @@
                         <h3>Services</h3>
                         <div class="footer-links">
                             @foreach ($services as $service)
-                                <a href="{{ route('serviceDetails', $service->id) }}">{{ $service->title }}</a>
+                                <a href="{{ route('serviceDetails', $service->slug) }}">{{ $service->title }}</a>
                             @endforeach
                         </div>
                     </div>

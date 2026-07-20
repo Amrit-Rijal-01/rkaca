@@ -44,7 +44,7 @@ class SearchController extends Controller
                         'type' => 'service',
                         'title' => $service->title,
                         'description' => substr(strip_tags($service->description ?? ''), 0, 100).'...',
-                        'url' => route('serviceDetails', $service->id),
+                        'url' => route('serviceDetails', $service->slug),
                         'icon' => 'fas fa-file-invoice-dollar',
                         'category' => 'Services',
                     ];
@@ -68,7 +68,7 @@ class SearchController extends Controller
                         'type' => 'industry',
                         'title' => $industry->title,
                         'description' => substr(strip_tags($industry->description ?? ''), 0, 100).'...',
-                        'url' => route('industryDetails', $industry->id),
+                        'url' => route('industryDetails', $industry->slug),
                         'icon' => 'fas fa-industry',
                         'category' => 'Industries',
                     ];
