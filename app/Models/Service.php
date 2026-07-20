@@ -55,6 +55,6 @@ class Service extends Model
 
     public function scopeTopLevel($query)
     {
-        return $query->where('is_sub_service', false);
+        return $query->where('is_sub_service', false)->whereNull('parent_id');
     }
 }

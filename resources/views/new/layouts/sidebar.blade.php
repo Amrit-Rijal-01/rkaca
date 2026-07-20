@@ -169,7 +169,7 @@
                 data-image="{{ $servicesNav ? $servicesNav->preview_image_url : 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=300&h=120' }}"
                 data-description="{{ $servicesNav ? $servicesNav->description : 'Explore our comprehensive audit, tax, and consulting services tailored to your needs. From financial reporting and compliance to strategic business consulting, we offer solutions that ensure regulatory adherence, optimize financial performance, and support long-term success.' }}"
                 data-tags="{{ $servicesNav ? $servicesNav->tags : 'Audit,Tax,Consulting' }}"
-                data-services='[@foreach ($servicesNavItems as $item){"title": "{{ $item->title }}", "icon": "{{ $item->icon ?? 'fas fa-briefcase' }}", "url": "{{ route('serviceDetails', $item->slug) }}"}@if (!$loop->last), @endif @endforeach]'>
+                data-services='[@foreach ($servicesNavItems->reject(fn($item) => $item->is_sub_service || !is_null($item->parent_id)) as $item){"title": "{{ $item->title }}", "icon": "{{ $item->icon ?? 'fas fa-briefcase' }}", "url": "{{ route('serviceDetails', $item->slug) }}"}@if (!$loop->last), @endif @endforeach]'>
                 <i
                     class="@if ($servicesNav) {{ $servicesNav->icon_class }}@else fas fa-file-invoice-dollar @endif"></i>
                 <span>{{ $servicesNav ? $servicesNav->page_title : 'Services' }}</span>

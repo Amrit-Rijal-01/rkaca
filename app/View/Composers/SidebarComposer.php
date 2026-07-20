@@ -23,7 +23,7 @@ class SidebarComposer
             'homeSetting' => HomeSetting::getInstance(),
             'footerSetting' => FooterSetting::getInstance(),
             'navigationItems' => NavigationSetting::getSidebarNavigation(),
-            'servicesNavItems' => Service::active()->ordered()->take(4)->get(),
+            'servicesNavItems' => Service::active()->topLevel()->ordered()->take(4)->get(),
             'industriesNavItems' => Industry::active()->ordered()->take(4)->get(),
             'postsNavItems' => Post::published()->orderBy('published_at', 'desc')->take(4)->get(),
             'eventsNavItems' => Event::active()->orderBy('start_date', 'asc')->take(4)->get(),
