@@ -19,7 +19,7 @@ class ServiceAdminController extends Controller
 
     public function create()
     {
-        $parentServices = Service::topLevel()->ordered()->get();
+        $parentServices = Service::getHierarchy();
 
         return view('admin.services.create', compact('parentServices'));
     }
@@ -63,7 +63,8 @@ class ServiceAdminController extends Controller
 
     public function edit(Service $service)
     {
-        $parentServices = Service::topLevel()->where('id', '!=', $service->id)->ordered()->get();
+        $excludeIds = array_merge([$service->id], $service->getAllDescendantIds());
+        $parentServices = Service::getHierarchy($excludeIds);
 
         return view('admin.services.edit', compact('service', 'parentServices'));
     }
@@ -91,6 +92,12 @@ class ServiceAdminController extends Controller
         $data['is_sub_service'] = $request->has('is_sub_service');
         if (! $data['is_sub_service']) {
             $data['parent_id'] = null;
+        } else {
+            // Prevent cyclic parent reference loops (ponytail: fast local check on small DB size)
+            $excludeIds = array_merge([$service->id], $service->getAllDescendantIds());
+            if (in_array($data['parent_id'], $excludeIds)) {
+                return back()->withErrors(['parent_id' => 'A service cannot be its own child or descendant.'])->withInput();
+            }
         }
 
         $service->update($data);

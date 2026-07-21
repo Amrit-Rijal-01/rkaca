@@ -112,7 +112,7 @@
                                             <option value="">-- Select Parent Service --</option>
                                             @foreach($parentServices as $parentService)
                                                 <option value="{{ $parentService->id }}" {{ old('parent_id', $service->parent_id) == $parentService->id ? 'selected' : '' }}>
-                                                    {{ $parentService->title }}
+                                                    {{ str_repeat('— ', $parentService->depth ?? 0) }}{{ $parentService->title }}
                                                 </option>
                                             @endforeach
                                         </select>

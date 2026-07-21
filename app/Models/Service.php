@@ -57,4 +57,45 @@ class Service extends Model
     {
         return $query->where('is_sub_service', false)->whereNull('parent_id');
     }
+
+    public function getAllDescendantIds()
+    {
+        $ids = [];
+        foreach ($this->subServices as $subService) {
+            $ids[] = $subService->id;
+            $ids = array_merge($ids, $subService->getAllDescendantIds());
+        }
+
+        return $ids;
+    }
+
+    public static function getHierarchy($excludeIds = [])
+    {
+        $topLevelServices = self::whereNull('parent_id')
+            ->whereNotIn('id', $excludeIds)
+            ->ordered()
+            ->get();
+
+        $hierarchy = [];
+        foreach ($topLevelServices as $service) {
+            self::buildHierarchyTree($service, 0, $excludeIds, $hierarchy);
+        }
+
+        return collect($hierarchy);
+    }
+
+    private static function buildHierarchyTree($service, $depth, $excludeIds, &$hierarchy)
+    {
+        $service->depth = $depth;
+        $hierarchy[] = $service;
+
+        $children = $service->subServices()
+            ->whereNotIn('id', $excludeIds)
+            ->ordered()
+            ->get();
+
+        foreach ($children as $child) {
+            self::buildHierarchyTree($child, $depth + 1, $excludeIds, $hierarchy);
+        }
+    }
 }
