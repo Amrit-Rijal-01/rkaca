@@ -96,7 +96,7 @@
 
   /* Card Styles */
   .card {
-    @apply bg-crisp-white rounded-lg p-6 shadow-lg border border-audit-grey;
+    @apply bg-crisp-white rounded-lg p-6 shadow-lg border border-audit-grey text-justify;
   }
 
   .card-header {
@@ -168,7 +168,7 @@
   /* Service Cards */
   .service-card {
     @apply bg-crisp-white rounded-lg p-8 shadow-lg border border-audit-grey
-           hover:shadow-xl hover:border-fresh-teal transition duration-300 ease-in-out;
+           hover:shadow-xl hover:border-fresh-teal transition duration-300 ease-in-out text-justify;
   }
 
   .service-icon {

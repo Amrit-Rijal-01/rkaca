@@ -193,6 +193,7 @@
     font-size: 1rem;
     margin-bottom: 1.2rem;
     line-height: 1.7;
+    text-align: justify;
 }
 
 /* Cards */
@@ -207,6 +208,9 @@
     transition: var(--transition);
     overflow: hidden;
     position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .value-card {
     text-align: center;
@@ -356,6 +360,7 @@
     font-weight: 400;
     margin-bottom: 1.2rem;
     line-height: 1.7;
+    text-align: justify;
 }
 
 /* CTA Button */

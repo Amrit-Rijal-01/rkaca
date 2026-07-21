@@ -44,33 +44,27 @@
                     <div class="row g-5" id="industriesGrid">
                         @foreach ($industries->take(9) as $index => $industry)
                             <div class="col-12 col-md-6 col-lg-4 gsap-animate" data-delay="{{ $index * 0.1 }}">
-                                <div class="industry-card">
-                                    @if ($industry->svg_icon)
-                                        <svg class="service-icon" width="40" height="40" fill="none"
-                                            stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="{{ $industry->svg_icon }}" />
-                                        </svg>
-                                    @elseif($industry->icon)
-                                        <i class="{{ $industry->icon }} service-icon"></i>
-                                    @else
-                                        <svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                        </svg>
-                                    @endif
-                                    <h3>{{ $industry->title ?: $industry->name }}</h3>
-                                    @if ($industry->features)
-                                        <ul class="industry-features">
-                                            @foreach (json_decode($industry->features) as $feature)
-                                                <li>{{ $feature }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                    <a href="{{ route('industryDetails', $industry->slug) }}" class="learn-more">
-                                        Learn More <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
+                                <a href="{{ route('industryDetails', $industry->slug) }}" class="industry-card-link" style="text-decoration: none; color: inherit; display: block;">
+                                    <div class="industry-card" @if($industry->featured_image) style="background-image: url('{{ asset('storage/' . $industry->featured_image) }}'); background-size: cover; background-position: center;" @endif>
+                                        <!-- Dark overlay for image legibility -->
+                                        @if($industry->featured_image)
+                                            <div class="card-img-overlay"></div>
+                                        @endif
+                                        <!-- Category Badge (Normal state) -->
+                                        <span class="category-badge-normal">{{ $industry->category }}</span>
+                                        <!-- Default State Title (Unhovered) -->
+                                        <div class="default-title">
+                                            <h3>{{ $industry->title ?: $industry->name }}</h3>
+                                        </div>
+                                        <!-- Hover State Content Overlay -->
+                                        <div class="content-overlay">
+                                            <div class="content-details">
+                                                <h3>{{ $industry->title ?: $industry->name }}</h3>
+                                                <p>{{ $industry->description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -187,8 +181,10 @@
                         @foreach ($industryExperties as $index => $experties)
                             <div class="col-12 col-md-6 col-lg-3 gsap-animate" data-delay="{{ $index * 0.1 }}">
                                 <div class="why-card">
-                                    <i class="{{ $experties->icon_class }}"></i>
-                                    <h4>{{ $experties->title }}</h4>
+                                    <div class="why-header">
+                                        <i class="{{ $experties->icon_class }}"></i>
+                                        <h4>{{ $experties->title }}</h4>
+                                    </div>
                                     <p>{{ $experties->description }}</p>
                                 </div>
                             </div>

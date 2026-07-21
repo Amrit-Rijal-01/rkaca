@@ -310,6 +310,7 @@
     color: var(--gray);
     margin-bottom: 1.2rem;
     flex-grow: 1;
+    text-align: justify;
 }
 
 /* Current Openings Section */

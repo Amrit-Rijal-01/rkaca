@@ -71,64 +71,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-label">Detailed Content</label>
+                                <label for="content" class="form-label">Detailed Content (Summernote)</label>
                                 <textarea class="form-control @error('content') is-invalid @enderror"
-                                    id="content" name="content" rows="6">{{ old('content', $industry->content) }}</textarea>
+                                    id="content" name="content">{{ old('content', $industry->content) }}</textarea>
                                 @error('content')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
-
-                            <!-- Features Section -->
-                            <div class="mb-3">
-                                <label class="form-label">Industry Features</label>
-                                <div id="features-container">
-                                    @forelse(old('features', $industry->features ?? []) as $index => $feature)
-                                        <div class="feature-item mb-2">
-                                            <div class="input-group">
-                                                <input type="text" name="features[]" class="form-control" value="{{ $feature }}" placeholder="Enter feature">
-                                                <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="feature-item mb-2">
-                                            <div class="input-group">
-                                                <input type="text" name="features[]" class="form-control" placeholder="Enter feature">
-                                                <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endforelse
-                                </div>
-                                <button type="button" class="btn btn-outline-primary mt-2" onclick="addFeature()">
-                                    <i class="fas fa-plus me-1"></i>Add Feature
-                                </button>
-                            </div>
-
-                            <!-- SVG Icon Section -->
-                            <div class="mb-3">
-                                <label for="svg_icon" class="form-label">SVG Path Data</label>
-                                <textarea class="form-control @error('svg_icon') is-invalid @enderror"
-                                    id="svg_icon" name="svg_icon" rows="3"
-                                    placeholder="Enter SVG path data (e.g., M4.318 6.318a4.5 4.5 0...)">{{ old('svg_icon', $industry->svg_icon) }}</textarea>
-                                @error('svg_icon')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <div class="form-text">SVG path data for custom icons. This will be used inside an SVG element.</div>
-
-                                @if($industry->svg_icon)
-                                    <div class="mt-3">
-                                        <label class="form-label d-block">Current SVG Icon</label>
-                                        <div class="p-3 border rounded text-center" style="max-width: 100px;">
-                                            <svg class="w-100 h-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="max-height: 60px;">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $industry->svg_icon }}" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
 
                             <!-- SEO Section -->
@@ -231,33 +179,6 @@
                                 </div>
                             </div>
 
-                            <!-- FontAwesome Icon -->
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h6 class="card-title mb-0">FontAwesome Icon</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="icon" class="form-label">Icon Class</label>
-                                        <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon"
-                                            name="icon" value="{{ old('icon', $industry->icon) }}" placeholder="fas fa-industry">
-                                        @error('icon')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                        <div class="form-text">
-                                            FontAwesome icon class (e.g., fas fa-industry)
-                                        </div>
-                                    </div>
-
-                                    @if($industry->icon)
-                                        <div class="text-center">
-                                            <label class="form-label d-block">Current Icon</label>
-                                            <i class="{{ $industry->icon }} fa-2x text-primary"></i>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
                             <!-- Action Buttons -->
                             <div class="card">
                                 <div class="card-body">
@@ -287,118 +208,93 @@
 
 @push('scripts')
 <script>
-    // Auto-generate slug from name
-    document.getElementById('name').addEventListener('input', function() {
-        const name = this.value;
-        const slug = name.toLowerCase()
-            .replace(/[^a-z0-9 -]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .trim('-');
-        document.getElementById('slug').value = slug;
-    });
+    $(document).ready(function() {
+        // Auto-generate slug from name
+        document.getElementById('name').addEventListener('input', function() {
+            const name = this.value;
+            const slug = name.toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            document.getElementById('slug').value = slug;
+        });
 
-    // Features management
-    function addFeature() {
-        const container = document.getElementById('features-container');
-        const newFeature = document.createElement('div');
-        newFeature.className = 'feature-item mb-2';
-        newFeature.innerHTML = `
-            <div class="input-group">
-                <input type="text" name="features[]" class="form-control" placeholder="Enter feature">
-                <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        `;
-        container.appendChild(newFeature);
-    }
+        // Initialize Summernote
+        $('#content').summernote({
+            placeholder: 'Write industry details here...',
+            tabsize: 2,
+            height: 350,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
 
-    function removeFeature(button) {
-        const container = document.getElementById('features-container');
-        if (container.children.length > 1) {
-            button.closest('.feature-item').remove();
-        }
-    }
+        // Character counters for meta fields
+        function updateCounter(fieldId, maxLength) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                const counter = document.createElement('div');
+                counter.className = 'form-text text-end';
+                counter.textContent = `${field.value.length}/${maxLength} characters`;
 
-    // Character counters for meta fields
-    function updateCounter(fieldId, maxLength) {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            const counter = document.createElement('div');
-            counter.className = 'form-text text-end';
-            counter.textContent = `${field.value.length}/${maxLength} characters`;
+                // Remove existing counter
+                const existing = field.parentNode.querySelector('.form-text.text-end');
+                if (existing) existing.remove();
 
-            // Remove existing counter
-            const existing = field.parentNode.querySelector('.form-text.text-end');
-            if (existing) existing.remove();
+                field.parentNode.appendChild(counter);
 
-            field.parentNode.appendChild(counter);
-
-            field.addEventListener('input', function() {
-                counter.textContent = `${this.value.length}/${maxLength} characters`;
-                if (this.value.length > maxLength) {
-                    counter.classList.add('text-danger');
-                } else {
-                    counter.classList.remove('text-danger');
-                }
-            });
-        }
-    }
-
-    // Initialize counters
-    updateCounter('meta_title', 60);
-    updateCounter('meta_description', 160);
-
-    // Auto-fill meta title from name if empty
-    document.getElementById('name').addEventListener('input', function() {
-        const metaTitle = document.getElementById('meta_title');
-        if (!metaTitle.value) {
-            metaTitle.value = this.value;
-            metaTitle.dispatchEvent(new Event('input'));
-        }
-    });
-
-    // Image preview
-    document.getElementById('featured_image').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                let preview = document.getElementById('imagePreview');
-                if (!preview) {
-                    preview = document.createElement('div');
-                    preview.id = 'imagePreview';
-                    preview.className = 'mt-2 text-center';
-                    e.target.parentNode.appendChild(preview);
-                }
-                preview.innerHTML = `
-                    <img src="${event.target.result}" class="img-fluid rounded shadow-sm" style="max-height: 150px;">
-                    <div class="form-text">Preview of new image</div>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Icon preview
-    document.getElementById('icon').addEventListener('input', function() {
-        let preview = document.getElementById('iconPreview');
-        if (!preview) {
-            preview = document.createElement('div');
-            preview.id = 'iconPreview';
-            preview.className = 'mt-2 text-center';
-            this.parentNode.appendChild(preview);
+                field.addEventListener('input', function() {
+                    counter.textContent = `${this.value.length}/${maxLength} characters`;
+                    if (this.value.length > maxLength) {
+                        counter.classList.add('text-danger');
+                    } else {
+                        counter.classList.remove('text-danger');
+                    }
+                });
+            }
         }
 
-        if (this.value) {
-            preview.innerHTML = `
-                <i class="${this.value} fa-2x text-primary"></i>
-                <div class="form-text">Icon preview</div>
-            `;
-        } else {
-            preview.innerHTML = '';
-        }
+        // Initialize counters
+        updateCounter('meta_title', 60);
+        updateCounter('meta_description', 160);
+
+        // Auto-fill meta title from name if empty
+        document.getElementById('name').addEventListener('input', function() {
+            const metaTitle = document.getElementById('meta_title');
+            if (metaTitle && !metaTitle.value) {
+                metaTitle.value = this.value;
+                metaTitle.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // Image preview
+        document.getElementById('featured_image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    let preview = document.getElementById('imagePreview');
+                    if (!preview) {
+                        preview = document.createElement('div');
+                        preview.id = 'imagePreview';
+                        preview.className = 'mt-2 text-center';
+                        e.target.parentNode.appendChild(preview);
+                    }
+                    preview.innerHTML = `
+                        <img src="${event.target.result}" class="img-fluid rounded shadow-sm" style="max-height: 150px;">
+                        <div class="form-text">Preview of new image</div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     });
 </script>
 @endpush

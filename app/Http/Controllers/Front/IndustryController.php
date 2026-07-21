@@ -7,7 +7,6 @@ use App\Models\Industry;
 use App\Models\Insight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class IndustryController extends Controller
 {
@@ -27,33 +26,34 @@ class IndustryController extends Controller
             $industries = DB::table('industries')->where('status', 'active')->orderBy('sort_order', 'asc')->get();
             $industriesHtml = '';
             foreach ($industries as $index => $industry) {
-                $delay = $index * 0.2;
-                $svgIcon = $industry->svg_icon ? Storage::url($industry->svg_icon) : '';
-                $industriesHtml .= '<div class="col-12 col-md-6 col-lg-4 gsap-animate">';
-                $industriesHtml .= '<div class="industry-card">';
-                if ($industry->svg_icon) {
-                    $industriesHtml .= '<svg class="service-icon" width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">';
-                    $industriesHtml .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="'.htmlspecialchars($industry->svg_icon).'" />';
-                    $industriesHtml .= '</svg>';
-                } elseif ($industry->icon) {
-                    $industriesHtml .= '<i class="'.htmlspecialchars($industry->icon).' service-icon"></i>';
-                } else {
-                    $industriesHtml .= '<svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
-                    $industriesHtml .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />';
-                    $industriesHtml .= '</svg>';
+                $delay = $index * 0.1;
+                $imageUrl = $industry->featured_image ? asset('storage/'.$industry->featured_image) : '';
+                $bgStyle = $imageUrl ? ' style="background-image: url(\''.htmlspecialchars($imageUrl).'\'); background-size: cover; background-position: center;"' : '';
+
+                $industriesHtml .= '<div class="col-12 col-md-6 col-lg-4 gsap-animate" data-delay="'.$delay.'">';
+                $industriesHtml .= '<a href="'.route('industryDetails', $industry->slug).'" class="industry-card-link" style="text-decoration: none; color: inherit; display: block;">';
+                $industriesHtml .= '<div class="industry-card"'.$bgStyle.'>';
+
+                if ($imageUrl) {
+                    $industriesHtml .= '<div class="card-img-overlay"></div>';
                 }
+
+                $industriesHtml .= '<span class="category-badge-normal">'.htmlspecialchars($industry->category).'</span>';
+
+                $industriesHtml .= '<div class="default-title">';
                 $industriesHtml .= '<h3>'.htmlspecialchars($industry->title ?: $industry->name).'</h3>';
-                if ($industry->features) {
-                    $industriesHtml .= '<ul class="industry-features">';
-                    foreach (json_decode($industry->features) as $feature) {
-                        $industriesHtml .= '<li>'.htmlspecialchars($feature).'</li>';
-                    }
-                    $industriesHtml .= '</ul>';
-                }
-                $industriesHtml .= '<a href="'.route('industryDetails', $industry->slug).'" class="learn-more">';
-                $industriesHtml .= 'Learn More <i class="fas fa-arrow-right"></i>';
+                $industriesHtml .= '</div>';
+
+                $industriesHtml .= '<div class="content-overlay">';
+                $industriesHtml .= '<div class="content-details">';
+                $industriesHtml .= '<h3>'.htmlspecialchars($industry->title ?: $industry->name).'</h3>';
+                $industriesHtml .= '<p>'.htmlspecialchars($industry->description).'</p>';
+                $industriesHtml .= '</div>';
+                $industriesHtml .= '</div>';
+
+                $industriesHtml .= '</div>';
                 $industriesHtml .= '</a>';
-                $industriesHtml .= '</div></div>';
+                $industriesHtml .= '</div>';
             }
 
             return response()->json([

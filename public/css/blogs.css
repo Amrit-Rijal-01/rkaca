@@ -151,6 +151,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    text-align: justify;
 }
 
 .blog-card:hover,
@@ -229,7 +230,19 @@
     margin-bottom: 1rem;
 }
 
-.blog-card h3,
+.blog-card h3 {
+    font-size: 1.1rem;
+    line-height: 1.4em;
+    height: 2.8em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.8rem;
+    text-align: left;
+}
+
 .contribute-card h3 {
     font-size: clamp(1.2rem, 2.5vw, 1.4rem);
     margin-bottom: 0.8rem;
@@ -242,6 +255,11 @@
     font-weight: 400;
     margin-bottom: 1rem;
     line-height: 1.6;
+}
+
+.blog-card .btn-blog {
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 .blog-card .btn-blog,

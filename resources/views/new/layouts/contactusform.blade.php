@@ -291,6 +291,7 @@
         border-radius: 20px;
         padding: 2rem;
         box-shadow: 0 8px 25px var(--shadow);
+        text-align: justify;
     }
 
     .contact-info-card h3 {

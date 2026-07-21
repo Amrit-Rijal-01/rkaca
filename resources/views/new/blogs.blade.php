@@ -39,6 +39,13 @@
                                             <img src="{{ $blog->thumbnail_url }}"
                                                 alt="{{ $blog->title }}" class="img-fluid">
                                         </div>
+                                    @else
+                                        <div class="blog-image d-flex align-items-center justify-content-center bg-light" style="background-color: #f1f5f9 !important;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-image text-muted" viewBox="0 0 16 16">
+                                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                                            </svg>
+                                        </div>
                                     @endif
                                     <div class="content">
                                         <div class="blog-meta">

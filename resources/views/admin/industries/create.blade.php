@@ -53,7 +53,7 @@
                             <div class="mb-3">
                                 <label for="description" class="form-label">Industry Description <span class="text-danger">*</span></label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
-                                          id="description" name="description" rows="6" required>{{ old('description') }}</textarea>
+                                          id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
                                 <div class="form-text">Brief description for industry cards</div>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -61,51 +61,10 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-label">Detailed Content</label>
+                                <label for="content" class="form-label">Detailed Content (Summernote)</label>
                                 <textarea class="form-control @error('content') is-invalid @enderror"
-                                          id="content" name="content" rows="10">{{ old('content') }}</textarea>
-                                <div class="form-text">Detailed information about the industry</div>
+                                          id="content" name="content">{{ old('content') }}</textarea>
                                 @error('content')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="features" class="form-label">Key Features</label>
-                                <div id="features-container">
-                                    @if(old('features'))
-                                        @foreach(old('features') as $index => $feature)
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="features[]" value="{{ $feature }}" placeholder="Enter a feature">
-                                                <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="input-group mb-2">
-                                            <input type="text" class="form-control" name="features[]" placeholder="Enter a feature">
-                                            <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    @endif
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addFeature()">
-                                    <i class="fas fa-plus"></i> Add Feature
-                                </button>
-                                <div class="form-text">List the main features/services for this industry</div>
-                                @error('features')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="svg_icon" class="form-label">SVG Icon</label>
-                                <textarea class="form-control @error('svg_icon') is-invalid @enderror"
-                                          id="svg_icon" name="svg_icon" rows="4" placeholder="Enter SVG path content">{{ old('svg_icon') }}</textarea>
-                                <div class="form-text">SVG path content for industry icons (e.g., from Heroicons)</div>
-                                @error('svg_icon')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -113,9 +72,9 @@
 
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
-                                    <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Active</option>
+                                <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+                                    <option value="active" {{ old('status', 'active') === 'active' ? 'selected' : '' }}>Active</option>
                                     <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 @error('status')
@@ -158,49 +117,6 @@
                                 <input type="file" class="form-control @error('featured_image') is-invalid @enderror"
                                        id="featured_image" name="featured_image" accept="image/*">
                                 @error('featured_image')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="icon" class="form-label">Font Awesome Icon</label>
-                                <input type="text" class="form-control @error('icon') is-invalid @enderror"
-                                       id="icon" name="icon" value="{{ old('icon') }}" placeholder="e.g., fas fa-industry">
-                                <div class="form-text">Font Awesome icon class (fallback if no SVG)</div>
-                                @error('icon')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="is_featured"
-                                           name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_featured">
-                                        Featured Industry
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="meta_title" class="form-label">Meta Title</label>
-                                <input type="text" class="form-control @error('meta_title') is-invalid @enderror"
-                                       id="meta_title" name="meta_title" value="{{ old('meta_title') }}">
-                                @error('meta_title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="meta_description" class="form-label">Meta Description</label>
-                                <textarea class="form-control @error('meta_description') is-invalid @enderror"
-                                          id="meta_description" name="meta_description" rows="3">{{ old('meta_description') }}</textarea>
-                                @error('meta_description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                                @error('icon')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -257,36 +173,33 @@
 
 @push('scripts')
 <script>
-// Auto-generate slug from name
-document.getElementById('name').addEventListener('input', function() {
-    const name = this.value;
-    const slug = name.toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim('-');
-    document.getElementById('slug').value = slug;
+$(document).ready(function() {
+    // Auto-generate slug from name
+    document.getElementById('name').addEventListener('input', function() {
+        const name = this.value;
+        const slug = name.toLowerCase()
+            .replace(/[^a-z0-9 -]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim('-');
+        document.getElementById('slug').value = slug;
+    });
+
+    // Initialize Summernote
+    $('#content').summernote({
+        placeholder: 'Write industry details here...',
+        tabsize: 2,
+        height: 350,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
 });
-
-// Features management
-function addFeature() {
-    const container = document.getElementById('features-container');
-    const newFeature = document.createElement('div');
-    newFeature.className = 'input-group mb-2';
-    newFeature.innerHTML = `
-        <input type="text" class="form-control" name="features[]" placeholder="Enter a feature">
-        <button type="button" class="btn btn-outline-danger" onclick="removeFeature(this)">
-            <i class="fas fa-trash"></i>
-        </button>
-    `;
-    container.appendChild(newFeature);
-}
-
-function removeFeature(button) {
-    const container = document.getElementById('features-container');
-    if (container.children.length > 1) {
-        button.parentElement.remove();
-    }
-}
 </script>
 @endpush
