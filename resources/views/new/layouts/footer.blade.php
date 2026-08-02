@@ -63,6 +63,9 @@
                     @php
                         $services = DB::table('services')
                             ->select('id', 'title', 'slug')
+                            ->where('status', 'active')
+                            ->where('is_sub_service', 0)
+                            ->whereNull('parent_id')
                             ->orderBy('sort_order', 'asc')
                             ->limit(5)
                             ->get();

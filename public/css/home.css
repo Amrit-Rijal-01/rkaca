@@ -302,14 +302,25 @@
 }
 
 .service-card h3 {
-    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    line-height: 1.2;
     margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    min-height: 2lh;
 }
 
 .service-card p {
     color: var(--gray);
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     flex-grow: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    min-height: 5lh;
 }
 
 .learn-more {
@@ -750,7 +761,8 @@
         font-size: clamp(0.85rem, 2.2vw, 1rem);
     }
     .service-card h3 {
-        font-size: clamp(1.4rem, 2.8vw, 1.6rem);
+        font-size: clamp(1rem, 3vw, 1.5rem);
+        line-height: 1.2;
     }
     .service-card p,
     .services-section .lead,

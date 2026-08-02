@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 
 class OfficeController extends Controller
 {
     public function index()
     {
-        $services = DB::table('services')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate(6);
+        $services = Service::active()->topLevel()->ordered()->paginate(6);
         $offices = DB::table('offices')->where('status', 'active')->get();
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'offices')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
 

@@ -177,10 +177,20 @@
 
   .service-title {
     @apply text-xl font-montserrat font-semibold text-deep-chartered-blue mb-3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    min-height: 2lh;
   }
 
   .service-description {
     @apply text-report-black mb-4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    min-height: 5lh;
   }
 
   /* Statistics */

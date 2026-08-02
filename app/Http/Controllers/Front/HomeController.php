@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterSetting;
 use App\Models\HomeSetting;
 use App\Models\Page;
+use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -14,7 +15,7 @@ class HomeController extends Controller
     {
         $page = Page::where('slug', 'home')->active()->first();
         $homeSetting = HomeSetting::getInstance();
-        $services = DB::table('services')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate(6);
+        $services = Service::active()->topLevel()->ordered()->paginate(6);
         $why_choose_us = DB::table('about_why_choose_us')->where('is_active', 1)->orderBy('sort_order', 'asc')->paginate(4);
         $industries = DB::table('industries')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate('4');
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'home')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
