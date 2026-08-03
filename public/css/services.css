@@ -298,9 +298,12 @@ body, html {
 
 .service-card h3 {
     font-size: clamp(1.5rem, 3vw, 1.8rem);
+    height: 2lh;
+    line-height: 1.2;
     margin-bottom: 1.2rem;
     position: relative;
     transition: var(--transition);
+    overflow: hidden;
 }
 
 .service-card h3:hover {
@@ -326,7 +329,12 @@ body, html {
 .service-card p {
     color: var(--gray);
     font-size: clamp(0.9rem, 2.5vw, 1rem);
-    flex-grow: 1;
+    height: 5lh;
+    line-height: 1.8;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
 }
 
 .learn-more {

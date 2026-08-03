@@ -12,7 +12,7 @@ class ServiceAdminController extends Controller
 {
     public function index()
     {
-        $services = Service::with('parent')->latest()->paginate(15);
+        $services = Service::with('parent')->latest()->get();
 
         return view('admin.services.index', compact('services'));
     }

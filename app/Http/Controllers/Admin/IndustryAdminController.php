@@ -13,7 +13,7 @@ class IndustryAdminController extends Controller
 {
     public function index()
     {
-        $industries = Industry::latest()->paginate(15);
+        $industries = Industry::latest()->get();
 
         return view('admin.industries.index', compact('industries'));
     }
