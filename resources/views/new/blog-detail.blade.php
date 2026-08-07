@@ -39,6 +39,19 @@
             z-index: 2;
         }
 
+        .blog-detail-hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .blog-detail-hero .sidebar-cta-card {
+            position: static;
+        }
+
         .blog-breadcrumb {
             margin-bottom: 1.25rem;
             font-size: 0.875rem;
@@ -98,9 +111,15 @@
             margin: 0 auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 300px;
+            grid-template-columns: minmax(0, 1fr);
             gap: 2rem;
             align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .blog-detail-hero-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 1200px) {
@@ -459,39 +478,43 @@
             <!-- Blog Detail Hero Section -->
             <section class="blog-detail-hero">
                 <div class="section-container">
-                    <div class="blog-detail-content">
-                        <!-- Breadcrumb -->
-                        <nav class="blog-breadcrumb">
-                            <a href="{{ route('home') }}">Home</a>
-                            <span class="separator">/</span>
-                            <a href="{{ route('blogs') }}">Blogs</a>
-                            <span class="separator">/</span>
-                            <span>{{ $blog->title }}</span>
-                        </nav>
+                    <div class="blog-detail-hero-grid">
+                        <div class="blog-detail-content">
+                            <!-- Breadcrumb -->
+                            <nav class="blog-breadcrumb">
+                                <a href="{{ route('home') }}">Home</a>
+                                <span class="separator">/</span>
+                                <a href="{{ route('blogs') }}">Blogs</a>
+                                <span class="separator">/</span>
+                                <span>{{ $blog->title }}</span>
+                            </nav>
 
-                        <!-- Blog Title and Meta -->
-                        <h1 class="blog-title gsap-animate">{{ $blog->title }}</h1>
+                            <!-- Blog Title and Meta -->
+                            <h1 class="blog-title gsap-animate">{{ $blog->title }}</h1>
 
-                        <div class="blog-meta-info gsap-animate" data-delay="0.1">
-                            <div class="meta-item">
-                                <i class="fas fa-user"></i>
-                                <span>{{ $blog->author?->name }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <span>{{ $blog->published_at ? $blog->published_at->format('F d, Y') : $blog->created_at->format('F d, Y') }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-clock"></i>
-                                <span>
-                                    @if ($blog->content && str_ends_with(strtolower($blog->content), '.pdf'))
-                                        PDF Document
-                                    @else
-                                        {{ ceil(str_word_count(strip_tags($blog->content)) / 200) }} min read
-                                    @endif
-                                </span>
+                            <div class="blog-meta-info gsap-animate" data-delay="0.1">
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>{{ $blog->author?->name }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>{{ $blog->published_at ? $blog->published_at->format('F d, Y') : $blog->created_at->format('F d, Y') }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>
+                                        @if ($blog->content && str_ends_with(strtolower($blog->content), '.pdf'))
+                                            PDF Document
+                                        @else
+                                            {{ ceil(str_word_count(strip_tags($blog->content)) / 200) }} min read
+                                        @endif
+                                    </span>
+                                </div>
                             </div>
                         </div>
+
+                        <x-sidebar-cta :backRoute="route('blogs')" backLabel="All Blogs" />
                     </div>
                 </div>
             </section>
@@ -557,9 +580,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <x-sidebar-cta :backRoute="route('blogs')" backLabel="All Blogs" />
-                    </div>
                     </div>
                 </div>
             </section>

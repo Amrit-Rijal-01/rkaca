@@ -42,7 +42,7 @@
 /* Hero Section */
 .hero-section {
     position: relative;
-    min-height: 95vh;
+    min-height: 80vh;
     overflow: hidden;
     background: none;
     margin-top: 0rem;
@@ -201,6 +201,198 @@
 .slick-dots li.slick-active button {
     background: var(--accent) !important;
     transform: scale(1.4);
+}
+
+/* Home Insights Section */
+.home-insights-section {
+    padding: 5rem 0 1rem;
+    background: linear-gradient(180deg, var(--light), var(--lighter));
+}
+
+.home-insights-section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.home-insights-section .lead {
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    color: var(--gray);
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.home-insights-section .btn-all-container {
+    display: flex;
+    justify-content: center;
+}
+
+.home-insights-section .btn-all {
+    margin-top: 3rem;
+}
+
+/* Article Card (same design as insights listing page) */
+.article-card {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 260px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(135deg, #334155 0%, #0f172a 100%);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+.article-card .card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.55) 60%,
+        rgba(0, 0, 0, 0.78) 100%
+    );
+    z-index: 1;
+    transition: background 0.4s ease;
+    pointer-events: none;
+}
+
+.article-card:hover .card-img-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(30, 64, 175, 0.35) 0%,
+        rgba(2, 6, 23, 0.75) 60%,
+        rgba(2, 6, 23, 0.90) 100%
+    );
+}
+
+.article-card .category-badge-normal,
+.article-card .default-title,
+.article-card .content-overlay {
+    position: relative;
+    z-index: 2;
+}
+
+.article-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.article-card .category-badge-normal {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 4;
+    background: #e0f2fe;
+    color: #0f172a;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    width: fit-content;
+    pointer-events: none;
+}
+
+.article-card .default-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.article-card:hover .default-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.article-card .default-title h3 {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    margin: 0;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.article-card .content-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+}
+
+.article-card:hover .content-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.article-card .content-overlay .content-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.article-card .content-overlay h3 {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.45rem;
+    line-height: 1.3;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.article-card:hover .content-overlay h3 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.article-card .content-overlay p {
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease 0.05s, opacity 0.4s ease 0.05s;
+}
+
+.article-card:hover .content-overlay p {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 /* Stats Section */

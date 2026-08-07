@@ -43,6 +43,40 @@
                 </div>
             </section>
             <div class="contanier">
+                <!-- Latest Insights -->
+                <section class="home-insights-section">
+                    <div class="section-container">
+                        <h2 class="gsap-animate">Latest Insights</h2>
+                        <p class="lead gsap-animate">Stay updated with our latest insights and expert commentary.</p>
+                        <div class="row g-4">
+                            @foreach ($insights as $index => $insight)
+                                <div class="col-12 col-md-6 col-lg-4 gsap-animate" data-delay="{{ $index * 0.2 }}">
+                                    <a href="{{ route('insights.detail', $insight->slug) }}" class="article-card-link" style="text-decoration: none; color: inherit; display: block;">
+                                        <div class="article-card" @if($insight->featured_image) style="background-image: url('{{ asset('storage/' . $insight->featured_image) }}'); background-size: cover; background-position: center;" @endif>
+                                            @if($insight->featured_image)
+                                                <div class="card-img-overlay"></div>
+                                            @endif
+                                            <span class="category-badge-normal">{{ $insight->category }}</span>
+                                            <div class="default-title">
+                                                <h3>{{ $insight->title }}</h3>
+                                            </div>
+                                            <div class="content-overlay">
+                                                <div class="content-details">
+                                                    <h3>{{ $insight->title }}</h3>
+                                                    <p>{{ $insight->excerpt }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="btn-all-container gsap-animate">
+                            <a href="{{ route('insights') }}" class="btn-all">View All Insights <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Key Statistics -->
                 <section class="stats-section">
                     <div class="section-container">

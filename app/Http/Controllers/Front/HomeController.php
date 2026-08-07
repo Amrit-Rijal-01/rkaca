@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\FooterSetting;
 use App\Models\HomeSetting;
+use App\Models\Insight;
 use App\Models\Page;
 use App\Models\Service;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,12 @@ class HomeController extends Controller
         $industries = DB::table('industries')->where('status', 'active')->orderBy('sort_order', 'asc')->paginate('4');
         $jumbotrons = DB::table('jumbotrons')->where('page_slug', 'home')->where('is_active', 1)->orderBy('sort_order', 'asc')->get();
 
+        $insights = Insight::where('status', 'published')
+            ->where('is_active', true)
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get();
+
         // Get the statistics JSON from database
         $statsData = DB::table('home_settings')->select('statistics')->first();
 
@@ -28,6 +35,6 @@ class HomeController extends Controller
 
         $footerSetting = FooterSetting::getInstance();
 
-        return view('new.home', compact('page', 'homeSetting', 'footerSetting', 'stats', 'services', 'why_choose_us', 'industries', 'jumbotrons'));
+        return view('new.home', compact('page', 'homeSetting', 'footerSetting', 'stats', 'services', 'why_choose_us', 'industries', 'jumbotrons', 'insights'));
     }
 }

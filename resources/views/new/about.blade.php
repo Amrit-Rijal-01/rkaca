@@ -87,7 +87,12 @@
                                             class="gsap-animate" data-delay="{{ ($index + 1.5) * 0.1 }}">
                                         <h3>{{ $member->name }}</h3>
                                         <p class="title">{{ $member->position }}</p>
-                                        <p>{{ $member->bio }}</p>
+                                        <div class="leader-bio">
+                                            <p>{{ $member->bio }}</p>
+                                        </div>
+                                        <button type="button" class="read-more-btn" data-bs-toggle="modal"
+                                            data-bs-target="#leaderModal"
+                                            aria-label="Read more about {{ $member->name }}">Read More</button>
                                     </div>
                                 </div>
                             </div>
@@ -177,6 +182,29 @@
         </main>
     </div>
     @include('new.layouts.contactusform')
+
+    <!-- Leadership Member Modal -->
+    <div class="modal fade" id="leaderModal" tabindex="-1" aria-labelledby="leaderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="leaderModalLabel">Team Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="leader-modal-image text-center mb-4">
+                        <img id="leaderModalImage" src="" alt="" class="leader-modal-img">
+                    </div>
+                    <h3 id="leaderModalName" class="text-center"></h3>
+                    <p id="leaderModalPosition" class="text-center leader-modal-position"></p>
+                    <p id="leaderModalBio"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -236,6 +264,20 @@
                     duration: 0.3,
                     ease: 'power2.out'
                 });
+            });
+
+            // Leadership Modal - populate with selected member's details
+            $('.leader-card .read-more-btn').on('click', function() {
+                var $card = $(this).closest('.leader-card');
+                var image = $card.find('img').attr('src');
+                var name = $card.find('h3').text();
+                var position = $card.find('.title').text();
+                var bio = $card.find('.leader-bio p').text();
+
+                $('#leaderModalImage').attr('src', image).attr('alt', name);
+                $('#leaderModalName').text(name);
+                $('#leaderModalPosition').text(position);
+                $('#leaderModalBio').text(bio);
             });
 
             // Button Click Animation

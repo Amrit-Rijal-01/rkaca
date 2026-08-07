@@ -28,10 +28,18 @@
 
         .sd-hero-inner {
             position: relative;
-            max-width: 860px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 3rem;
+            align-items: center;
             text-align: center;
+        }
+
+        .sd-hero-content-col {
+            min-width: 0;
         }
 
         .sd-breadcrumb {
@@ -85,6 +93,10 @@
             flex-wrap: wrap;
         }
 
+        .sd-hero .sidebar-cta-card {
+            position: static;
+        }
+
         /* ─── Body layout ──────────────────────────────────── */
         .sd-body {
             background: var(--light);
@@ -97,7 +109,7 @@
             margin: 0 auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 300px;
+            grid-template-columns: minmax(0, 1fr);
             gap: 2rem;
             align-items: start;
         }
@@ -282,6 +294,10 @@
 
         /* ─── Responsive ───────────────────────────────────── */
         @media (max-width: 1200px) {
+            .sd-hero-inner {
+                grid-template-columns: 1fr;
+            }
+
             .sd-body-inner {
                 grid-template-columns: 1fr;
             }
@@ -384,34 +400,38 @@
             {{-- ── Hero ─────────────────────────────────────────── --}}
             <section class="sd-hero">
                 <div class="sd-hero-inner gsap-animate">
-                    <div class="sd-breadcrumb">
-                        <a href="{{ url('/') }}"><i class="fas fa-home"></i></a>
-                        <span class="sep">/</span>
-                        <a href="{{ url('/services') }}">Services</a>
-                        <span class="sep">/</span>
-                        <span>{{ $service->title }}</span>
-                    </div>
-
-                    @if ($service->category)
-                        <div style="margin-bottom: 1rem;">
-                            <span
-                                style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.25);">
-                                {{ $service->category }}
-                            </span>
+                    <div class="sd-hero-content-col">
+                        <div class="sd-breadcrumb">
+                            <a href="{{ url('/') }}"><i class="fas fa-home"></i></a>
+                            <span class="sep">/</span>
+                            <a href="{{ url('/services') }}">Services</a>
+                            <span class="sep">/</span>
+                            <span>{{ $service->title }}</span>
                         </div>
-                    @endif
 
-                    <h1>{{ $service->title }}</h1>
-                    <p class="lead">{{ $service->description }}</p>
+                        @if ($service->category)
+                            <div style="margin-bottom: 1rem;">
+                                <span
+                                    style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.25);">
+                                    {{ $service->category }}
+                                </span>
+                            </div>
+                        @endif
 
-                    <div class="sd-hero-actions">
-                        <a href="/contact" class="btn-primary-filled">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="/services" class="btn-primary-outline">
-                            <i class="fas fa-arrow-left"></i> All Services
-                        </a>
+                        <h1>{{ $service->title }}</h1>
+                        <p class="lead">{{ $service->description }}</p>
+
+                        <div class="sd-hero-actions">
+                            <a href="/contact" class="btn-primary-filled">
+                                Get Started <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="/services" class="btn-primary-outline">
+                                <i class="fas fa-arrow-left"></i> All Services
+                            </a>
+                        </div>
                     </div>
+
+                    <x-sidebar-cta :backRoute="url('/services')" backLabel="All Services" />
                 </div>
             </section>
 
@@ -439,7 +459,7 @@
                             <h2 class="mb-4" style="font-family: 'Lora', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--primary);">Related Sub-Services</h2>
                             <div class="row g-4">
                                 @foreach ($service->subServices as $index => $subService)
-                                    <div class="col-md-6 gsap-animate" data-delay="{{ $index * 0.1 }}">
+                                    <div class="col-12 col-md-6 col-xl-4 gsap-animate" data-delay="{{ $index * 0.1 }}">
                                         <div class="service-card">
                                             <div>
                                                 <h3>{{ $subService->title }}</h3>
@@ -452,12 +472,9 @@
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
+                            </div>
                         @endif
                     </div>
-
-                    {{-- Sidebar --}}
-                    <x-sidebar-cta :backRoute="url('/services')" backLabel="All Services" />
                 </div>
             </section>
 

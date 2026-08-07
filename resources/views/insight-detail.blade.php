@@ -252,9 +252,15 @@
                 margin: 0 auto;
                 padding: 0 1.5rem;
                 display: grid;
-                grid-template-columns: minmax(0, 1fr) 300px;
+                grid-template-columns: minmax(0, 1fr);
                 gap: 2rem;
                 align-items: start;
+            }
+
+            @media (max-width: 992px) {
+                .insight-detail-hero-grid {
+                    grid-template-columns: 1fr;
+                }
             }
 
             @media (max-width: 1200px) {
@@ -433,6 +439,19 @@
                 z-index: 2;
             }
 
+            .insight-detail-hero-grid {
+                position: relative;
+                z-index: 2;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 360px;
+                gap: 3rem;
+                align-items: center;
+            }
+
+            .insight-detail-hero .sidebar-cta-card {
+                position: static;
+            }
+
             .insight-breadcrumb {
                 margin-bottom: 1.25rem;
                 font-size: 0.875rem;
@@ -501,55 +520,59 @@
     <!-- Hero Section -->
     <section class="insight-detail-hero">
         <div class="container-custom relative z-10">
-            <div class="insight-detail-content">
-                <!-- Breadcrumb -->
-                <nav class="insight-breadcrumb">
-                    <a href="{{ route('home') }}">Home</a>
-                    <span class="separator">/</span>
-                    <a href="{{ route('insights') }}">Insights</a>
-                    <span class="separator">/</span>
-                    <span>{{ $insight->title }}</span>
-                </nav>
+            <div class="insight-detail-hero-grid">
+                <div class="insight-detail-content">
+                    <!-- Breadcrumb -->
+                    <nav class="insight-breadcrumb">
+                        <a href="{{ route('home') }}">Home</a>
+                        <span class="separator">/</span>
+                        <a href="{{ route('insights') }}">Insights</a>
+                        <span class="separator">/</span>
+                        <span>{{ $insight->title }}</span>
+                    </nav>
 
-                <!-- Title -->
-                <h1 class="insight-title gsap-animate">
-                    {{ $insight->title }}
-                </h1>
+                    <!-- Title -->
+                    <h1 class="insight-title gsap-animate">
+                        {{ $insight->title }}
+                    </h1>
 
-                <!-- Subtitle (if excerpt exists) -->
-                @if ($insight->excerpt)
-                    <p class="insight-subtitle gsap-animate" data-delay="0.1">
-                        {{ $insight->excerpt }}
-                    </p>
-                @endif
-
-                <!-- Meta Information -->
-                <div class="insight-meta-info gsap-animate" data-delay="0.2">
-                    @if ($insight->author)
-                        <div class="insight-meta-item">
-                            <i class="fas fa-user"></i>
-                            <span>{{ $insight->author }}</span>
-                        </div>
+                    <!-- Subtitle (if excerpt exists) -->
+                    @if ($insight->excerpt)
+                        <p class="insight-subtitle gsap-animate" data-delay="0.1">
+                            {{ $insight->excerpt }}
+                        </p>
                     @endif
 
-                    <div class="insight-meta-item">
-                        <i class="fas fa-calendar"></i>
-                        <span>{{ $insight->published_at->format('F j, Y') }}</span>
-                    </div>
+                    <!-- Meta Information -->
+                    <div class="insight-meta-info gsap-animate" data-delay="0.2">
+                        @if ($insight->author)
+                            <div class="insight-meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>{{ $insight->author }}</span>
+                            </div>
+                        @endif
 
-                    <div class="insight-meta-item">
-                        <i class="fas fa-clock"></i>
-                        <span>
-                            @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
-                                PDF Document
-                            @elseif ($insight->read_time)
-                                {{ $insight->read_time }} min read
-                            @else
-                                {{ ceil(str_word_count(strip_tags($insight->content)) / 200) }} min read
-                            @endif
-                        </span>
+                        <div class="insight-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>{{ $insight->published_at->format('F j, Y') }}</span>
+                        </div>
+
+                        <div class="insight-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>
+                                @if ($insight->content && str_ends_with(strtolower($insight->content), '.pdf'))
+                                    PDF Document
+                                @elseif ($insight->read_time)
+                                    {{ $insight->read_time }} min read
+                                @else
+                                    {{ ceil(str_word_count(strip_tags($insight->content)) / 200) }} min read
+                                @endif
+                            </span>
+                        </div>
                     </div>
                 </div>
+
+                <x-sidebar-cta :backRoute="route('insights')" backLabel="All Insights" />
             </div>
         </div>
     </section>
@@ -612,13 +635,11 @@
                                 class="share-btn email" title="Share via Email">
                                 <i class="fas fa-envelope"></i>
                             </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <x-sidebar-cta :backRoute="route('insights')" backLabel="All Insights" />
             </div>
-        </div>
     </section>
 
     <!-- Related Insights -->

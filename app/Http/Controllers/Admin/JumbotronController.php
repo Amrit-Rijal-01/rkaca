@@ -79,7 +79,7 @@ class JumbotronController extends Controller
         $data['is_multi_slide'] = $isMultiSlide;
 
         // Set slide order
-        if (! $data['slide_order']) {
+        if (! $request->input('slide_order')) {
             $data['slide_order'] = Jumbotron::getNextSlideOrder($data['page_slug']);
         }
 
@@ -145,8 +145,9 @@ class JumbotronController extends Controller
 
         $request->validate($rules);
 
-        $data = $request->only(['title', 'subtitle', 'is_active', 'button_text', 'button_link', 'slide_order']);
+        $data = $request->only(['title', 'subtitle', 'is_active', 'button_text', 'button_link']);
         $data['is_active'] = $request->has('is_active');
+        $data['slide_order'] = $request->input('slide_order', $jumbotron->slide_order ?? 1);
 
         // Only allow page_slug change for single-slide pages
         if (! $isMultiSlide && $request->has('page_slug')) {
